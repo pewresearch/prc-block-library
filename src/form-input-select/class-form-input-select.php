@@ -298,8 +298,8 @@ class Form_Input_Select {
 			$block_id,
 			'state.inputOptions',
 			'<li role="option" data-wp-on--pointerdown="actions.onInputOptionPointerDown" data-wp-on--pointerup="actions.onInputOptionPointerUp" data-wp-on--click="actions.onInputOptionClick" data-wp-text="context.option.label" data-wp-bind--data-ref-value="context.option.value" data-wp-bind--disabled="context.option.disabled" ></li>',
-			\PRC\Platform\Icons\render( 'solid', 'circle-xmark' ),
-			\PRC\Platform\Icons\render( 'solid', 'chevron-down' ),
+			\PRC\Platform\Icons\render( 'prc', 'circle-xmark' ),
+			\PRC\Platform\Icons\render( 'prc', 'chevron-down' ),
 		);
 
 		return str_replace( '<div class="prc-block-form-input-select__list__placeholder"></div>', $options_list_template, $content );

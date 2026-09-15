@@ -11,8 +11,8 @@ import {
 	PanelBody,
 	SelectControl,
 	ToggleControl,
+	RangeControl,
 	CardDivider,
-	Button,
 } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import { useMemo } from '@wordpress/element';
@@ -31,6 +31,8 @@ export default function Controls({
 		enableDots,
 		enableArrows,
 		enableRewind,
+		enableAutoPlay,
+		autoPlayInterval,
 		arrowsSize,
 		dotsSize,
 		useSlideBgForDots,
@@ -91,6 +93,44 @@ export default function Controls({
 						value={viewType}
 						options={options}
 						onChange={(value) => setAttributes({ viewType: value })}
+						__next40pxDefaultSize
+					/>
+				</PanelBody>
+				<PanelBody title={__('Autoplay')} initialOpen={true}>
+					<ToggleControl
+						label={__('Enable Autoplay')}
+						checked={enableAutoPlay !== false}
+						onChange={(value) =>
+							setAttributes({ enableAutoPlay: value })
+						}
+						help={__(
+							'When enabled, Slideshow view advances slides automatically. A play/pause control is shown on the frontend.'
+						)}
+					/>
+					<RangeControl
+						label={__('Interval (seconds)')}
+						value={(autoPlayInterval ?? 5000) / 1000}
+						onChange={(value) => {
+							if (undefined === value) {
+								return;
+							}
+							setAttributes({
+								autoPlayInterval: value * 1000,
+							});
+						}}
+						min={1}
+						max={10}
+						step={0.5}
+						marks={[
+							{ value: 1, label: '1s' },
+							{ value: 3, label: '3s' },
+							{ value: 5, label: '5s' },
+							{ value: 10, label: '10s' },
+						]}
+						help={__(
+							'Time between automatic slide advances, in seconds.'
+						)}
+						__next40pxDefaultSize
 					/>
 				</PanelBody>
 				<PanelBody title={'Carousel Navigation'} initialOpen={true}>
@@ -122,6 +162,7 @@ export default function Controls({
 							onChange={(value) =>
 								setAttributes({ dotsSize: value })
 							}
+							__next40pxDefaultSize
 						/>
 					)}
 					{enableDots && (
@@ -165,6 +206,7 @@ export default function Controls({
 							onChange={(value) =>
 								setAttributes({ arrowsSize: value })
 							}
+							__next40pxDefaultSize
 						/>
 					)}
 					{isInsideCover && (

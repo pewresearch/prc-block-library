@@ -1,1 +1,1 @@
-<?php return array('dependencies' => array('emotion-styled', 'prc-icons', 'react-jsx-runtime', 'wp-dom-ready', 'wp-element'), 'version' => 'baaab839c0f59bdf4a93');
+<?php return array('dependencies' => array('emotion-styled', 'react-jsx-runtime', 'wp-dom-ready', 'wp-element', 'wp-primitives'), 'version' => '6bb4816ec29f041d6586');

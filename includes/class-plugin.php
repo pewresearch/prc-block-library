@@ -155,6 +155,7 @@ class Plugin {
 		require_once plugin_dir_path( __DIR__ ) . '/includes/class-markdown-for-agents-integration.php';
 		require_once plugin_dir_path( __DIR__ ) . '/includes/class-email-newsletter-integration.php';
 		require_once plugin_dir_path( __DIR__ ) . '/includes/class-story-item-topic-label.php';
+		require_once plugin_dir_path( __DIR__ ) . '/includes/class-apple-news-block-controls.php';
 
 		// Load blocks.
 		$this->load_blocks();
@@ -272,6 +273,7 @@ class Plugin {
 		new Markdown_For_Agents_Integration( $this->get_loader() );
 		new Email_Newsletter_Integration( $this->get_loader() );
 		new Story_Item_Topic_Label( $this->get_loader() );
+		new Apple_News_Block_Controls( $this->get_loader() );
 	}
 
 	/**

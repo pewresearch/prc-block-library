@@ -75,8 +75,8 @@ class Show_More {
 			)
 		);
 
-		$plus_icon  = \PRC\Platform\Icons\render( 'light', 'circle-plus' );
-		$minus_icon = \PRC\Platform\Icons\render( 'light', 'circle-minus' );
+		$plus_icon  = \PRC\Platform\Icons\render( 'prc', 'circle-plus' );
+		$minus_icon = \PRC\Platform\Icons\render( 'prc', 'circle-minus' );
 
 		$button = wp_sprintf(
 			'<button class="prc-show-more__expand-button" type="button" data-wp-on--click="actions.toggleExpanded"><span data-wp-bind--hidden="context.isExpanded">%s</span><span data-wp-bind--hidden="!context.isExpanded">%s</span><span data-wp-text="state.label" class="prc-show-more__expand-button__label"></span></button>',

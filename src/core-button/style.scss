@@ -81,8 +81,23 @@
 }
 
 .wp-block-button.has-icon {
-	display: flex;
-	align-items: center;
+	// Do not set display:flex on this wrapper. Gutenberg uses
+	// `div[data-type="core/button"] { display: table }` so the editor
+	// shrink-wraps the block. Flex is block-level and stretches the
+	// BlockListBlock, which shifts the button left. Icon + label layout
+	// lives on `.wp-element-button` (same node the FE ::before/::after use).
+	// Frontend wrappers are display:block, so a flex inner button would
+	// fill the constrained well. fit-content shrink-wraps standalone
+	// icon buttons without restoring wrapper flex. Width-* classes keep
+	// Gutenberg's percentage widths.
+	&:not([class*="wp-block-button__width"]) {
+		width: fit-content;
+		max-width: 100%;
+		.wp-element-button {
+			width: max-content;
+			max-width: 100%;
+		}
+	}
 	.wp-element-button {
 		display: flex;
 		align-items: center;
@@ -91,9 +106,13 @@
 		&::after {
 			content: "";
 			display: inline-block;
-			width: 0.875em;
-			height: 0.875em;
-			flex: 0 0 0.875em;
+			width: var(--icon-size, 0.875em);
+			height: var(--icon-size, 0.875em);
+			min-width: var(--icon-size, 0.875em);
+			min-height: var(--icon-size, 0.875em);
+			flex-grow: 0;
+			flex-shrink: 0;
+			flex-basis: var(--icon-size, 0.875em);
 			background-color: var(--icon-color, currentColor);
 			mask-image: var(--icon-url);
 			mask-size: contain;
@@ -111,6 +130,10 @@
 	&[data-icon-position="right"] .wp-element-button::before {
 		display: none;
 	}
+}
+
+.wp-block-button.has-icon[data-icon-position="right"] .wp-element-button {
+	justify-content: space-between;
 }
 
 .is-style-flex-buttons .wp-element-button {

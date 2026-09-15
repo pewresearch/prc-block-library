@@ -47,7 +47,7 @@ addFilter(
 registerBlockVariation('core/social-link', {
 	name: 'print',
 	title: 'Print',
-	icon: () => <Icon icon="print" library="solid" size={1} />,
+	icon: () => <Icon icon="print" library="prc" size={1} />,
 	attributes: {
 		service: 'print',
 	},
@@ -57,7 +57,7 @@ registerBlockVariation('core/social-link', {
 registerBlockVariation('core/social-link', {
 	name: 'bookmark',
 	title: 'Bookmark',
-	icon: () => <Icon icon="bookmark" library="solid" size={1} />,
+	icon: () => <Icon icon="bookmark" library="prc" size={1} />,
 	attributes: {
 		service: 'bookmark',
 	},

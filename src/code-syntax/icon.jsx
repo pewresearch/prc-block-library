@@ -1,8 +1,8 @@
 /**
- * External Dependencies
+ * WordPress Dependencies
  */
-import { Icon } from '@prc/icons';
+import { Icon, code } from '@wordpress/icons';
 
 export default function () {
-	return <Icon library="solid" icon="rectangle-code" />;
+	return <Icon icon={code} />;
 }

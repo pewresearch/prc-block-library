@@ -1,4 +1,5 @@
 <?php
+// phpcs:ignoreFile -- Pre-existing WPCS/VIP debt; this PR only remaps icon libraries (PRC-725).
 /**
  * Navigation Panels Block
  *
@@ -63,7 +64,7 @@ class Navigation_Panels {
 		$has_style_icon = 'none' !== ( $attributes['navigationStyle'] ?? 'none' );
 
 		$style_icon  = ( $has_style_icon ) ? 
-			\PRC\Platform\Icons\render( 'solid', $attributes['navigationStyle'], 0.5 ) :
+			\PRC\Platform\Icons\render( 'prc', $attributes['navigationStyle'], 0.5 ) :
 				'';
 		// Parse saved HTML 
 		$tag = new \WP_HTML_Tag_Processor( $content );

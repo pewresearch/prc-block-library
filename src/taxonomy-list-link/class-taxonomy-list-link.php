@@ -64,13 +64,12 @@ class Taxonomy_List_Link {
 		}
 
 		// Default Plus and Minus Icons.
-		$chevron_right_icon = \PRC\Platform\Icons\render( 'solid', 'chevron-right' );
-		$plus_icon          = \PRC\Platform\Icons\render( 'light', 'circle-plus' );
-		$minus_icon         = \PRC\Platform\Icons\render( 'light', 'circle-minus' );
+		$chevron_right_icon = \PRC\Platform\Icons\render( 'prc', 'chevron-right' );
+		$plus_icon          = \PRC\Platform\Icons\render( 'prc', 'circle-plus-outline', 1 );
+		$minus_icon         = \PRC\Platform\Icons\render( 'prc', 'circle-minus-outline', 1 );
 		if ( array_key_exists( 'className', $attributes ) && 'is-style-sub-expand' === $attributes['className'] ) {
-			// Sub Menu Icons.
-			$plus_icon  = \PRC\Platform\Icons\render( 'light', 'plus' );
-			$minus_icon = \PRC\Platform\Icons\render( 'light', 'minus' );
+			$plus_icon  = \PRC\Platform\Icons\render( 'prc', 'plus', 1 );
+			$minus_icon = \PRC\Platform\Icons\render( 'prc', 'minus', 1 );
 		}
 
 		$is_sub_heading  = array_key_exists( 'className', $attributes ) && false !== strpos( $attributes['className'], 'is-style-sub-heading' );

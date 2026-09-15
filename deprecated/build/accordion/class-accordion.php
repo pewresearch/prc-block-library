@@ -51,7 +51,7 @@ class Accordion {
 		if ( is_admin() ) {
 			return $content;
 		}
-		$icon = \PRC\Platform\Icons\render( 'solid', 'caret-right', 1 );
+		$icon = \PRC\Platform\Icons\render( 'prc', 'caret-right', 1 );
 
 		$block_gap = \PRC\BlockUtils\get_block_gap_support_value( $attributes );
 

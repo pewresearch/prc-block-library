@@ -49,7 +49,7 @@ export const Dots = ({
 							: undefined
 					}
 				>
-					<Icon library="solid" icon="circle" />
+					<Icon library="prc" icon="circle" />
 				</button>
 			);
 		})}
@@ -71,7 +71,7 @@ export const PreviousArrow = ({ onNavigate, viewType, disabled = false }) => (
 		aria-disabled={disabled || undefined}
 		aria-label="Previous slide"
 	>
-		<Icon library="solid" icon={getPrevIcon(viewType)} />
+		<Icon icon={getPrevIcon(viewType)} />
 	</button>
 );
 
@@ -84,7 +84,7 @@ export const NextArrow = ({ onNavigate, viewType, disabled = false }) => (
 		aria-disabled={disabled || undefined}
 		aria-label="Next slide"
 	>
-		<Icon library="solid" icon={getNextIcon(viewType)} />
+		<Icon icon={getNextIcon(viewType)} />
 	</button>
 );
 
@@ -109,6 +109,26 @@ export const Arrows = ({
 	</div>
 );
 
+export const PlayRing = () => (
+	<svg
+		className="prc-block-carousel-controller__play-ring is-static"
+		viewBox="0 0 32 32"
+		aria-hidden="true"
+		focusable="false"
+	>
+		<circle
+			cx="16"
+			cy="16"
+			r="15"
+			pathLength="100"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth="2"
+			transform="rotate(-90 16 16)"
+		/>
+	</svg>
+);
+
 export const PlayButton = ({ isPlaying = false, onToggle }) => (
 	<button
 		className="prc-block-carousel-controller__play"
@@ -117,6 +137,7 @@ export const PlayButton = ({ isPlaying = false, onToggle }) => (
 		aria-label={isPlaying ? 'Pause slideshow' : 'Play slideshow'}
 		aria-pressed={isPlaying}
 	>
-		<Icon library="solid" icon={isPlaying ? 'pause' : 'play'} />
+		<Icon icon={isPlaying ? 'pause' : 'play'} />
+		{isPlaying && <PlayRing />}
 	</button>
 );

@@ -123,7 +123,7 @@ class Social_Share_Sheet {
 			: '';
 
 		$text_align    = $attributes['textAlign'] ?? '';
-		$icon_library  = $attributes['iconLibrary'] ?? 'solid';
+		$icon_library  = $attributes['iconLibrary'] ?? 'prc';
 		$icon_name     = $attributes['iconName'] ?? 'share';
 		$icon_position = $attributes['iconPosition'] ?? 'right';
 

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved -- pre-existing classnames resolve */
 /**
  * External Dependencies
  */
@@ -183,8 +184,8 @@ function Edit({
 								(useSpecificSelection
 									? isSpecificallySelected
 									: showAllTickMarks ||
-									  isFirstOrLast ||
-									  index % tickMarkInterval === 0);
+										isFirstOrLast ||
+										index % tickMarkInterval === 0);
 
 							return (
 								<li
@@ -236,8 +237,8 @@ function Edit({
 								event.preventDefault();
 							}}
 						>
-							<Icon library="solid" icon="play" size={0.8} />
-							<Icon library="solid" icon="pause" size={0.8} />
+							<Icon library="prc" icon="play" size={0.8} />
+							<Icon library="prc" icon="pause" size={0.8} />
 						</button>
 						<input
 							ref={inputRef}

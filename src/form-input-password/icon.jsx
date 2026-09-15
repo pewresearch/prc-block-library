@@ -4,5 +4,5 @@
 import { Icon } from '@prc/icons';
 
 export default function () {
-	return <Icon icon="pen-field" />;
+	return <Icon icon="pen-to-square" />;
 }

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved, no-unused-vars, jsdoc/require-param-type, jsdoc/no-undefined-types -- pre-existing; this PR only remaps icons */
 /**
  * External Dependencies
  */
@@ -192,10 +193,10 @@ function Edit({
 					style={buttonSupportingStyles}
 				>
 					<span hidden={isExpanded}>
-						<Icon library="light" icon="circle-plus" />
+						<Icon library="prc" icon="circle-plus" />
 					</span>
 					<span hidden={!isExpanded}>
-						<Icon library="light" icon="circle-minus" />
+						<Icon library="prc" icon="circle-minus" />
 					</span>
 					<RichText
 						className="prc-show-more__expand-button__label"

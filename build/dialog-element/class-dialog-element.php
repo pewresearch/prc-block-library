@@ -286,7 +286,7 @@ class Dialog_Element {
 		$block_wrapper_attrs = get_block_wrapper_attributes( $interactivity_attrs );
 
 		// This will enable anyone to supply their own close icon asset.
-		$close_icon = apply_filters( 'prc_dialog_block_close_icon', \PRC\Platform\Icons\render( 'light', 'circle-xmark' ) );
+		$close_icon = apply_filters( 'prc_dialog_block_close_icon', \PRC\Platform\Icons\render( 'prc', 'circle-xmark' ) );
 
 		$close_button = wp_sprintf(
 			'<button class="wp-block-prc-block-dialog-element__close-button" data-wp-on--click="actions.onClickClose" type="button" aria-label="Close dialog">%1$s</button>',

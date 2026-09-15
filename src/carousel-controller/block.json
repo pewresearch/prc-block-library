@@ -30,6 +30,14 @@
 			"type": "boolean",
 			"default": true
 		},
+		"enableAutoPlay": {
+			"type": "boolean",
+			"default": true
+		},
+		"autoPlayInterval": {
+			"type": "number",
+			"default": 5000
+		},
 		"arrowsSize": {
 			"type": "string",
 			"default": "medium",

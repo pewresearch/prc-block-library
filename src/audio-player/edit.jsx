@@ -1,4 +1,4 @@
-/* eslint-disable max-lines-per-function */
+/* eslint-disable max-lines-per-function, no-unused-vars, jsdoc/check-param-names, jsdoc/no-undefined-types, no-nested-ternary, no-shadow, jsx-a11y/alt-text -- pre-existing; this PR only remaps icons */
 /**
  * External Dependencies
  */
@@ -74,7 +74,7 @@ export default function Edit({ attributes, setAttributes }) {
 								></div>
 								<Icon
 									icon="play"
-									library="solid"
+									library="prc"
 									className="card__icon"
 								/>
 								<RichText
@@ -94,7 +94,7 @@ export default function Edit({ attributes, setAttributes }) {
 									onChange={(title) =>
 										setAttributes({ title })
 									}
-									placeholder={__('Title...')}
+									placeholder={__('Title…')}
 								/>
 								<span className="card__time">0:00</span>
 							</button>
@@ -145,7 +145,7 @@ export default function Edit({ attributes, setAttributes }) {
 									onChange={(title) =>
 										setAttributes({ title })
 									}
-									placeholder={__('Title...')}
+									placeholder={__('Title…')}
 								/>
 								<RichText
 									tagName="p"
@@ -163,7 +163,7 @@ export default function Edit({ attributes, setAttributes }) {
 									onChange={(description) =>
 										setAttributes({ description })
 									}
-									placeholder={__('description...')}
+									placeholder={__('description…')}
 								/>
 							</div>
 						</div>

@@ -4,17 +4,17 @@
 import { Icon } from '@prc/icons';
 
 export function VerticalIcon() {
-	return <Icon icon="rectangle-vertical-history" library="light" />;
+	return <Icon icon="bars-staggered" library="prc" />;
 }
 
 export function HorizontalIcon() {
-	return <Icon icon="rectangle-history" library="light" />;
+	return <Icon icon="clone" library="prc" />;
 }
 
 export function CoverflowIcon() {
-	return <Icon icon="cards-blank" library="light" />;
+	return <Icon icon="clone" library="prc" />;
 }
 
 export function SlideshowIcon() {
-	return <Icon icon="presentation-screen" library="light" />;
+	return <Icon icon="presentation-screen" library="prc" />;
 }

@@ -138,6 +138,14 @@ class Core_Button {
 						'default' => 'right',
 					),
 					'iconColor'    => array( 'type' => 'string' ),
+					'iconSize'     => array(
+						'type'    => 'number',
+						'default' => 0.875,
+					),
+					'iconSizeUnit' => array(
+						'type'    => 'string',
+						'default' => 'em',
+					),
 				)
 			);
 		}
@@ -235,28 +243,35 @@ class Core_Button {
 	}
 
 	/**
-	 * Adds @wordpress/interactivity api handlers for core/button block.
+	 * Resolve a CSS length for --icon-size. Legacy content without these
+	 * attributes keeps the historical 0.875em default.
 	 *
-	 * @uses:
-	 * - actions.onButtonClick
-	 * - actions.onButtonMouseEnter
-	 * - state.$button_id.text
-	 * - state.$button_id.isHidden
-	 * - state.$button_id.isDisabled
-	 * - state.$button_id.isError
-	 * - state.$button_id.isSuccess
-	 * - state.$button_id.isProcessing
+	 * @param array $attrs Block attributes.
 	 *
-	 * @hook render_block
-	 *
-	 * @param string $block_content Block content.
-	 * @param mixed  $block Block.
-	 * @return mixed
+	 * @return string CSS length such as 0.875em or 20px.
 	 */
+	private function get_icon_size_css( array $attrs ): string {
+		$allowed_units = array( 'em', 'rem', 'px' );
+		$raw_size      = $attrs['iconSize'] ?? 0.875;
+		$raw_unit      = $attrs['iconSizeUnit'] ?? 'em';
+
+		$size = is_numeric( $raw_size ) ? 0 + $raw_size : 0.875;
+		if ( $size < 0 ) {
+			$size = 0.875;
+		}
+
+		$unit = is_string( $raw_unit ) ? strtolower( $raw_unit ) : 'em';
+		if ( ! in_array( $unit, $allowed_units, true ) ) {
+			$unit = 'em';
+		}
+
+		return (string) $size . $unit;
+	}
+
 	/**
-	 * Resolve the CSS vars needed by the is-style-has-icon style and apply them
-	 * to the rendered HTML. Sets --icon-url / --icon-color on the <a> element
-	 * and data-icon-position on the outer .wp-block-button wrapper.
+	 * Resolve the CSS vars needed by the has-icon style and apply them
+	 * to the rendered HTML. Sets --icon-url / --icon-color / --icon-size on the
+	 * <a> element and data-icon-position on the outer .wp-block-button wrapper.
 	 *
 	 * @param string $block_content Block HTML.
 	 * @param array  $attrs         Block attributes.
@@ -273,11 +288,13 @@ class Core_Button {
 			return $block_content;
 		}
 
-		$library  = $attrs['iconLibrary'] ?? 'solid';
-		$color    = $attrs['iconColor'] ?? 'currentColor';
-		$position = $attrs['iconPosition'] ?? 'right';
+		$library   = $attrs['iconLibrary'] ?? 'prc';
+		$color     = $attrs['iconColor'] ?? 'currentColor';
+		$position  = $attrs['iconPosition'] ?? 'right';
+		$icon_size = $this->get_icon_size_css( $attrs );
 
-		$icon_uri = \PRC\Platform\Icons\get_icon_as_data_uri( $library, $icon_name );
+		// Opaque black fill: CSS masks paint via background-color / --icon-color.
+		$icon_uri = \PRC\Platform\Icons\get_icon_as_data_uri( $library, $icon_name, 'black' );
 
 		// Pass 1: set CSS vars on the <a> element.
 		$anchor_processor = new WP_HTML_Tag_Processor( $block_content );
@@ -290,9 +307,10 @@ class Core_Button {
 			$existing_style = $anchor_processor->get_attribute( 'style' ) ?? '';
 			$separator      = '' !== $existing_style ? ';' : '';
 			$icon_style     = sprintf(
-				'--icon-url:url(%1$s);--icon-color:%2$s',
+				'--icon-url:url(%1$s);--icon-color:%2$s;--icon-size:%3$s',
 				$icon_uri,
-				$color
+				$color,
+				$icon_size
 			);
 			$anchor_processor->set_attribute( 'style', $existing_style . $separator . $icon_style );
 		}
@@ -312,6 +330,25 @@ class Core_Button {
 		return $wrapper_processor->get_updated_html();
 	}
 
+	/**
+	 * Adds @wordpress/interactivity api handlers for core/button block.
+	 *
+	 * @uses:
+	 * - actions.onButtonClick
+	 * - actions.onButtonMouseEnter
+	 * - state.$button_id.text
+	 * - state.$button_id.isHidden
+	 * - state.$button_id.isDisabled
+	 * - state.$button_id.isError
+	 * - state.$button_id.isSuccess
+	 * - state.$button_id.isProcessing
+	 *
+	 * @hook render_block
+	 *
+	 * @param string $block_content Block content.
+	 * @param mixed  $block Block.
+	 * @return mixed
+	 */
 	public function render( $block_content, $block ) {
 		if ( self::$block_name !== $block['blockName'] || is_admin() ) {
 			return $block_content;

@@ -1,8 +1,8 @@
 /**
- * External Dependencies
+ * WordPress Dependencies
  */
-import { Icon } from '@prc/icons';
+import { Icon, seen } from '@wordpress/icons';
 
 export default function () {
-	return <Icon icon="face-hand-peeking" />;
+	return <Icon icon={seen} />;
 }

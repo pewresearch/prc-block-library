@@ -18,3 +18,8 @@
 		border: 1px solid var(--wp--preset--color--ui-gray-light) !important;
 	}
 }
+
+// Get rid of annoying core hover animation.
+.wp-block-social-link:hover {
+    transform: none !important;
+}

@@ -4,5 +4,5 @@
 import { Icon } from '@prc/icons';
 
 export default function () {
-	return <Icon icon="list-radio" />;
+	return <Icon icon="circle-dot" />;
 }

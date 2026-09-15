@@ -637,6 +637,14 @@ return array(
 				'type' => 'boolean',
 				'default' => true
 			),
+			'enableAutoPlay' => array(
+				'type' => 'boolean',
+				'default' => true
+			),
+			'autoPlayInterval' => array(
+				'type' => 'number',
+				'default' => 5000
+			),
 			'arrowsSize' => array(
 				'type' => 'string',
 				'default' => 'medium',
@@ -2962,7 +2970,7 @@ return array(
 			),
 			'library' => array(
 				'type' => 'string',
-				'default' => 'solid'
+				'default' => 'prc'
 			),
 			'icon' => array(
 				'type' => 'string',
@@ -2972,13 +2980,14 @@ return array(
 		'example' => array(
 			'attributes' => array(
 				'icon' => 'star',
-				'library' => 'solid',
+				'library' => 'prc',
 				'size' => 1
 			)
 		),
 		'supports' => array(
 			'anchor' => true,
 			'html' => false,
+			'inserter' => false,
 			'spacing' => array(
 				'blockGap' => true,
 				'margin' => array(
@@ -4357,7 +4366,7 @@ return array(
 			),
 			'iconLibrary' => array(
 				'type' => 'string',
-				'default' => 'solid'
+				'default' => 'prc'
 			),
 			'iconName' => array(
 				'type' => 'string',

@@ -1,3 +1,5 @@
+/* eslint-disable max-lines */
+
 /**
  * WordPress Dependencies
  */
@@ -16,7 +18,9 @@ const prefersReducedMotion = () =>
 
 const SET_ACTIVE_SLIDE_EVENT = 'prc-carousel-controller:set-active-slide';
 const COVERFLOW_MOBILE_BREAKPOINT = 600;
-const AUTOPLAY_INTERVAL_MS = 5000;
+const DEFAULT_AUTOPLAY_INTERVAL_MS = 5000;
+const MIN_AUTOPLAY_INTERVAL_MS = 1000;
+const MAX_AUTOPLAY_INTERVAL_MS = 10000;
 
 /** @type {Map<string, ReturnType<typeof setTimeout>>} */
 const autoplayTimers = new Map();
@@ -69,16 +73,70 @@ const applyCoverflowOffsets = (track, slideIndex) => {
 };
 
 /**
- * Clears the autoplay timer for a carousel instance.
+ * Returns a clamped autoplay interval from interactivity context.
  *
- * @param {string} id Block element id.
+ * @param {Object} context Interactivity context.
+ * @return {number} Interval in milliseconds.
  */
-const clearAutoplayTimer = (id) => {
-	if (!id || !autoplayTimers.has(id)) {
+const getAutoplayIntervalMs = (context) => {
+	const value = Number(context?.autoPlayInterval);
+	if (!Number.isFinite(value)) {
+		return DEFAULT_AUTOPLAY_INTERVAL_MS;
+	}
+	return Math.min(
+		MAX_AUTOPLAY_INTERVAL_MS,
+		Math.max(MIN_AUTOPLAY_INTERVAL_MS, Math.round(value))
+	);
+};
+
+// Bound each-key so IAPI item-context entries stay capped. Consecutive arms still remount.
+const CYCLE_KEY_MODULUS = 8;
+let cycleGeneration = 0;
+
+/**
+ * Clears the live autoplay timeout and unmounts the play-button ring.
+ *
+ * @param {Object} context Interactivity context.
+ */
+const disarmAutoplayCycle = (context) => {
+	const { id } = context;
+	if (id && autoplayTimers.has(id)) {
+		clearTimeout(autoplayTimers.get(id));
+		autoplayTimers.delete(id);
+	}
+	if (
+		Array.isArray(context.autoplayCycle) &&
+		context.autoplayCycle.length > 0
+	) {
+		context.autoplayCycle = [];
+	}
+};
+
+/**
+ * Arms one full autoplay interval and mounts a keyed ring for that cycle.
+ *
+ * @param {Object}   context Interactivity context.
+ * @param {Function} onFire  Callback after the interval fires.
+ */
+const armAutoplayCycle = (context, onFire) => {
+	disarmAutoplayCycle(context);
+	if (!context.id) {
 		return;
 	}
-	clearTimeout(autoplayTimers.get(id));
-	autoplayTimers.delete(id);
+	const durationMs = getAutoplayIntervalMs(context);
+	cycleGeneration += 1;
+	const generation = cycleGeneration % CYCLE_KEY_MODULUS;
+	autoplayTimers.set(
+		context.id,
+		setTimeout(
+			withScope(() => {
+				disarmAutoplayCycle(getContext());
+				onFire();
+			}),
+			durationMs
+		)
+	);
+	context.autoplayCycle = [{ generation, durationMs }];
 };
 
 const { state, actions } = store('prc-block/carousel-controller', {
@@ -135,11 +193,19 @@ const { state, actions } = store('prc-block/carousel-controller', {
 			const { index, slideIndex } = getContext();
 			return index === slideIndex;
 		},
+		get cycleDuration() {
+			const { cycle } = getContext();
+			const ms = Number(cycle?.durationMs);
+			if (!Number.isFinite(ms)) {
+				return '5000ms';
+			}
+			return `${ms}ms`;
+		},
 	},
 	actions: {
 		stopAutoplay: () => {
 			const context = getContext();
-			clearAutoplayTimer(context.id);
+			disarmAutoplayCycle(context);
 			context.isPlaying = false;
 			context.playLabel = 'Play slideshow';
 		},
@@ -150,42 +216,35 @@ const { state, actions } = store('prc-block/carousel-controller', {
 			if (!id || !context.isPlaying || context.enabled === false) {
 				return;
 			}
-			clearAutoplayTimer(id);
-			autoplayTimers.set(
-				id,
-				setTimeout(
-					withScope(() => {
-						const {
-							count,
-							slideIndex,
-							enableRewind = true,
-							isPlaying,
-							enabled,
-						} = getContext();
-						if (!isPlaying || enabled === false || count < 1) {
-							return;
-						}
-						let nextIndex = slideIndex + 1;
-						if (nextIndex >= count) {
-							if (!enableRewind) {
-								actions.stopAutoplay();
-								return;
-							}
-							nextIndex = 0;
-						}
-						actions.navigateToSlide(nextIndex);
-						actions.scheduleAutoplayTick();
-					}),
-					AUTOPLAY_INTERVAL_MS
-				)
-			);
+			armAutoplayCycle(context, () => {
+				const {
+					count,
+					slideIndex,
+					enableRewind = true,
+					isPlaying,
+					enabled,
+				} = getContext();
+				if (!isPlaying || enabled === false || count < 1) {
+					return;
+				}
+				let nextIndex = slideIndex + 1;
+				if (nextIndex >= count) {
+					if (!enableRewind) {
+						actions.stopAutoplay();
+						return;
+					}
+					nextIndex = 0;
+				}
+				actions.navigateToSlide(nextIndex);
+				actions.scheduleAutoplayTick();
+			});
 		},
 		startAutoplay: () => {
 			const context = getContext();
 			if (prefersReducedMotion()) {
 				context.isPlaying = false;
 				context.playLabel = 'Play slideshow';
-				clearAutoplayTimer(context.id);
+				disarmAutoplayCycle(context);
 				return;
 			}
 			context.isPlaying = true;
@@ -206,7 +265,7 @@ const { state, actions } = store('prc-block/carousel-controller', {
 		 */
 		suspendAutoplayTimer: () => {
 			const context = getContext();
-			clearAutoplayTimer(context.id);
+			disarmAutoplayCycle(context);
 		},
 		pauseForUserNav: () => {
 			const context = getContext();
@@ -431,7 +490,10 @@ const { state, actions } = store('prc-block/carousel-controller', {
 			}
 
 			if (isSlideshow) {
-				if (prefersReducedMotion()) {
+				if (
+					prefersReducedMotion() ||
+					context.enableAutoPlay === false
+				) {
 					context.isPlaying = false;
 					context.playLabel = 'Play slideshow';
 				} else if (context.isPlaying !== false) {

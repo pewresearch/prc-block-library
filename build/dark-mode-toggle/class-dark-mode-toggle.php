@@ -64,23 +64,23 @@ class Dark_Mode_Toggle {
 
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
-				'data-wp-interactive' => wp_json_encode(
+				'data-wp-interactive'        => wp_json_encode(
 					array(
 						'namespace' => 'prc-block/dark-mode-toggle',
 					)
 				),
-				'data-wp-init--init'  => 'callbacks.onInit',
-				'data-wp-context'     => $context,
-				'type'                => 'button',
-				'data-wp-on--click'   => 'actions.toggle',
-				'data-wp-bind--aria-label' => 'state.ariaLabel',
-				'aria-pressed' => 'false',
+				'data-wp-init--init'         => 'callbacks.onInit',
+				'data-wp-context'            => $context,
+				'type'                       => 'button',
+				'data-wp-on--click'          => 'actions.toggle',
+				'data-wp-bind--aria-label'   => 'state.ariaLabel',
+				'aria-pressed'               => 'false',
 				'data-wp-bind--aria-pressed' => 'state.isDark',
-				)
+			)
 		);
 
-		$moon_icon = \PRC\Platform\Icons\render( 'light', 'moon' );
-		$sun_icon  = \PRC\Platform\Icons\render( 'light', 'sun' );
+		$moon_icon = \PRC\Platform\Icons\render( 'prc', 'moon' );
+		$sun_icon  = \PRC\Platform\Icons\render( 'prc', 'sun' );
 
 		$label_markup = '';
 		if ( $show_label ) {

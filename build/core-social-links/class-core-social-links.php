@@ -174,9 +174,9 @@ class Core_Social_Links {
 	 * Register additional settings, like context, for the "core/social-links" block.
 	 *
 	 * @hook block_type_metadata_settings
-	 * @param mixed $settings Settings.
-	 * @param mixed $metadata Metadata.
-	 * @return mixed
+	 * @param array $settings Settings.
+	 * @param array $metadata Metadata.
+	 * @return array
 	 */
 	public function add_settings( array $settings, array $metadata ) {
 		if ( $this->block_name === $metadata['name'] ) {
@@ -228,19 +228,17 @@ class Core_Social_Links {
 	}
 
 	// public function get_description_context_value( $description, $block ) {
-	// if description does not have %s in it then just return $description
+	// If description does not have %s in it then just return $description.
 	// if ( false === strpos( $description, '%s' ) ) {
 	// return $description;
 	// }
 	// Right now we only support "score" as a value, from the quiz results block.
-	// $score = array_key_exists( 'prc-quiz/results/score', $block->context ) ? $block->context['prc-quiz/results/score'] : false;
-
+	// $score = array_key_exists( 'prc-quiz/results/score', $block->context ) ? $block->context['prc-quiz/results/score'] : false.
 	// if ( false === $score ) {
 	// return $description;
 	// }
-
-	// return sprintf( $description, $score );
-	// }
+	// return sprintf( $description, $score ).
+	// End commented-out helper.
 
 	/**
 	 * Fallback to shortlink if no url is provided for social links.
@@ -265,26 +263,16 @@ class Core_Social_Links {
 	 * @param array $services_data Services data.
 	 * @return array
 	 */
-	public function social_link_icons(array $services_data) {
-		$services_data['print'] = [
+	public function social_link_icons( array $services_data ) {
+		$services_data['print'] = array(
 			'name' => 'Print',
-			'icon' => \PRC\Platform\Icons\get_icon_as_svg
-			(
-				'solid',
-				'print',
-				'1em'
-			),
-		];
+			'icon' => \PRC\Platform\Icons\get_icon_as_svg( 'prc', 'print', '1em' ),
+		);
 
-		$services_data['bookmark'] = [
+		$services_data['bookmark'] = array(
 			'name' => 'Bookmark',
-			'icon' => \PRC\Platform\Icons\get_icon_as_svg
-			(
-				'solid',
-				'bookmark',
-				'1em'
-			),
-		];
+			'icon' => \PRC\Platform\Icons\get_icon_as_svg( 'prc', 'bookmark', '1em' ),
+		);
 
 		return $services_data;
 	}
@@ -381,7 +369,7 @@ class Core_Social_Links {
 			$add_interactivity = true;
 			if ( $tags->next_tag( 'a' ) ) {
 				$href = $tags->get_attribute( 'href' );
-				if ( ! empty( $href ) && str_contains('http', $href ) !== false && str_contains('https', $href ) !== false ) {
+				if ( ! empty( $href ) && str_contains( 'http', $href ) !== false && str_contains( 'https', $href ) !== false ) {
 					$add_interactivity = false;
 				}
 			}

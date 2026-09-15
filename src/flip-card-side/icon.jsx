@@ -4,5 +4,5 @@
 import { Icon } from '@prc/icons';
 
 export default function () {
-	return <Icon icon="credit-card-front" library="light" />;
+	return <Icon icon="credit-card" library="prc" />;
 }

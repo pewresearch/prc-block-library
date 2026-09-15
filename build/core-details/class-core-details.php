@@ -218,8 +218,8 @@ class Core_Details {
 		if ( is_string( $cached ) ) {
 			return $cached;
 		}
-		$open_icon  = \PRC\Platform\Icons\get_icon_as_data_uri( 'solid', 'caret-down', 'black' );
-		$close_icon = \PRC\Platform\Icons\get_icon_as_data_uri( 'solid', 'caret-up', 'black' );
+		$open_icon  = \PRC\Platform\Icons\get_icon_as_data_uri( 'prc', 'caret-down', 'black' );
+		$close_icon = \PRC\Platform\Icons\get_icon_as_data_uri( 'prc', 'caret-up', 'black' );
 		$css        = wp_sprintf(
 			'.wp-block-details > summary { list-style: none; } .wp-block-details > summary::-webkit-details-marker { display: none; } .wp-block-details > summary { display: flex; align-items: center; font-size: 1rem; gap: 0.25em; } .wp-block-details > summary::after { content: ""; display: block; margin-left: 0.3em; width: 0.875em; height: 0.875em; background-image: url(%1$s); background-size: contain; background-repeat: no-repeat; flex-shrink: 0; } .wp-block-details[open] > summary::after { background-image: url(%2$s); }',
 			$open_icon,
@@ -232,18 +232,24 @@ class Core_Details {
 	/**
 	 * Returns the CSS styles for adding the plus/minus icon to any defined style of the details block.
 	 *
-	 * @param string $style_name The style name.
+	 * @param string $style_name     The style name.
+	 * @param string $mask_position  CSS `mask-position` for the marker. Defaults to `center`.
 	 * @return string The CSS styles.
 	 */
-	public static function get_new_icon_styles( $style_name ) {
-		$cache_key = 'icon_css_details_' . $style_name . '_' . PRC_BLOCK_LIBRARY_VERSION;
+	public static function get_new_icon_styles( $style_name, $mask_position = 'center' ) {
+		$cache_key = 'icon_css_details_outline_v1_' . $style_name . '_' . $mask_position . '_' . PRC_BLOCK_LIBRARY_VERSION;
 		$cached    = wp_cache_get( $cache_key, 'prc_block_library' );
 		if ( is_string( $cached ) ) {
 			return $cached;
 		}
-		$open_icon  = \PRC\Platform\Icons\get_icon_as_data_uri( 'light', 'circle-plus', 'black' );
-		$close_icon = \PRC\Platform\Icons\get_icon_as_data_uri( 'light', 'circle-minus', 'black' );
-		$css        = wp_sprintf( '.wp-block-details.is-style-%1$s > summary::-webkit-details-marker { display: none } .wp-block-details.is-style-%1$s > summary { font-weight: bold; display: flex; align-items: center; font-size: 1rem; gap: 0.25em; } .wp-block-details.is-style-%1$s > summary:after { content: ""; display: block; margin-left: 0.3em; width: 0.875em; height: 0.875em; background-image: url(%2$s); background-size: contain; background-repeat: no-repeat; } .wp-block-details.is-style-%1$s[open] > summary:after { background-image: url(%3$s); }', $style_name, $open_icon, $close_icon );
+		$open_mask  = \PRC\Platform\Icons\get_icon_mask_declarations( 'prc', 'circle-plus-outline', $mask_position );
+		$close_mask = \PRC\Platform\Icons\get_icon_mask_declarations( 'prc', 'circle-minus-outline', $mask_position );
+		$css        = wp_sprintf(
+			'.wp-block-details.is-style-%1$s > summary::-webkit-details-marker { display: none } .wp-block-details.is-style-%1$s > summary { font-weight: bold; display: flex; align-items: center; font-size: 1rem; gap: 0.25em; } .wp-block-details.is-style-%1$s > summary:after { content: ""; display: block; margin-left: 0.3em; width: 0.875em; height: 0.875em; %2$s } .wp-block-details.is-style-%1$s[open] > summary:after { %3$s }',
+			$style_name,
+			$open_mask,
+			$close_mask
+		);
 		wp_cache_set( $cache_key, $css, 'prc_block_library', DAY_IN_SECONDS );
 		return $css;
 	}
@@ -279,17 +285,17 @@ class Core_Details {
 			array(
 				'name'         => 'plus-icon',
 				'label'        => 'Plus/Minus Icon',
-				'inline_style' => '.wp-block-details.is-style-plus-icon > summary { font-weight: bold; } ' . self::get_new_icon_styles( 'plus-icon' ) . '@media (prefers-color-scheme: dark) { .wp-block-details.is-style-plus-icon > summary:after { color: #fff; } }'
+				'inline_style' => '.wp-block-details.is-style-plus-icon > summary { font-weight: bold; } ' . self::get_new_icon_styles( 'plus-icon' ) . '@media (prefers-color-scheme: dark) { .wp-block-details.is-style-plus-icon > summary:after { color: #fff; } }',
 			)
 		);
 
 		$logo_url_light = content_url( 'images/logos/pew-knight.svg' );
 		$logo_url_dark  = content_url( 'images/logos/pew-knight-logo-dark.svg' );
 		$logo_light_css = wp_sprintf(
-			'.wp-block-details.is-style-pew-knight-co-branded > summary:before { display: flex; background-image: url(%s); width: 183px; height: 35px; content: ""; background-repeat: no-repeat; background-size: contain; background-position: center;} .wp-block-details.is-style-pew-knight-co-branded > summary:after { background-position: right; width: 100%% !important; flex-shrink: 1; } .wp-block-details.is-style-pew-knight-co-branded > summary { text-indent: -9999px; }',
+			'.wp-block-details.is-style-pew-knight-co-branded > summary:before { display: flex; background-image: url(%s); width: 183px; height: 35px; content: ""; background-repeat: no-repeat; background-size: contain; background-position: center;} .wp-block-details.is-style-pew-knight-co-branded > summary:after { width: 100%% !important; flex-shrink: 1; } .wp-block-details.is-style-pew-knight-co-branded > summary { text-indent: -9999px; }',
 			esc_url( $logo_url_light )
 		);
-		$logo_dark_css = wp_sprintf(
+		$logo_dark_css  = wp_sprintf(
 			'@media (prefers-color-scheme: dark) { .wp-block-details.is-style-pew-knight-co-branded > summary:before { background-image: url(%s); } .wp-block-details.is-style-pew-knight-co-branded > summary:after { color: #fff; } }',
 			esc_url( $logo_url_dark )
 		);
@@ -299,7 +305,7 @@ class Core_Details {
 			array(
 				'name'         => 'pew-knight-co-branded',
 				'label'        => 'Knight Co-Branded',
-				'inline_style' => $logo_light_css . $logo_dark_css . self::get_new_icon_styles( 'pew-knight-co-branded' ),
+				'inline_style' => self::get_new_icon_styles( 'pew-knight-co-branded', 'right' ) . $logo_light_css . $logo_dark_css,
 			)
 		);
 	}
@@ -319,8 +325,8 @@ class Core_Details {
 		}
 
 		$close_when_focus_lost = $block['attrs']['closeWhenFocusLost'] ?? false;
-		$className             = $block['attrs']['className'] ?? '';
-		$is_knight_style       = str_contains( $className, 'is-style-pew-knight-co-branded' );
+		$className             = $block['attrs']['className'] ?? ''; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase -- Gutenberg block attribute key.
+		$is_knight_style       = str_contains( $className, 'is-style-pew-knight-co-branded' ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase -- Gutenberg block attribute key.
 		$has_entity_iframe     = (bool) preg_match( '/wp-block-prc-block-entity-as-iframe/', $block_content );
 
 		if ( ! $close_when_focus_lost && ! $is_knight_style && ! $has_entity_iframe ) {

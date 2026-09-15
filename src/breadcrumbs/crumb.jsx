@@ -50,7 +50,7 @@ export default function Crumb({
 
 	const caret = hasDropdown ? (
 		<span className="prc-block-breadcrumbs__caret" aria-hidden="true">
-			<Icon icon="caret-down" library="solid" size={0.7} />
+			<Icon icon="caret-down" library="prc" size={0.7} />
 		</span>
 	) : null;
 
@@ -67,7 +67,7 @@ export default function Crumb({
 					onClick={(event) => event.preventDefault()}
 					aria-label={crumbTitle || __('Home')}
 				>
-					<Icon icon="house" library="solid" size={1} />
+					<Icon icon="house" library="prc" size={1} />
 				</a>
 				{caret}
 			</div>

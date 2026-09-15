@@ -140,6 +140,38 @@ class Carousel_Controller {
 	}
 
 	/**
+	 * Clamps the autoplay interval to a safe millisecond range.
+	 *
+	 * Values below 1000ms fall back to the 5000ms default. Values above
+	 * 10000ms are capped so a mistyped attribute cannot create an
+	 * unreasonably long or rapid timer.
+	 *
+	 * @param mixed $value Raw autoplay interval attribute.
+	 * @return int Interval in milliseconds (1000–10000).
+	 */
+	private function sanitize_autoplay_interval( $value ): int {
+		$interval = absint( $value );
+		if ( $interval < 1000 ) {
+			return 5000;
+		}
+
+		return min( 10000, $interval );
+	}
+
+	/**
+	 * Ring template injected inside the play button.
+	 *
+	 * @return string Template markup with no whitespace inside the template.
+	 */
+	private function play_ring_template(): string {
+		return '<template data-wp-each--cycle="context.autoplayCycle" data-wp-each-key="context.cycle.generation">'
+			. '<svg class="prc-block-carousel-controller__play-ring" viewBox="0 0 32 32" aria-hidden="true" focusable="false">'
+			. '<circle cx="16" cy="16" r="15" pathLength="100" fill="none" stroke="currentColor" stroke-width="2" transform="rotate(-90 16 16)" data-wp-style--animation-duration="state.cycleDuration"></circle>'
+			. '</svg>'
+			. '</template>';
+	}
+
+	/**
 	 * Adds iAPI directives to the Carousel Controller block.
 	 *
 	 * @param array    $attributes The attributes.
@@ -159,7 +191,7 @@ class Carousel_Controller {
 			$attributes
 		);
 
-		$view_type = $has_view_type ? $attributes['viewType'] : ( $legacy_orientation ?? 'horizontal' );
+		$view_type             = $has_view_type ? $attributes['viewType'] : ( $legacy_orientation ?? 'horizontal' );
 		$is_vertical           = 'vertical' === $view_type;
 		$is_coverflow          = 'coverflow' === $view_type;
 		$is_slideshow          = 'slideshow' === $view_type;
@@ -167,6 +199,8 @@ class Carousel_Controller {
 		$arrows_eanbled        = $attributes['enableArrows'];
 		$dots_enabled          = $attributes['enableDots'];
 		$use_slide_bg_for_dots = ! empty( $attributes['useSlideBgForDots'] );
+		$enable_autoplay       = ! empty( $attributes['enableAutoPlay'] );
+		$autoplay_interval     = $this->sanitize_autoplay_interval( $attributes['autoPlayInterval'] ?? 5000 );
 		$count                 = count( $block->parsed_block['innerBlocks'] );
 
 		$block_id = wp_unique_id( 'prc-block-carousel-controller-' );
@@ -259,19 +293,22 @@ class Carousel_Controller {
 			$tag_processor->seek( 'start' );
 
 			$context = array(
-				'id'           => $block_id,
-				'enabled'      => false,
-				'slideIndex'   => 0,
-				'count'        => $count,
-				'viewType'     => $view_type,
+				'id'               => $block_id,
+				'enabled'          => false,
+				'slideIndex'       => 0,
+				'count'            => $count,
+				'viewType'         => $view_type,
 				// Back-compat alias for the renamed attribute.
-				'orientation'  => $view_type,
-				'enableRewind' => (bool) $attributes['enableRewind'],
-				'slides'       => $slides,
+				'orientation'      => $view_type,
+				'enableRewind'     => (bool) $attributes['enableRewind'],
+				'enableAutoPlay'   => $enable_autoplay,
+				'autoPlayInterval' => $autoplay_interval,
+				'slides'           => $slides,
 			);
 			if ( $is_slideshow ) {
-				$context['isPlaying'] = true;
-				$context['playLabel'] = 'Pause slideshow';
+				$context['isPlaying']     = $enable_autoplay;
+				$context['playLabel']     = $enable_autoplay ? 'Pause slideshow' : 'Play slideshow';
+				$context['autoplayCycle'] = array();
 			}
 			$tag_processor->set_attribute(
 				'data-wp-context',
@@ -286,8 +323,8 @@ class Carousel_Controller {
 			if ( $arrows_eanbled ) {
 				$arrows  = wp_sprintf(
 					'<button class="prc-block-carousel-controller__arrow prc-block-carousel-controller__arrow__prev" data-wp-on--click="actions.goToPreviousSlide" aria-label="Previous slide">%s</button><button class="prc-block-carousel-controller__arrow prc-block-carousel-controller__arrow__next" data-wp-on--click="actions.goToNextSlide" aria-label="Next slide">%s</button>',
-					\PRC\Platform\Icons\render( 'solid', $is_vertical ? 'chevron-up' : 'chevron-left' ),
-					\PRC\Platform\Icons\render( 'solid', $is_vertical ? 'chevron-down' : 'chevron-right' )
+					\PRC\Platform\Icons\render( 'prc', $is_vertical ? 'chevron-up' : 'chevron-left' ),
+					\PRC\Platform\Icons\render( 'prc', $is_vertical ? 'chevron-down' : 'chevron-right' )
 				);
 				$content = str_replace( '<div class="prc-block-carousel-controller__arrows"></div>', $arrows, $content );
 			}
@@ -299,7 +336,7 @@ class Carousel_Controller {
 				$dots              = wp_sprintf(
 					'<div class="prc-block-carousel-controller__dots"><template data-wp-each--dot="context.slides"><button class="prc-block-carousel-controller__dot" data-wp-on--click="actions.goToDot" data-wp-bind--data-slide-index="context.dot.index" data-wp-bind--aria-label="context.dot.label" data-wp-bind--data-active="callbacks.isDotActive"%s>%s</button></template></div>',
 					$dot_style_binding,
-					\PRC\Platform\Icons\render( 'solid', 'circle' )
+					\PRC\Platform\Icons\render( 'prc', 'circle' )
 				);
 				$content           = str_replace( '<div class="prc-block-carousel-controller__dots"></div>', $dots, $content );
 			}
@@ -312,12 +349,19 @@ class Carousel_Controller {
 
 			// Inject the play/pause control for slideshow view.
 			if ( $is_slideshow ) {
-				$play    = wp_sprintf(
-					'<button class="prc-block-carousel-controller__play is-playing" type="button" aria-label="Pause slideshow" aria-pressed="true" data-wp-on--click="actions.togglePlay" data-wp-bind--aria-label="context.playLabel" data-wp-bind--aria-pressed="context.isPlaying" data-wp-class--is-playing="context.isPlaying"><span class="prc-block-carousel-controller__play-icon prc-block-carousel-controller__play-icon--pause">%1$s</span><span class="prc-block-carousel-controller__play-icon prc-block-carousel-controller__play-icon--play">%2$s</span></button>',
-					\PRC\Platform\Icons\render( 'solid', 'pause' ),
-					\PRC\Platform\Icons\render( 'solid', 'play' )
+				$play_class   = $enable_autoplay ? ' is-playing' : '';
+				$play_label   = $enable_autoplay ? 'Pause slideshow' : 'Play slideshow';
+				$play_pressed = $enable_autoplay ? 'true' : 'false';
+				$play         = wp_sprintf(
+					'<button class="prc-block-carousel-controller__play%1$s" type="button" aria-label="%2$s" aria-pressed="%3$s" data-wp-on--click="actions.togglePlay" data-wp-bind--aria-label="context.playLabel" data-wp-bind--aria-pressed="context.isPlaying" data-wp-class--is-playing="context.isPlaying"><span class="prc-block-carousel-controller__play-icon prc-block-carousel-controller__play-icon--pause">%4$s</span><span class="prc-block-carousel-controller__play-icon prc-block-carousel-controller__play-icon--play">%5$s</span>%6$s</button>',
+					$play_class,
+					$play_label,
+					$play_pressed,
+					\PRC\Platform\Icons\render( 'prc', 'pause' ),
+					\PRC\Platform\Icons\render( 'prc', 'play' ),
+					$this->play_ring_template()
 				);
-				$content = str_replace(
+				$content      = str_replace(
 					'<div class="prc-block-carousel-controller__play"></div>',
 					$play,
 					$content

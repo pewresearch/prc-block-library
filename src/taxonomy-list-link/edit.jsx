@@ -14,7 +14,6 @@ import {
 	useBlockProps,
 	RichText,
 	useInnerBlocksProps,
-	getColorClassName,
 	store as blockEditorStore,
 } from '@wordpress/block-editor';
 import { createBlock } from '@wordpress/blocks';
@@ -56,14 +55,13 @@ export function getSpacingPresetCssVar(value) {
  *
  * @param {Object}   props                   Properties passed to the function.
  * @param {Object}   props.attributes        Available block attributes.
- * @param            props.className
- * @param            props.context
- * @param            props.clientId
- * @param            props.isSelected
- * @param            props.insertBlocksAfter
  * @param {Function} props.setAttributes     Function that updates individual attributes.
+ * @param {Object}   props.context           Block context.
+ * @param {string}   props.clientId          Block client id.
+ * @param {boolean}  props.isSelected        Whether the block is selected.
+ * @param {Function} props.insertBlocksAfter Insert a block after this one.
  *
- * @return {WPElement} Element to render.
+ * @return {*} Element to render.
  */
 export default function Edit({
 	attributes,
@@ -73,9 +71,7 @@ export default function Edit({
 	isSelected,
 	insertBlocksAfter,
 }) {
-	// eslint-disable-next-line prettier/prettier, object-curly-newline
-	const { className, label, enableSubMenu, style } =
-		attributes;
+	const { className, label, enableSubMenu, style } = attributes;
 	const [subMenuIsOpen, toggleSubMenu] = useState(false);
 
 	// Use internal state instead of a ref to make sure that the component
@@ -99,20 +95,16 @@ export default function Edit({
 	};
 
 	const plusIcon =
-		'is-style-sub-expand' === className ? 'plus' : 'circle-plus';
+		'is-style-sub-expand' === className ? 'plus' : 'circle-plus-outline';
 	const minusIcion =
-		'is-style-sub-expand' === className ? 'minus' : 'circle-minus';
+		'is-style-sub-expand' === className ? 'minus' : 'circle-minus-outline';
 
-	const innerBlocksProps = useInnerBlocksProps(
-		{
-			className: clsx(
-				'wp-block-prc-block-taxonomy-list-link__sub-menu'
-			),
-			style: {
-				...subMenuStyle,
-			},
-		}
-	);
+	const innerBlocksProps = useInnerBlocksProps({
+		className: clsx('wp-block-prc-block-taxonomy-list-link__sub-menu'),
+		style: {
+			...subMenuStyle,
+		},
+	});
 
 	const allowedFormats =
 		'is-style-sub-heading' === className

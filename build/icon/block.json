@@ -13,7 +13,7 @@
     },
     "library": {
       "type": "string",
-      "default": "solid"
+      "default": "prc"
     },
     "icon": {
       "type": "string",
@@ -23,13 +23,14 @@
   "example": {
     "attributes": {
       "icon": "star",
-      "library": "solid",
+      "library": "prc",
       "size": 1
     }
   },
   "supports": {
     "anchor": true,
     "html": false,
+    "inserter": false,
     "spacing": {
       "blockGap": true,
       "margin": [

@@ -206,8 +206,8 @@ class Timeline {
 			)
 		);
 
-		$play_icon  = \PRC\Platform\Icons\render( 'solid', 'play' );
-		$pause_icon = \PRC\Platform\Icons\render( 'solid', 'pause' );
+		$play_icon  = \PRC\Platform\Icons\render( 'prc', 'play' );
+		$pause_icon = \PRC\Platform\Icons\render( 'prc', 'pause' );
 
 		return wp_sprintf(
 			'<div %1$s><div class="tick-slider" role="region" aria-label="%7$s"><ul class="ticks" role="tablist"><template data-wp-each--tick="context.ticks"><li class="tick" role="tab" data-wp-bind--data-tick-id="context.tick.id" data-wp-on--click="actions.activateTick" data-wp-bind--style="callbacks.getTickPosition" data-wp-bind--data-visible="context.tick.visible" data-wp-class--is-hidden="callbacks.isTickHidden"><span data-wp-text="context.tick.label"></span></li></template></ul><div class="timeline-controls"><label for="%2$s" class="screen-reader-text">%8$s</label><input type="range" id="%2$s" min="%3$s" max="%4$s" value="%5$s"/><button class="play-pause-button" data-wp-on--click="actions.togglePlay" data-wp-bind--aria-label="callbacks.autoPlayButtonText" data-wp-class--is-playing="context.isPlaying">%9$s</button></div></div>%6$s</div>',

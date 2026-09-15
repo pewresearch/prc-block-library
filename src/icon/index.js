@@ -11,7 +11,6 @@
 /**
  * WordPress Dependencies
  */
-import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
 
 /**
@@ -30,6 +29,7 @@ import './style.scss';
 import './editor.scss';
 import edit from './edit';
 import icon from './icon';
+import transforms from './transforms';
 
 import metadata from './block.json';
 
@@ -38,6 +38,7 @@ const { name } = metadata;
 const settings = {
 	edit,
 	icon,
+	transforms,
 };
 
 /**

@@ -1,6 +1,7 @@
 /**
  * External Dependencies
  */
+/* eslint-disable import/no-unresolved, jsdoc/no-undefined-types -- pre-existing in this deprecated block */
 import classNames from 'classnames';
 import { Icon } from '@prc/icons';
 import { getBlockGapSupportValue } from '@prc/functions';
@@ -87,7 +88,7 @@ export default function Edit({ attributes, setAttributes }) {
 					/>
 				)}
 				{isCoBranded && (
-					<img src={pewKnightLogoUrl} alt="Pew Knight Logo"/>
+					<img src={pewKnightLogoUrl} alt="Pew Knight Logo" />
 				)}
 				<button
 					className="wp-block-prc-block-collapsible__icon"
@@ -96,10 +97,7 @@ export default function Edit({ attributes, setAttributes }) {
 					}}
 					type="button"
 				>
-					<Icon
-						icon={isOpen ? 'circle-minus' : 'circle-plus'}
-						library="light"
-					/>
+					<Icon icon={isOpen ? 'circle-minus' : 'circle-plus'} />
 				</button>
 			</div>
 			<div {...innerBlocksProps} />

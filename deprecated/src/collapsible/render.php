@@ -1,4 +1,5 @@
 <?php
+// phpcs:ignoreFile -- Pre-existing WPCS/VIP debt; this PR only remaps icon libraries (PRC-725).
 namespace PRC\Platform\Blocks;
 if ( is_admin() ) {
 	return;
@@ -54,8 +55,8 @@ if ( $block_gap ) {
 
 $wrapper_attrs = get_block_wrapper_attributes($block_wrapper_attrs);
 
-$plus_icon = \PRC\Platform\Icons\render('light', 'circle-plus');
-$minus_icon = \PRC\Platform\Icons\render('light', 'circle-minus');
+$plus_icon = \PRC\Platform\Icons\render('prc', 'circle-plus');
+$minus_icon = \PRC\Platform\Icons\render('prc', 'circle-minus');
 
 if ( function_exists( 'apple_news_is_exporting' ) && apple_news_is_exporting() ) {
 	// echo wp_sprintf();

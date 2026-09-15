@@ -173,11 +173,11 @@ class Navigation_Mega_Menu {
 		<span class="wp-block-prc-block-navigation-mega-menu__toggle-<?php echo esc_attr( $icon ); ?>-icon">
 			<?php
 			if ( 'dropdown' === $icon ) {
-				echo \PRC\Platform\Icons\Render( 'solid', 'caret-down' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo \PRC\Platform\Icons\Render( 'prc', 'caret-down' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			} elseif ( 'mobile' === $icon ) {
-				echo \PRC\Platform\Icons\Render( 'light', 'bars' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo \PRC\Platform\Icons\Render( 'prc', 'bars' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			} elseif ( 'search' === $icon ) {
-				echo \PRC\Platform\Icons\Render( 'solid', 'magnifying-glass' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo \PRC\Platform\Icons\Render( 'prc', 'magnifying-glass' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
 			?>
 		</span>
@@ -192,7 +192,7 @@ class Navigation_Mega_Menu {
 			data-wp-on--click="actions.closeMenuOnClick"
 			type="button"
 		>
-			<?php echo \PRC\Platform\Icons\Render( 'solid', 'close' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			<?php echo \PRC\Platform\Icons\Render( 'prc', 'circle-xmark' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		</button>
 		<?php
 		$close_button = ob_get_clean();

@@ -3,7 +3,12 @@
  */
 import { __ } from '@wordpress/i18n';
 import { InspectorControls, PanelColorSettings } from '@wordpress/block-editor';
-import { PanelBody, ToggleControl } from '@wordpress/components';
+import {
+	PanelBody,
+	ToggleControl,
+	__experimentalUnitControl as UnitControl,
+	__experimentalVStack as VStack,
+} from '@wordpress/components';
 import { createHigherOrderComponent } from '@wordpress/compose';
 import { useEffect } from '@wordpress/element';
 
@@ -13,6 +18,46 @@ import { useEffect } from '@wordpress/element';
 import { IconPicker } from '@prc/components';
 
 const BLOCKNAME = 'core/button';
+const DEFAULT_ICON_SIZE = 0.875;
+const DEFAULT_ICON_SIZE_UNIT = 'em';
+const ICON_SIZE_UNITS = [
+	{ value: 'em', label: 'em', default: DEFAULT_ICON_SIZE },
+	{ value: 'rem', label: 'rem', default: DEFAULT_ICON_SIZE },
+	{ value: 'px', label: 'px', default: 14 },
+];
+const ICON_SIZE_UNIT_VALUES = ICON_SIZE_UNITS.map((unit) => unit.value);
+
+/**
+ * Split a UnitControl value into iconSize + iconSizeUnit.
+ *
+ * @param {string|number|undefined} next
+ * @param {string}                  currentUnit
+ * @return {Object} Attribute patch.
+ */
+function parseIconSizeControlValue(next, currentUnit = DEFAULT_ICON_SIZE_UNIT) {
+	if (next === undefined || next === null || next === '') {
+		return {
+			iconSize: DEFAULT_ICON_SIZE,
+			iconSizeUnit: DEFAULT_ICON_SIZE_UNIT,
+		};
+	}
+	const raw = String(next).trim();
+	const match = raw.match(/^(-?[\d.]+)(em|rem|px)?$/i);
+	if (!match) {
+		return {};
+	}
+	const size = parseFloat(match[1]);
+	if (!Number.isFinite(size) || size < 0) {
+		return {};
+	}
+	const unit = (match[2] || currentUnit).toLowerCase();
+	return {
+		iconSize: size,
+		iconSizeUnit: ICON_SIZE_UNIT_VALUES.includes(unit)
+			? unit
+			: DEFAULT_ICON_SIZE_UNIT,
+	};
+}
 
 /**
  * Map of legacy icon__ / brand__ style names to has-icon attribute values.
@@ -20,34 +65,34 @@ const BLOCKNAME = 'core/button';
  */
 const LEGACY_STYLE_MAP = {
 	'icon__arrow-right-long': {
-		library: 'solid',
+		library: 'prc',
 		name: 'arrow-right-long',
 		position: 'right',
 	},
 	'icon__up-right-and-down-left-from-center': {
-		library: 'solid',
+		library: 'prc',
 		name: 'up-right-and-down-left-from-center',
 		position: 'right',
 	},
 	'icon__magnifying-glass': {
-		library: 'solid',
+		library: 'prc',
 		name: 'magnifying-glass',
 		position: 'right',
 		color: '#346EAD',
 	},
-	icon__clear: { library: 'light', name: 'circle-x', position: 'right' },
+	icon__clear: { library: 'prc', name: 'circle-x', position: 'right' },
 	icon__clear__filled: {
-		library: 'solid',
+		library: 'prc',
 		name: 'circle-x',
 		position: 'right',
 	},
 	'icon__arrows-rotate': {
-		library: 'solid',
+		library: 'prc',
 		name: 'arrows-rotate',
 		position: 'right',
 	},
 	'icon__graduation-cap': {
-		library: 'solid',
+		library: 'prc',
 		name: 'graduation-cap',
 		position: 'right',
 	},
@@ -90,10 +135,12 @@ const IconPickerPanel = createHigherOrderComponent(
 			const {
 				className,
 				hasIcon = false,
-				iconLibrary = 'solid',
+				iconLibrary = 'prc',
 				iconName,
 				iconPosition = 'right',
 				iconColor,
+				iconSize = DEFAULT_ICON_SIZE,
+				iconSizeUnit = DEFAULT_ICON_SIZE_UNIT,
 			} = attributes;
 
 			useEffect(() => {
@@ -147,29 +194,54 @@ const IconPickerPanel = createHigherOrderComponent(
 											iconLibrary: undefined,
 											iconPosition: undefined,
 											iconColor: undefined,
+											iconSize: undefined,
+											iconSizeUnit: undefined,
 										});
 									}
 								}}
 							/>
 							{hasIcon && (
-								<IconPicker
-									library={iconLibrary}
-									icon={iconName}
-									position={iconPosition}
-									onChange={(next) => {
-										const update = {};
-										if ('library' in next) {
-											update.iconLibrary = next.library;
-										}
-										if ('icon' in next) {
-											update.iconName = next.icon;
-										}
-										if ('position' in next) {
-											update.iconPosition = next.position;
-										}
-										setAttributes(update);
-									}}
-								/>
+								<VStack spacing={3}>
+									<IconPicker
+										library={iconLibrary}
+										icon={iconName}
+										position={iconPosition}
+										onChange={(next) => {
+											const update = {};
+											if ('library' in next) {
+												update.iconLibrary =
+													next.library;
+											}
+											if ('icon' in next) {
+												update.iconName = next.icon;
+											}
+											if ('position' in next) {
+												update.iconPosition =
+													next.position;
+											}
+											setAttributes(update);
+										}}
+									/>
+									<UnitControl
+										label={__('Icon size')}
+										value={`${iconSize}${iconSizeUnit}`}
+										units={ICON_SIZE_UNITS}
+										isResetValueOnUnitChange
+										min={0}
+										onChange={(next) => {
+											const update =
+												parseIconSizeControlValue(
+													next,
+													iconSizeUnit
+												);
+											if (Object.keys(update).length) {
+												setAttributes(update);
+											}
+										}}
+										__next40pxDefaultSize
+										__nextHasNoMarginBottom
+									/>
+								</VStack>
 							)}
 						</PanelBody>
 						{hasIcon && (

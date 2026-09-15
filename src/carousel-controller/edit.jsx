@@ -71,6 +71,7 @@ function Edit({
 		viewType,
 		enableDots,
 		enableArrows,
+		enableAutoPlay,
 		arrowsSize,
 		dotsSize,
 		useSlideBgForDots,
@@ -85,7 +86,13 @@ function Edit({
 
 	const blockRef = useRef(null);
 	const [isMobileViewport, setIsMobileViewport] = useState(false);
-	const [isPlayingPreview, setIsPlayingPreview] = useState(true);
+	const [isPlayingPreview, setIsPlayingPreview] = useState(
+		enableAutoPlay !== false
+	);
+
+	useEffect(() => {
+		setIsPlayingPreview(enableAutoPlay !== false);
+	}, [enableAutoPlay]);
 
 	useEffect(() => {
 		const mediaQuery = window.matchMedia(

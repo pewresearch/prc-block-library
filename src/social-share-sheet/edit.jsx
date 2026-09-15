@@ -35,7 +35,7 @@ import { useSelect } from '@wordpress/data';
  * @param {string}   props.clientId      Unique ID of the block.
  * @param {boolean}  props.isSelected    Whether or not the block is currently selected.
  *
- * @return {WPElement} Element to render.
+ * @return {*} Element to render.
  */
 export default function Edit({
 	attributes,
@@ -47,7 +47,7 @@ export default function Edit({
 	const {
 		label,
 		textAlign,
-		iconLibrary = 'solid',
+		iconLibrary = 'prc',
 		iconName = 'share',
 		iconPosition = 'right',
 	} = attributes;

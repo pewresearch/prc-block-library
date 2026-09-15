@@ -9,7 +9,20 @@
 	background: inherit;
 }
 
+// wrapperProps put has-icon / data-icon-position / --icon-* on the
+// BlockListBlock (div[data-type="core/button"]). Keep Gutenberg's
+// display:table shrink-wrap so the canvas wrapper does not become a
+// full-width flex row. Icon CSS vars inherit onto .wp-element-button
+// ::before/::after the same way they inherit on the frontend.
+div[data-type="core/button"].has-icon,
+.block-editor-block-list__block.wp-block-button.has-icon {
+	display: table;
+}
+
 // Hide parent wp-block-group when button is hidden
-.editor-styles-wrapper :where(.wp-block-group:has(.wp-block-prc-button .wp-element-button[hidden])) {
-    display: none;
+.editor-styles-wrapper
+	:where(
+		.wp-block-group:has(.wp-block-prc-button .wp-element-button[hidden])
+	) {
+	display: none;
 }

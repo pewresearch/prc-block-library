@@ -283,11 +283,9 @@
 		.prc-block-carousel-controller__play {
 			appearance: none;
 			background: none;
+			position: relative;
 			border: 1px solid
-				var(
-					--prc-carousel-controller-arrow-color,
-					var(--wp--preset--color--ui-gray-very-dark)
-				);
+				var(--prc-carousel-controller-arrow-color, currentColor);
 			border-radius: 50%;
 			width: 2rem;
 			height: 2rem;
@@ -297,13 +295,21 @@
 			align-items: center;
 			justify-content: center;
 			flex: 0 0 auto;
+			transition: border-color 200ms ease;
+
+			&:has(.prc-block-carousel-controller__play-ring) {
+				border-color: color-mix(
+					in srgb,
+					var(--prc-carousel-controller-arrow-color, currentColor) 35%,
+					transparent
+				);
+			}
 
 			.icon,
 			.prc-block-carousel-controller__play-icon {
-				color: var(
-					--prc-carousel-controller-arrow-color,
-					var(--wp--preset--color--ui-gray-very-dark)
-				);
+				position: relative;
+				z-index: 1;
+				color: var(--prc-carousel-controller-arrow-color, currentColor);
 				font-size: 0.75rem;
 				line-height: 1;
 			}
@@ -324,6 +330,42 @@
 				.prc-block-carousel-controller__play-icon--pause {
 					display: none;
 				}
+			}
+		}
+
+		.prc-block-carousel-controller__play-ring {
+			position: absolute;
+			inset: -1px;
+			z-index: 0;
+			width: calc(100% + 2px);
+			height: calc(100% + 2px);
+			overflow: visible;
+			pointer-events: none;
+			fill: none;
+
+			circle {
+				fill: none;
+				stroke: var(
+					--prc-carousel-controller-arrow-color,
+					currentColor
+				);
+				stroke-width: 2px;
+				stroke-dasharray: 100;
+				stroke-dashoffset: 0;
+				animation-name: prc-carousel-controller-ring-drain;
+				animation-timing-function: linear;
+				animation-fill-mode: forwards;
+			}
+
+			&.is-static circle {
+				animation: none;
+				stroke-dashoffset: 30;
+			}
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			.prc-block-carousel-controller__play-ring circle {
+				animation: none;
 			}
 		}
 
@@ -593,5 +635,15 @@
 		font-family: var(--wp--preset--font-family--sans-serif);
 		font-variant-numeric: tabular-nums;
 		font-weight: 700;
+	}
+}
+
+@keyframes prc-carousel-controller-ring-drain {
+	from {
+		stroke-dashoffset: 0;
+	}
+
+	to {
+		stroke-dashoffset: 100;
 	}
 }

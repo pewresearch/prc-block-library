@@ -16,7 +16,7 @@
     },
     "iconLibrary": {
       "type": "string",
-      "default": "solid"
+      "default": "prc"
     },
     "iconName": {
       "type": "string",

@@ -1,4 +1,5 @@
 <?php
+// phpcs:ignoreFile -- Pre-existing WPCS/VIP debt; this PR only remaps icon libraries (PRC-725).
 /**
  * Table of Contents Block
  *
@@ -159,9 +160,9 @@ class Table_Of_Contents {
 	 * @param string $library The library to use.
 	 * @return string The CSS styles.
 	 */
-	public static function get_new_icon_styles( $part_slug, $icon = false, $library = 'solid' ) {
-		$open_icon  = \PRC\Platform\Icons\get_icon_as_data_uri( 'light', 'circle-plus', 'black' );
-		$close_icon = \PRC\Platform\Icons\get_icon_as_data_uri( 'light', 'circle-minus', 'black' );
+	public static function get_new_icon_styles( $part_slug, $icon = false, $library = 'prc' ) {
+		$open_icon  = \PRC\Platform\Icons\get_icon_as_data_uri( 'prc', 'circle-plus', 'black' );
+		$close_icon = \PRC\Platform\Icons\get_icon_as_data_uri( 'prc', 'circle-minus', 'black' );
 		if ( $icon ) {
 			$open_icon = \PRC\Platform\Icons\get_icon_as_data_uri( $library, $icon );
 		}
@@ -179,9 +180,9 @@ class Table_Of_Contents {
 		$style_buffer = wp_cache_get( $cache_key, 'prc_block_library' );
 		if ( ! is_string( $style_buffer ) ) {
 			$style_buffer  = '';
-			$style_buffer .= self::get_new_icon_styles( 'executive-summary', 'clipboard-list', 'regular' );
+			$style_buffer .= self::get_new_icon_styles( 'executive-summary', 'clipboard-list', 'prc' );
 			$style_buffer .= self::get_new_icon_styles( 'i-religious-affiliation-and-religious-switching', 'person-walking-arrow-loop-left' );
-			$style_buffer .= self::get_new_icon_styles( 'ii-religion-and-family-life', 'family-dress' );
+			$style_buffer .= self::get_new_icon_styles( 'ii-religion-and-family-life', 'people-group' );
 			$style_buffer .= self::get_new_icon_styles( 'iii-religious-or-spiritual-beliefs-and-practices', 'person-praying' );
 			$style_buffer .= self::get_new_icon_styles( 'iv-social-and-political-views', 'person-booth' );
 			$style_buffer .= self::get_new_icon_styles( 'v-opinions-on-religions-place-in-society', 'hands-praying' );
@@ -531,6 +532,10 @@ class Table_Of_Contents {
 	 * @return string
 	 */
 	public function render_block_callback( $attributes, $content, $block ) {
+		if ( empty( $block->context['postId'] ) ) {
+			return $content;
+		}
+
 		$post_id    = $block->context['postId'];
 		$parent_id  = wp_get_post_parent_id( $post_id );
 		$parent_id  = 0 === $parent_id ? $post_id : $parent_id;

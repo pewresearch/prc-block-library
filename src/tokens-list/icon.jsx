@@ -4,9 +4,9 @@
 import { Icon } from '@prc/icons';
 
 export default function () {
-	return <Icon library="light"icon="tags" />;
+	return <Icon library="prc" icon="tags" />;
 }
 
 export function TokenIcon() {
-	return <Icon library="light"icon="tag" />;
+	return <Icon library="prc" icon="tag" />;
 }

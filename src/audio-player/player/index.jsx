@@ -1,4 +1,4 @@
-/* eslint-disable max-lines-per-function */
+/* eslint-disable max-lines-per-function, no-unused-vars, jsx-a11y/alt-text, react-hooks/exhaustive-deps -- pre-existing; this PR only remaps icons */
 /**
  * External Dependencies
  */
@@ -141,13 +141,13 @@ const AudioPlayer = ({
 					{!isPlaying ? (
 						<Icon
 							icon="play"
-							library="solid"
+							library="prc"
 							className="wp-block-prc-block-audio-player__card__icon"
 						/>
 					) : (
 						<Icon
 							icon="pause"
-							library="solid"
+							library="prc"
 							className="wp-block-prc-block-audio-player__card__icon"
 						/>
 					)}

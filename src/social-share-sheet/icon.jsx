@@ -1,8 +1,8 @@
 /**
- * External Dependencies
+ * WordPress Dependencies
  */
-import { Icon } from '@prc/icons';
+import { Icon, share } from '@wordpress/icons';
 
 export default function () {
-	return <Icon library="solid" icon="share" />;
+	return <Icon icon={share} />;
 }

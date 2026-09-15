@@ -45,16 +45,6 @@ export default function EditMenuItem({
 		return 'caret-down';
 	}, [icon]);
 
-	const selectedIconLibrary = useMemo(() => {
-		if ('caret-down' === selectedIcon) {
-			return 'sharp-solid';
-		}
-		if ('mobile' === icon) {
-			return 'light';
-		}
-		return 'solid';
-	}, [selectedIcon, icon]);
-
 	const showLabel = !icon || 'dropdown' === icon;
 
 	return (
@@ -88,7 +78,7 @@ export default function EditMenuItem({
 				className={`wp-block-prc-block-navigation-mega-menu__toggle-${icon}-icon`}
 				onClick={toggleActive}
 			>
-				<Icon library={selectedIconLibrary} icon={selectedIcon} />
+				<Icon icon={selectedIcon} />
 			</span>
 			{description && (
 				<span className="wp-block-navigation-item__description">

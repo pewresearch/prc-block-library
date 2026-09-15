@@ -4,6 +4,7 @@
  *
  * @package PRC\Platform\Blocks
  */
+
 namespace PRC\Platform\Blocks;
 
 /**
@@ -95,10 +96,10 @@ class Form_Input_Password {
 			>
 				<li data-wp-class--is-valid="context.condition.met">
 					<span data-wp-class--icon-hidden="!context.condition.met">
-						<?php echo \PRC\Platform\Icons\render( 'solid', 'check' ); ?>
+						<?php echo \PRC\Platform\Icons\render( 'prc', 'check' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Trusted SVG from the icon facade. ?>
 					</span>
 					<span data-wp-class--icon-hidden="context.condition.met">
-						<?php echo \PRC\Platform\Icons\render( 'regular', 'xmark' ); ?>
+						<?php echo \PRC\Platform\Icons\render( 'prc', 'xmark' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Trusted SVG from the icon facade. ?>
 					</span>
 					<span class="password-analyzer__label" data-wp-text="context.condition.label"></span>
 				</li>

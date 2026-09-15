@@ -457,7 +457,7 @@ class Breadcrumbs {
 				if ( '' === $link_aria_label ) {
 					$link_aria_label = __( 'Home' );
 				}
-				$text = \PRC\Platform\Icons\render( 'solid', 'house' );
+				$text = \PRC\Platform\Icons\render( 'prc', 'house' );
 			}
 			$inner_markup .= $this->build_crumb_markup(
 				$breadcrumb['url'] ?? '',
@@ -623,7 +623,7 @@ class Breadcrumbs {
 		}
 		$markup .= $item_open . '>';
 
-		$caret = $has_dropdown ? \PRC\Platform\Icons\render( 'solid', 'caret-down' ) : '';
+		$caret = $has_dropdown ? \PRC\Platform\Icons\render( 'prc', 'caret-down' ) : '';
 		$label = wp_sprintf( '<span>%s</span>', $title );
 		$aria  = '';
 		if ( '' !== $link_aria_label ) {
@@ -678,7 +678,7 @@ class Breadcrumbs {
 				}
 				$child_text = $child_crumb['text'] ?? '';
 				if ( ! empty( $child_crumb['asIcon'] ) ) {
-					$child_text = \PRC\Platform\Icons\render( 'solid', 'house' );
+					$child_text = \PRC\Platform\Icons\render( 'prc', 'house' );
 				}
 				$markup .= $this->build_crumb_markup(
 					$child_crumb['url'] ?? '',

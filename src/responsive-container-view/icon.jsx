@@ -1,8 +1,8 @@
 /**
- * External Dependencies
+ * WordPress Dependencies
  */
-import { Icon } from '@prc/icons';
+import { Icon, mobile } from '@wordpress/icons';
 
 export default function () {
-	return <Icon icon="laptop-mobile" />;
+	return <Icon icon={mobile} />;
 }

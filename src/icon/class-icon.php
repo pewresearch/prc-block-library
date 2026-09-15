@@ -9,7 +9,7 @@ namespace PRC\Platform\Blocks;
 
 /**
  * Block Name:        Icon
- * Description:       Renders a Font Awesome icon.
+ * Description:       Legacy Font Awesome icon block. Hidden from the inserter.
  * Requires at least: 6.4
  * Requires PHP:      8.1
  * Author:            Pew Research Center
@@ -35,6 +35,10 @@ class Icon {
 		if ( null !== $loader ) {
 			$loader->add_action( 'init', $this, 'block_init' );
 		}
+		if ( defined( 'WP_CLI' ) && \WP_CLI ) {
+			require_once __DIR__ . '/class-icon-migrate.php';
+			require_once __DIR__ . '/class-icon-migrate-cli.php';
+		}
 	}
 
 
@@ -47,10 +51,12 @@ class Icon {
 	 * @return string
 	 */
 	public function render_callback( $attributes, $content, $block ) {
+		unset( $content, $block );
+
 		$block_wrapper_attrs = get_block_wrapper_attributes();
-		$library             = array_key_exists( 'library', $attributes ) ? $attributes['library'] : '';
-		$icon                = array_key_exists( 'icon', $attributes ) ? $attributes['icon'] : '';
-		$size                = array_key_exists( 'size', $attributes ) ? $attributes['size'] : '1em';
+		$library             = array_key_exists( 'library', $attributes ) && '' !== $attributes['library'] ? $attributes['library'] : 'prc';
+		$icon                = array_key_exists( 'icon', $attributes ) && '' !== $attributes['icon'] ? $attributes['icon'] : 'star';
+		$size                = array_key_exists( 'size', $attributes ) && '' !== $attributes['size'] ? $attributes['size'] : 1;
 		$svg                 = \PRC\Platform\Icons\render( $library, $icon, $size );
 
 		return wp_sprintf(

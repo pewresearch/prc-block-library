@@ -19,11 +19,15 @@ import { Icon } from '@prc/icons';
 
 /**
  * Navigation Options
- * @param {Object} optionsInfo - The options information.
- * @param {Object} attributes - The attributes of the block.
- * @param {Function} setAttributes - The function to set the attributes.
- * @param {string} clientId - The client ID of the block.
- * @returns {JSX.Element} The navigation options component.
+ *
+ * @param {Object}   props               Component props.
+ * @param {Array}    props.panelSiblings Sibling panel blocks.
+ * @param {number}   props.activeIndex   Active panel index.
+ * @param {Object}   props.attributes    Block attributes.
+ * @param {Function} props.setAttributes Set attributes callback.
+ * @param {string}   props.clientId      Block client ID.
+ * @param {number}   props.minWidth      Minimum width.
+ * @return {*} Navigation options markup.
  */
 function NavigationOptions({
 	panelSiblings,
@@ -36,12 +40,12 @@ function NavigationOptions({
 	// Extract options, active and set up classes
 	const optionList = panelSiblings ?? [];
 	const active = activeIndex ?? 0;
-	const navigationStyle = attributes['navigationStyle'] ?? 'none';
+	const navigationStyle = attributes.navigationStyle ?? 'none';
 	const styleIcon =
 		'none' === navigationStyle ? (
 			''
 		) : (
-			<Icon library="solid" icon={navigationStyle} size="1" />
+			<Icon library="prc" icon={navigationStyle} size="1" />
 		);
 
 	// If options are set
@@ -52,7 +56,7 @@ function NavigationOptions({
 				className={
 					'wp-block-prc-block-navigation-panels__options option-column'
 				}
-				style={{ minWidth: minWidth }}
+				style={{ minWidth }}
 			>
 				{optionList.map((option, index) => {
 					const isChecked = index === active;
@@ -78,6 +82,7 @@ function NavigationOptions({
 					);
 					return (
 						<div
+							key={inputId}
 							className={
 								'wp-block-prc-block-form-input-checkbox is-style-label-only'
 							}
@@ -91,7 +96,7 @@ function NavigationOptions({
 								onClick={() =>
 									setAttributes({
 										editorActivePanelIndex: index,
-										returnLabel: returnLabel,
+										returnLabel,
 									})
 								}
 							/>
@@ -145,7 +150,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						},
 					},
 				],
-			]
+			],
 		}
 	);
 
