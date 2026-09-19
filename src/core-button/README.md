@@ -20,7 +20,7 @@ Select the **Has Icon** style in the block styles panel to unlock the icon picke
 
 | Attribute      | Type     | Default        | Description                                                            |
 | -------------- | -------- | -------------- | ---------------------------------------------------------------------- |
-| `iconLibrary`  | `string` | `solid`        | Font Awesome Pro library (solid, regular, light, brands, etc.)         |
+| `iconLibrary`  | `string` | `prc`          | Icon collection (`prc`, `core`, or approved `brands`)                  |
 | `iconName`     | `string` | —              | Icon slug (e.g. `arrow-right-long`)                                    |
 | `iconPosition` | `string` | `right`        | `left` or `right` — which side of the button label the icon appears on |
 | `iconColor`    | `string` | `currentColor` | CSS color value for the icon                                           |

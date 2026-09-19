@@ -500,48 +500,6 @@ const { state, actions } = store('prc-block/carousel-controller', {
 					actions.startAutoplay();
 				}
 			}
-
-			// Wheel navigation: one slide per gesture while hovering the carousel.
-			// Skipped inside a wp-block-cover to avoid fighting the cover scroll-jack.
-			if (rootEl && !state.isInsideCover) {
-				const WHEEL_COOLDOWN_MS = 600;
-				rootEl.addEventListener(
-					'wheel',
-					withScope(
-						withSyncEvent((event) => {
-							const delta = event.deltaY;
-							if (Math.abs(delta) < 1) {
-								return;
-							}
-							if (context.wheelTimeout) {
-								event.preventDefault();
-								return;
-							}
-							const { slideIndex, enableRewind = true } = context;
-							if (delta > 0) {
-								if (slideIndex >= count - 1 && !enableRewind) {
-									return;
-								}
-							} else if (slideIndex <= 0 && !enableRewind) {
-								return;
-							}
-							event.preventDefault();
-							if (delta > 0) {
-								actions.goToNextSlide();
-							} else {
-								actions.goToPreviousSlide();
-							}
-							context.wheelTimeout = setTimeout(
-								withScope(() => {
-									context.wheelTimeout = null;
-								}),
-								WHEEL_COOLDOWN_MS
-							);
-						})
-					),
-					{ passive: false }
-				);
-			}
 		},
 		isDotActive: () => {
 			const context = getContext();

@@ -359,19 +359,6 @@
                 }
             }
         },
-        "link_button": {
-            "default-link-button": {
-                "backgroundColor": "#000",
-                "mask": {
-                    "type": "corners",
-                    "radius": 0
-                }
-            },
-            "default-link-button-text-style": {
-                "textColor": "#FFF",
-                "fontName": "HelveticaNeue"
-            }
-        },
         "body": {
             "default-body": {
                 "textAlignment": "left",

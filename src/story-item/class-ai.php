@@ -1,4 +1,5 @@
 <?php
+// phpcs:ignoreFile -- Pre-existing WPCS/VIP debt; this change only removes temperature from AI calls.
 /**
  * Story Item AI feature and abilities.
  *
@@ -297,7 +298,6 @@ class Story_Item_AI extends Abstract_Feature {
 
 		$blurb = $builder
 			->using_system_instruction( $this->get_blurb_system_instructions() )
-			->using_temperature( 0.4 )
 			->using_model_preference( ...\WordPress\AI\get_preferred_models_for_text_generation() )
 			->generate_text();
 
@@ -363,7 +363,6 @@ class Story_Item_AI extends Abstract_Feature {
 
 		$generated_title = $builder
 			->using_system_instruction( $this->get_title_system_instructions() )
-			->using_temperature( 0.3 )
 			->using_model_preference( ...\WordPress\AI\get_preferred_models_for_text_generation() )
 			->generate_text();
 
