@@ -46,9 +46,9 @@ class Show_More {
 	 * @return string
 	 */
 	public function render_callback( $attributes, $content, $block ) {
-		$current_device = \PRC\BlockUtils\get_current_device();
+		$current_device = \PRC\Primitives\BlockUtils\get_current_device();
 
-		$block_attrs = \PRC\BlockUtils\get_block_attributes( 'prc-block/show-more', $attributes );
+		$block_attrs = \PRC\Primitives\BlockUtils\get_block_attributes( 'prc-block/show-more', $attributes );
 
 		$block_id = md5( $content );
 

@@ -218,7 +218,7 @@ class Breadcrumbs {
 					// Some hierarchical CPTs (e.g. `feature`) use hierarchy for URLs but have no parent;
 					// fall back to primary category like non-hierarchical posts.
 					if ( empty( $ancestor_ids ) ) {
-						$primary_term_id = \PRC\BlockUtils\get_primary_term_id( $current_object->ID, 'category' );
+						$primary_term_id = \PRC\Primitives\BlockUtils\get_primary_term_id( $current_object->ID, 'category' );
 						if ( null !== $primary_term_id && is_numeric( $primary_term_id ) ) {
 							$term = get_term( $primary_term_id, 'category' );
 							if ( $term instanceof \WP_Term ) {
@@ -229,7 +229,7 @@ class Breadcrumbs {
 						}
 					}
 				} else {
-					$primary_term_id = \PRC\BlockUtils\get_primary_term_id( $current_object->ID, 'category' );
+					$primary_term_id = \PRC\Primitives\BlockUtils\get_primary_term_id( $current_object->ID, 'category' );
 					if ( null !== $primary_term_id && is_numeric( $primary_term_id ) ) {
 						$term = get_term( $primary_term_id, 'category' );
 						if ( $term instanceof \WP_Term ) {
@@ -495,7 +495,7 @@ class Breadcrumbs {
 			$classnames = trim( $classnames . ' has-dropdown' );
 		}
 
-		$block_gap = \PRC\BlockUtils\get_block_gap_support_value( $attributes, 'horizontal' );
+		$block_gap = \PRC\Primitives\BlockUtils\get_block_gap_support_value( $attributes, 'horizontal' );
 
 		$wrapper_args = array(
 			'id'         => wp_unique_id( 'breadcrumbs-' ),

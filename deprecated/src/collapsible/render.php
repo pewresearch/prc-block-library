@@ -17,7 +17,7 @@ $classname = array_key_exists('className', $attributes) ? $attributes['className
 $is_deprecated = array_key_exists( 'deprecated', $attributes ) ? true : false;
 $is_co_branded = array_key_exists( 'isCoBranded', $attributes ) && $attributes['isCoBranded'] === true ? true : false;
 
-$block_gap = \PRC\BlockUtils\get_block_gap_support_value($attributes);
+$block_gap = \PRC\Primitives\BlockUtils\get_block_gap_support_value($attributes);
 
 $collapsible_id = sanitize_title($collapsible_title);
 

@@ -50,7 +50,7 @@ class Attachments_List {
 	public function get_all_chart_refs_for_post( $post_id ) {
 		$blocks              = parse_blocks( get_post_field( 'post_content', $post_id, 'raw' ) );
 		$depth_to_search     = 5;
-		$synced_chart_blocks = \PRC\BlockUtils\find_blocks( $blocks, 'prc-chart-builder/synced-chart', $depth_to_search );
+		$synced_chart_blocks = \PRC\Primitives\BlockUtils\find_blocks( $blocks, 'prc-chart-builder/synced-chart', $depth_to_search );
 		$chart_ids_found     = array();
 		if ( is_array( $synced_chart_blocks ) && ! empty( $synced_chart_blocks ) ) {
 			// For each chart there is an attrs array with a ref property inside, lets collect those.
@@ -178,7 +178,7 @@ class Attachments_List {
 		$hover_text  = $attributes['customHoverTextColor'] ?? '';
 		$active_bg   = $attributes['customActiveBackgroundColor'] ?? '';
 		$active_text = $attributes['customActiveTextColor'] ?? '';
-		$block_gap   = \PRC\BlockUtils\get_block_gap_support_value( $attributes );
+		$block_gap   = \PRC\Primitives\BlockUtils\get_block_gap_support_value( $attributes );
 
 		$styles = array(
 			'--hover-background-color'  => $hover_bg,
@@ -231,7 +231,7 @@ class Attachments_List {
 		);
 		foreach ( $attachments as $attachment ) {
 			$is_active  = $attachment['is_active'] ?? false;
-			$classnames = \PRC\BlockUtils\classNames(
+			$classnames = \PRC\Primitives\BlockUtils\classNames(
 				'wp-block-prc-block-attachments-list__list-item',
 				'flex-align-center',
 				array(

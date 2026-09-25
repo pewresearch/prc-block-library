@@ -249,7 +249,7 @@ class Core_Group {
 			);
 
 			$vars        = array();
-			$grid_gutter = \PRC\BlockUtils\get_block_gap_support_value( $block['attrs'], 'horizontal' );
+			$grid_gutter = \PRC\Primitives\BlockUtils\get_block_gap_support_value( $block['attrs'], 'horizontal' );
 			if ( ! empty( $grid_gutter ) ) {
 				$vars[] = sprintf( '--grid-gutter:%s;', esc_attr( $grid_gutter ) );
 			}

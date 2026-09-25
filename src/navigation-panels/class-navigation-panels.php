@@ -51,6 +51,8 @@ class Navigation_Panels {
 		
 		// Set Block ID 
 		$block_id = wp_unique_id( 'prc-block-navigation-panels-' );
+		// Block Name 
+		$nav_panels_name = ( '' !== trim($attributes['name'] ?? '') ) ?  trim($attributes['name']) : $block_id;
 		// Get if parent, set blank nav-options, start panel count @ unselected
 		$active = $attributes['activePanelIndex'] ?? -1; 
 		$is_parent = 'parent' === $attributes['level']; 
@@ -186,7 +188,11 @@ class Navigation_Panels {
 				$block_id => array(
 					'level' => $attributes['level'] ?? 'independent',
 					'activeIndex' => $active,
+					'defaultIndex' => $active,
 					'parentNavigationList' => $is_child ? $parent_navigation_list : []
+				), 
+				'byName' => array(
+					$nav_panels_name => $block_id
 				)
 			)
 		);

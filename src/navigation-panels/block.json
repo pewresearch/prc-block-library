@@ -6,9 +6,7 @@
 	"title": "Navigation Panels",
 	"category": "widgets",
 	"description": "Navigation panels with InnerBlocks content controlled by the Interactivity API.",
-	"allowedBlocks": [
-		"prc-block/navigation-panel"
-	],
+	"allowedBlocks": ["prc-block/navigation-panel"],
 	"attributes": {
 		"activePanelIndex": {
 			"type": "number",
@@ -27,6 +25,10 @@
 			"type": "string",
 			"default": "independent",
 			"enum": ["independent", "parent", "child"]
+		},
+		"name": {
+			"type": "string",
+			"default": ""
 		},
 		"desktopLayout": {
 			"type": "string",

@@ -270,14 +270,14 @@ class Grid_Column {
 			$inline_style .= sprintf( '--mobile-order:%d;', (int) $attrs['mobilePosition'] );
 		}
 
-		$grid_column_gap = \PRC\BlockUtils\get_block_gap_support_value( $attributes, 'vertical' );
+		$grid_column_gap = \PRC\Primitives\BlockUtils\get_block_gap_support_value( $attributes, 'vertical' );
 		if ( '' !== $grid_column_gap && 'inherit' !== $grid_column_gap ) {
 			$inline_style .= sprintf( '--grid-column-gap:%s;', esc_attr( $grid_column_gap ) );
 		}
 
 		$block_attrs = get_block_wrapper_attributes(
 			array(
-				'class'             => \PRC\BlockUtils\classNames( $column_classes ),
+				'class'             => \PRC\Primitives\BlockUtils\classNames( $column_classes ),
 				'style'             => $inline_style,
 				'data-desktop-span' => (string) $attrs['desktopSpan'],
 				'data-tablet-span'  => (string) $attrs['tabletSpan'],

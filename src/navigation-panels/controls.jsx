@@ -7,10 +7,10 @@ import { InspectorControls } from '@wordpress/block-editor';
 import {
 	PanelBody,
 	SelectControl,
-	__experimentalUnitControl as UnitControl
+	TextControl,
+	__experimentalUnitControl as UnitControl,
 } from '@wordpress/components';
 import useNavigationPanelsState from './use-navigation-panels-state';
-
 
 function navLevelHelp(level) {
 	switch (level) {
@@ -42,7 +42,14 @@ function createPanelOptions(panelSiblings) {
 }
 
 function InspectorPanel({ attributes, setAttributes, clientId }) {
-	const { level, activePanelIndex, desktopLayout, mobileLayout, navigationStyle } = attributes;
+	const {
+		level,
+		activePanelIndex,
+		desktopLayout,
+		mobileLayout,
+		navigationStyle,
+		name,
+	} = attributes;
 	const { panelSiblings } = useNavigationPanelsState(clientId);
 
 	return (
@@ -68,6 +75,7 @@ function InspectorPanel({ attributes, setAttributes, clientId }) {
 					]}
 					onChange={(value) => setAttributes({ level: value })}
 					__nextHasNoMarginBottom
+					__next40pxDefaultSize
 				/>
 				<SelectControl
 					label={__('Default Panel', 'navigation-panels')}
@@ -76,20 +84,29 @@ function InspectorPanel({ attributes, setAttributes, clientId }) {
 						'Pre-selected panel. On top layout, content stays hidden until the user opens it.',
 						'navigation-panels'
 					)}
-					options={[
-						...createPanelOptions(panelSiblings),
-					]}
+					options={[...createPanelOptions(panelSiblings)]}
 					onChange={(value) =>
 						setAttributes({ activePanelIndex: +value })
 					}
 					__nextHasNoMarginBottom
+					__next40pxDefaultSize
+				/>
+				<TextControl
+					label="Name"
+					help="Optional: Used for the function 'callSetNavigation'"
+					value={name}
+					onChange={(value) => setAttributes({ name: value })}
+					__next40pxDefaultSize
 				/>
 			</PanelBody>
 			<PanelBody title={__('Style', 'navigation-panels')}>
 				<SelectControl
 					label={__('Navigation Style', 'navigation-panels')}
 					value={navigationStyle}
-					help={__('Select a navigation option style', 'navigation-panels')}
+					help={__(
+						'Select a navigation option style',
+						'navigation-panels'
+					)}
 					options={[
 						{
 							label: __('No Style', 'navigation-panels'),
@@ -105,14 +122,23 @@ function InspectorPanel({ attributes, setAttributes, clientId }) {
 							value: 'angle-right',
 						},
 					]}
-					onChange={(value) => setAttributes({ navigationStyle: value })}
+					onChange={(value) =>
+						setAttributes({ navigationStyle: value })
+					}
 					__nextHasNoMarginBottom
+					__next40pxDefaultSize
 				/>
 				<UnitControl
 					label={__('Navigation width', 'navigation-panels')}
 					value={attributes.optionsMinWidth}
-					onChange={(value) => setAttributes({ optionsMinWidth: value })}
-					help={__('Minimum width of the navigation options column.', 'navigation-panels')}
+					onChange={(value) =>
+						setAttributes({ optionsMinWidth: value })
+					}
+					help={__(
+						'Minimum width of the navigation options column.',
+						'navigation-panels'
+					)}
+					__next40pxDefaultSize
 				/>
 				<SelectControl
 					label={__('Desktop Layout', 'navigation-panel')}
@@ -132,6 +158,7 @@ function InspectorPanel({ attributes, setAttributes, clientId }) {
 						setAttributes({ desktopLayout: value })
 					}
 					__nextHasNoMarginBottom
+					__next40pxDefaultSize
 				/>
 				<SelectControl
 					label={__('Mobile Layout', 'navigation-panel')}
@@ -149,6 +176,7 @@ function InspectorPanel({ attributes, setAttributes, clientId }) {
 					]}
 					onChange={(value) => setAttributes({ mobileLayout: value })}
 					__nextHasNoMarginBottom
+					__next40pxDefaultSize
 				/>
 			</PanelBody>
 		</InspectorControls>

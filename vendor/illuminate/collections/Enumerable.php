@@ -873,7 +873,7 @@ interface Enumerable extends Arrayable, Countable, IteratorAggregate, Jsonable, 
      * Get one or a specified number of items randomly from the collection.
      *
      * @param  int|null  $number
-     * @return static<int, TValue>|TValue
+     * @return ($number is null ? TValue : static<int, TValue>)
      *
      * @throws \InvalidArgumentException
      */
@@ -890,6 +890,17 @@ interface Enumerable extends Arrayable, Countable, IteratorAggregate, Jsonable, 
      * @return TReduceInitial|TReduceReturnType
      */
     public function reduce(callable $callback, $initial = null);
+
+    /**
+     * Reduce the collection to a single value by mutating an initial value.
+     *
+     * @template TReduceIntoInitial
+     *
+     * @param  TReduceIntoInitial  $initial
+     * @param  callable(TReduceIntoInitial, TValue, TKey): void  $callback
+     * @return TReduceIntoInitial
+     */
+    public function reduceInto($initial, callable $callback);
 
     /**
      * Reduce the collection to multiple aggregate values.
@@ -1049,6 +1060,14 @@ interface Enumerable extends Arrayable, Countable, IteratorAggregate, Jsonable, 
      * @return static<int, static<int, TValue>>
      */
     public function chunkWhile(callable $callback);
+
+    /**
+     * Chunk the collection into chunks by comparing adjacent values using the given key or callback.
+     *
+     * @param  (callable(TValue, TKey): mixed)|string  $key
+     * @return static<int, static<TKey, TValue>>
+     */
+    public function chunkBy($key);
 
     /**
      * Split a collection into a certain number of groups, and fill the first groups completely.
@@ -1311,7 +1330,6 @@ interface Enumerable extends Arrayable, Countable, IteratorAggregate, Jsonable, 
 
     /**
      * Get the collection of items as pretty print formatted JSON.
-     *
      *
      * @param  int  $options
      * @return string

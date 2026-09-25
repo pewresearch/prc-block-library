@@ -1,0 +1,11 @@
+/vendor/
+/node_modules/
+/.phpunit.cache/
+.phpunit.result.cache
+composer.phar
+.DS_Store
+*.bak
+.idea/
+.vscode/
+phpunit.xml
+package-lock.json

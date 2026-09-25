@@ -87,7 +87,7 @@ class NotificationFake implements Fake, NotificationDispatcher, NotificationFact
         }
 
         PHPUnit::assertTrue(
-            $this->sent($notifiable, $notification, $callback)->count() > 0,
+            $this->sent($notifiable, $notification, $callback)->isNotEmpty(),
             "The expected [{$notification}] notification was not sent."
         );
     }
@@ -102,6 +102,17 @@ class NotificationFake implements Fake, NotificationDispatcher, NotificationFact
     public function assertSentOnDemandTimes($notification, $times = 1)
     {
         $this->assertSentToTimes(new AnonymousNotifiable, $notification, $times);
+    }
+
+    /**
+     * Assert if a notification was sent on-demand exactly once.
+     *
+     * @param  string  $notification
+     * @return void
+     */
+    public function assertSentOnDemandOnce($notification)
+    {
+        $this->assertSentOnDemandTimes($notification, 1);
     }
 
     /**
@@ -120,6 +131,18 @@ class NotificationFake implements Fake, NotificationDispatcher, NotificationFact
             $times, $count,
             "Expected [{$notification}] to be sent {$times} times, but was sent {$count} times."
         );
+    }
+
+    /**
+     * Assert if a notification was sent exactly once.
+     *
+     * @param  mixed  $notifiable
+     * @param  string  $notification
+     * @return void
+     */
+    public function assertSentToOnce($notifiable, $notification)
+    {
+        $this->assertSentToTimes($notifiable, $notification, 1);
     }
 
     /**

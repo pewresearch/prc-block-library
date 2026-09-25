@@ -53,7 +53,7 @@ class Accordion {
 		}
 		$icon = \PRC\Platform\Icons\render( 'prc', 'caret-right', 1 );
 
-		$block_gap = \PRC\BlockUtils\get_block_gap_support_value( $attributes );
+		$block_gap = \PRC\Primitives\BlockUtils\get_block_gap_support_value( $attributes );
 
 		$tag_processor = new \WP_HTML_Tag_Processor( $content );
 		$tag_processor->next_tag( 'section' );

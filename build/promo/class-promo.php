@@ -110,7 +110,7 @@ class Promo {
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
 				'id'    => md5( wp_json_encode( $attributes ) ),
-				'class' => \PRC\BlockUtils\classNames(
+				'class' => \PRC\Primitives\BlockUtils\classNames(
 					$class_name,
 					array(
 						'has-icon'       => $has_icon,

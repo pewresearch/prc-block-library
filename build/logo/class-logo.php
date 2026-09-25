@@ -182,7 +182,7 @@ class Logo {
 
 		$block_wrapper_attrs = get_block_wrapper_attributes(
 			array(
-				'class'                        => \PRC\BlockUtils\classNames(
+				'class'                        => \PRC\Primitives\BlockUtils\classNames(
 					$class_name,
 					array(
 						'item-justified-left'   => 'left' === $justification,

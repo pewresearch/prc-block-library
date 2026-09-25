@@ -104,7 +104,7 @@ class Taxonomy_List_Link {
 		$block_wrapper_attrs = get_block_wrapper_attributes(
 			array(
 				'id'                       => $block_id,
-				'class'                    => \PRC\BlockUtils\classNames( $css_classes ),
+				'class'                    => \PRC\Primitives\BlockUtils\classNames( $css_classes ),
 				'data-wp-interactive'      => wp_json_encode(
 					array(
 						'namespace' => 'prc-block/taxonomy-list-link',

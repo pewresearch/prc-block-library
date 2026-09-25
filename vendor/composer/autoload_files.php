@@ -18,5 +18,8 @@ return array(
     'f625ee536139dfb962a398b200bdb2bd' => $vendorDir . '/illuminate/support/functions.php',
     '72579e7bd17821bb1321b87411366eae' => $vendorDir . '/illuminate/support/helpers.php',
     '3c3a02bc9945aa3571024986c07a1e55' => $vendorDir . '/rinvex/countries/src/helpers.php',
-    '6b97f44a4c79d1c06822c8f6351a0f4e' => $vendorDir . '/prc/block-utils/src/functions.php',
+    '152652665b20977abdd2f757f4ca19d4' => $vendorDir . '/prc/primitives/src/block-utils/functions.php',
+    '646031b73df34ef9b67a1d70c16c67ee' => $vendorDir . '/prc/primitives/src/html-processors/functions.php',
+    '9548c27ea0a43fb8113fc559facb2477' => $vendorDir . '/prc/primitives/src/url-helper/url-helper.php',
+    'a973b381bd3a06d58223a84663a6e6bf' => $vendorDir . '/prc/primitives/src/term-data-store/term-data-store.php',
 );

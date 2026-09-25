@@ -143,7 +143,7 @@ class Attachments_Pagination {
 			$is_active                      = get_the_ID() === $attachment['id'];
 			$attachments[ $i ]['is_active'] = $is_active;
 		}
-		$pagination         = new \PRC\BlockUtils\Pagination( $attachments );
+		$pagination         = new \PRC\Primitives\BlockUtils\Pagination( $attachments );
 		$pagination_content = $pagination->get_markup();
 
 		$block_attrs = array();

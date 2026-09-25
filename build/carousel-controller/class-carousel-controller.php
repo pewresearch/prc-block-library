@@ -186,7 +186,7 @@ class Carousel_Controller {
 		$legacy_orientation = $attributes['orientation'] ?? null;
 		$has_view_type      = array_key_exists( 'viewType', $attributes );
 
-		$attributes = \PRC\BlockUtils\get_block_attributes(
+		$attributes = \PRC\Primitives\BlockUtils\get_block_attributes(
 			'prc-block/carousel-controller',
 			$attributes
 		);

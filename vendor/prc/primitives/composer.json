@@ -1,0 +1,58 @@
+{
+  "name": "prc/primitives",
+  "description": "Shared PHP primitives for the PRC Platform: block utilities, HTML processors, delayed Action Scheduler jobs, URL to post ID resolution, and term data store relationships.",
+  "type": "library",
+  "license": "GPL-2.0-or-later",
+  "require": {
+    "php": ">=8.2",
+    "dougsisk/laravel-country-state": "^5.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.6",
+    "wp-phpunit/wp-phpunit": "^6.4",
+    "yoast/phpunit-polyfills": "^1.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "PRC\\Primitives\\BlockUtils\\": "src/block-utils/",
+      "PRC\\Primitives\\HTML_Processors\\": "src/html-processors/",
+      "PRC\\Primitives\\DelayedAction\\": "src/delayed-action/"
+    },
+    "files": [
+      "src/block-utils/functions.php",
+      "src/html-processors/functions.php",
+      "src/url-helper/url-helper.php",
+      "src/term-data-store/term-data-store.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "PRC\\Primitives\\BlockUtils\\Tests\\": "tests/block-utils/",
+      "PRC\\Primitives\\HTML_Processors\\Tests\\": "tests/html/",
+      "PRC\\Primitives\\DelayedAction\\Tests\\": "tests/delayed-action/",
+      "PRC\\Primitives\\URL_Helper\\Tests\\": "tests/url-helper/",
+      "PRC\\Primitives\\TDS\\Tests\\": "tests/term-data-store/"
+    }
+  },
+  "scripts": {
+    "test": "phpunit",
+    "test:unit": "phpunit --testsuite unit",
+    "test:integration": "phpunit --testsuite integration",
+    "test:html": "phpunit --testsuite html"
+  },
+  "config": {
+    "sort-packages": true,
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    },
+    "platform": {
+      "php": "8.4.0"
+    }
+  },
+  "minimum-stability": "stable",
+  "extra": {
+    "branch-alias": {
+      "dev-trunk": "1.x-dev"
+    }
+  }
+}

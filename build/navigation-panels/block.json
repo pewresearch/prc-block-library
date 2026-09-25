@@ -32,6 +32,10 @@
         "child"
       ]
     },
+    "name": {
+      "type": "string",
+      "default": ""
+    },
     "desktopLayout": {
       "type": "string",
       "default": "left",

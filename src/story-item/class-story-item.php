@@ -217,7 +217,7 @@ class Story_Item {
 	 */
 	public static function get_is_mobile(): bool {
 		if ( null === self::$device ) {
-			self::$device = \PRC\BlockUtils\get_current_device();
+			self::$device = \PRC\Primitives\BlockUtils\get_current_device();
 		}
 		return 'mobile' === self::$device;
 	}

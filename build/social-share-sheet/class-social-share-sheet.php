@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace PRC\Platform\Blocks;
 
-use function PRC\BlockUtils\classNames;
+use function PRC\Primitives\BlockUtils\classNames;
 
 /**
  * Block Name:        Social Native Share
@@ -78,7 +78,7 @@ class Social_Share_Sheet {
 	 * @return string
 	 */
 	public function render_callback( $attributes, $content, $block ) {
-		$is_mobile = 'mobile' === \PRC\BlockUtils\get_current_device();
+		$is_mobile = 'mobile' === \PRC\Primitives\BlockUtils\get_current_device();
 
 		$context = $block->context;
 
@@ -148,7 +148,7 @@ class Social_Share_Sheet {
 			'data-wp-on--click'                  => 'actions.onClick',
 			'data-wp-class--web-share-supported' => 'state.enabled',
 			'data-wp-init'                       => 'callbacks.detectWebShareSupport',
-			'style'                              => '--block-gap:' . \PRC\BlockUtils\get_block_gap_support_value( $attributes, 'horizontal' ) . ';',
+			'style'                              => '--block-gap:' . \PRC\Primitives\BlockUtils\get_block_gap_support_value( $attributes, 'horizontal' ) . ';',
 		);
 
 		if ( $text_align ) {

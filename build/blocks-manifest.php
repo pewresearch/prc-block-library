@@ -3351,6 +3351,10 @@ return array(
 					'child'
 				)
 			),
+			'name' => array(
+				'type' => 'string',
+				'default' => ''
+			),
 			'desktopLayout' => array(
 				'type' => 'string',
 				'default' => 'left',

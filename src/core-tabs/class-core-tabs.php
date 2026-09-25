@@ -830,7 +830,7 @@ class Core_Tabs {
 		);
 
 		foreach ( $tabs as $tab ) {
-			$country_code = \PRC\BlockUtils\get_country_code_from_name( $tab['label'] );
+			$country_code = \PRC\Primitives\BlockUtils\get_country_code_from_name( $tab['label'] );
 			if ( null === $country_code ) {
 				continue;
 			}

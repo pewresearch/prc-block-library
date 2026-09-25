@@ -87,7 +87,7 @@ class Post_Taxonomy_Terms {
 
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
-				'class' => \PRC\BlockUtils\classNames(
+				'class' => \PRC\Primitives\BlockUtils\classNames(
 					array(
 						'has-separator' => array_key_exists( 'separator', $attributes ) && $attributes['separator'] && ! $is_list,
 					)

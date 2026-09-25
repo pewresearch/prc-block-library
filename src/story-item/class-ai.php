@@ -308,9 +308,20 @@ class Story_Item_AI extends Abstract_Feature {
 			);
 		}
 
+		$blurb_text = trim( (string) $blurb );
+		if ( function_exists( '\PRC\Platform\AI\Utils\evaluate_generate_output' ) ) {
+			$guard = \PRC\Platform\AI\Utils\evaluate_generate_output( $blurb_text, $prompt, 'blurb' );
+			if ( is_wp_error( $guard ) ) {
+				return array(
+					'error' => $guard->get_error_message(),
+					'blurb' => '',
+				);
+			}
+		}
+
 		return array(
 			'error' => '',
-			'blurb' => trim( (string) $blurb ),
+			'blurb' => $blurb_text,
 		);
 	}
 
@@ -373,9 +384,20 @@ class Story_Item_AI extends Abstract_Feature {
 			);
 		}
 
+		$title_text = trim( (string) $generated_title );
+		if ( function_exists( '\PRC\Platform\AI\Utils\evaluate_generate_output' ) ) {
+			$guard = \PRC\Platform\AI\Utils\evaluate_generate_output( $title_text, $prompt, 'title' );
+			if ( is_wp_error( $guard ) ) {
+				return array(
+					'error' => $guard->get_error_message(),
+					'title' => '',
+				);
+			}
+		}
+
 		return array(
 			'error' => '',
-			'title' => trim( (string) $generated_title ),
+			'title' => $title_text,
 		);
 	}
 

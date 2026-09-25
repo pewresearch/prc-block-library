@@ -224,7 +224,7 @@ class Taxonomy_Index_List_Controller {
 	 * @return string
 	 */
 	public function render_block_callback( $attributes, $content, $block ) {
-		if ( 'mobile' === \PRC\BlockUtils\get_current_device() ) {
+		if ( 'mobile' === \PRC\Primitives\BlockUtils\get_current_device() ) {
 			return $this->render_as_accordion_block( $block );
 		}
 

@@ -69,17 +69,17 @@
         },
         {
             "name": "carbonphp/carbon-doctrine-types",
-            "version": "3.2.0",
-            "version_normalized": "3.2.0.0",
+            "version": "3.2.1",
+            "version_normalized": "3.2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/CarbonPHP/carbon-doctrine-types.git",
-                "reference": "18ba5ddfec8976260ead6e866180bd5d2f71aa1d"
+                "reference": "5fa5eacafd9ef47c8c6ab9143fc901ba0194d3dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CarbonPHP/carbon-doctrine-types/zipball/18ba5ddfec8976260ead6e866180bd5d2f71aa1d",
-                "reference": "18ba5ddfec8976260ead6e866180bd5d2f71aa1d",
+                "url": "https://api.github.com/repos/CarbonPHP/carbon-doctrine-types/zipball/5fa5eacafd9ef47c8c6ab9143fc901ba0194d3dc",
+                "reference": "5fa5eacafd9ef47c8c6ab9143fc901ba0194d3dc",
                 "shasum": ""
             },
             "require": {
@@ -93,8 +93,13 @@
                 "nesbot/carbon": "^2.71.0 || ^3.0.0",
                 "phpunit/phpunit": "^10.3"
             },
-            "time": "2024-02-09T16:56:22+00:00",
+            "time": "2026-09-06T14:11:38+00:00",
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "3.x-dev"
+                }
+            },
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
@@ -121,7 +126,7 @@
             ],
             "support": {
                 "issues": "https://github.com/CarbonPHP/carbon-doctrine-types/issues",
-                "source": "https://github.com/CarbonPHP/carbon-doctrine-types/tree/3.2.0"
+                "source": "https://github.com/CarbonPHP/carbon-doctrine-types/tree/3.2.1"
             },
             "funding": [
                 {
@@ -298,17 +303,17 @@
         },
         {
             "name": "illuminate/collections",
-            "version": "v13.14.0",
-            "version_normalized": "13.14.0.0",
+            "version": "v13.32.0",
+            "version_normalized": "13.32.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/collections.git",
-                "reference": "1dbd2611b2cd025d3526e64bd7670033ff883173"
+                "reference": "9cffcd3583b064dda8d4f1de36a8d961c78f92a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/collections/zipball/1dbd2611b2cd025d3526e64bd7670033ff883173",
-                "reference": "1dbd2611b2cd025d3526e64bd7670033ff883173",
+                "url": "https://api.github.com/repos/illuminate/collections/zipball/9cffcd3583b064dda8d4f1de36a8d961c78f92a6",
+                "reference": "9cffcd3583b064dda8d4f1de36a8d961c78f92a6",
                 "shasum": ""
             },
             "require": {
@@ -324,7 +329,7 @@
                 "illuminate/http": "Required to convert collections to API resources (^13.0).",
                 "symfony/var-dumper": "Required to use the dump method (^7.4 || ^8.0)."
             },
-            "time": "2026-05-19T14:10:53+00:00",
+            "time": "2026-09-14T14:58:42+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -361,8 +366,8 @@
         },
         {
             "name": "illuminate/conditionable",
-            "version": "v13.14.0",
-            "version_normalized": "13.14.0.0",
+            "version": "v13.32.0",
+            "version_normalized": "13.32.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/conditionable.git",
@@ -410,17 +415,17 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v13.14.0",
-            "version_normalized": "13.14.0.0",
+            "version": "v13.32.0",
+            "version_normalized": "13.32.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
-                "reference": "dc805389d17f13821726423bf4fc90d3162bf90d"
+                "reference": "42b0c80ba672f3bfd404470d1e92af274ecc186b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/contracts/zipball/dc805389d17f13821726423bf4fc90d3162bf90d",
-                "reference": "dc805389d17f13821726423bf4fc90d3162bf90d",
+                "url": "https://api.github.com/repos/illuminate/contracts/zipball/42b0c80ba672f3bfd404470d1e92af274ecc186b",
+                "reference": "42b0c80ba672f3bfd404470d1e92af274ecc186b",
                 "shasum": ""
             },
             "require": {
@@ -428,7 +433,7 @@
                 "psr/container": "^1.1.1 || ^2.0.1",
                 "psr/simple-cache": "^1.0 || ^2.0 || ^3.0"
             },
-            "time": "2026-05-21T13:18:48+00:00",
+            "time": "2026-09-06T21:12:06+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -461,8 +466,8 @@
         },
         {
             "name": "illuminate/macroable",
-            "version": "v13.14.0",
-            "version_normalized": "13.14.0.0",
+            "version": "v13.32.0",
+            "version_normalized": "13.32.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/macroable.git",
@@ -510,17 +515,17 @@
         },
         {
             "name": "illuminate/reflection",
-            "version": "v13.14.0",
-            "version_normalized": "13.14.0.0",
+            "version": "v13.32.0",
+            "version_normalized": "13.32.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/reflection.git",
-                "reference": "4fe1659f068ab2b50131cf906c5d8bba4e34df0c"
+                "reference": "2b6ba33970dd84849322a6a9857647ca96c1bb66"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/reflection/zipball/4fe1659f068ab2b50131cf906c5d8bba4e34df0c",
-                "reference": "4fe1659f068ab2b50131cf906c5d8bba4e34df0c",
+                "url": "https://api.github.com/repos/illuminate/reflection/zipball/2b6ba33970dd84849322a6a9857647ca96c1bb66",
+                "reference": "2b6ba33970dd84849322a6a9857647ca96c1bb66",
                 "shasum": ""
             },
             "require": {
@@ -528,7 +533,7 @@
                 "illuminate/contracts": "^13.0",
                 "php": "^8.3"
             },
-            "time": "2026-03-10T20:04:12+00:00",
+            "time": "2026-08-03T17:56:24+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -564,17 +569,17 @@
         },
         {
             "name": "illuminate/support",
-            "version": "v13.14.0",
-            "version_normalized": "13.14.0.0",
+            "version": "v13.32.0",
+            "version_normalized": "13.32.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "f6a7548501831fbdd28e0e0883e72343a6d16e7e"
+                "reference": "7c73a20985c706c5a95b5ac81652f07d041cd423"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/f6a7548501831fbdd28e0e0883e72343a6d16e7e",
-                "reference": "f6a7548501831fbdd28e0e0883e72343a6d16e7e",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/7c73a20985c706c5a95b5ac81652f07d041cd423",
+                "reference": "7c73a20985c706c5a95b5ac81652f07d041cd423",
                 "shasum": ""
             },
             "require": {
@@ -609,7 +614,7 @@
                 "symfony/var-dumper": "Required to use the dd function (^7.4 || ^8.0).",
                 "vlucas/phpdotenv": "Required to use the Env class and env helper (^5.6.1)."
             },
-            "time": "2026-06-03T14:31:28+00:00",
+            "time": "2026-09-13T16:35:47+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -775,17 +780,17 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "3.11.4",
-            "version_normalized": "3.11.4.0",
+            "version": "3.14.0",
+            "version_normalized": "3.14.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/CarbonPHP/carbon.git",
-                "reference": "e890471a3494740f7d9326d72ce6a8c559ffee60"
+                "reference": "0023eaa2c9110e47446dd512a263c69c40cd41f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CarbonPHP/carbon/zipball/e890471a3494740f7d9326d72ce6a8c559ffee60",
-                "reference": "e890471a3494740f7d9326d72ce6a8c559ffee60",
+                "url": "https://api.github.com/repos/CarbonPHP/carbon/zipball/0023eaa2c9110e47446dd512a263c69c40cd41f2",
+                "reference": "0023eaa2c9110e47446dd512a263c69c40cd41f2",
                 "shasum": ""
             },
             "require": {
@@ -811,7 +816,7 @@
                 "phpunit/phpunit": "^10.5.53",
                 "squizlabs/php_codesniffer": "^3.13.4 || ^4.0.0"
             },
-            "time": "2026-04-07T09:57:54+00:00",
+            "time": "2026-09-12T20:45:19+00:00",
             "bin": [
                 "bin/carbon"
             ],
@@ -882,18 +887,18 @@
             "install-path": "../nesbot/carbon"
         },
         {
-            "name": "prc/block-utils",
-            "version": "1.1.0",
-            "version_normalized": "1.1.0.0",
+            "name": "prc/primitives",
+            "version": "v2.0.0",
+            "version_normalized": "2.0.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/pewresearch/prc-block-utils.git",
-                "reference": "e475994359793a2810cf31cbc8cf6d9776c34806"
+                "url": "https://github.com/pewresearch/prc-primitives.git",
+                "reference": "b6cf2fbef6446f6d7f7d2b61766ba880724ac73e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pewresearch/prc-block-utils/zipball/e475994359793a2810cf31cbc8cf6d9776c34806",
-                "reference": "e475994359793a2810cf31cbc8cf6d9776c34806",
+                "url": "https://api.github.com/repos/pewresearch/prc-primitives/zipball/b6cf2fbef6446f6d7f7d2b61766ba880724ac73e",
+                "reference": "b6cf2fbef6446f6d7f7d2b61766ba880724ac73e",
                 "shasum": ""
             },
             "require": {
@@ -905,25 +910,34 @@
                 "wp-phpunit/wp-phpunit": "^6.4",
                 "yoast/phpunit-polyfills": "^1.1"
             },
-            "time": "2026-04-23T01:33:43+00:00",
+            "time": "2026-09-25T16:51:38+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "1.1.x-dev"
+                    "dev-trunk": "1.x-dev"
                 }
             },
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "PRC\\BlockUtils\\": "src/"
+                    "PRC\\Primitives\\BlockUtils\\": "src/block-utils/",
+                    "PRC\\Primitives\\HTML_Processors\\": "src/html-processors/",
+                    "PRC\\Primitives\\DelayedAction\\": "src/delayed-action/"
                 },
                 "files": [
-                    "src/functions.php"
+                    "src/block-utils/functions.php",
+                    "src/html-processors/functions.php",
+                    "src/url-helper/url-helper.php",
+                    "src/term-data-store/term-data-store.php"
                 ]
             },
             "autoload-dev": {
                 "psr-4": {
-                    "PRC\\BlockUtils\\Tests\\": "tests/"
+                    "PRC\\Primitives\\BlockUtils\\Tests\\": "tests/block-utils/",
+                    "PRC\\Primitives\\HTML_Processors\\Tests\\": "tests/html/",
+                    "PRC\\Primitives\\DelayedAction\\Tests\\": "tests/delayed-action/",
+                    "PRC\\Primitives\\URL_Helper\\Tests\\": "tests/url-helper/",
+                    "PRC\\Primitives\\TDS\\Tests\\": "tests/term-data-store/"
                 }
             },
             "scripts": {
@@ -935,17 +949,20 @@
                 ],
                 "test:integration": [
                     "phpunit --testsuite integration"
+                ],
+                "test:html": [
+                    "phpunit --testsuite html"
                 ]
             },
             "license": [
                 "GPL-2.0-or-later"
             ],
-            "description": "Shared PHP block utilities for the PRC Platform: classNames, block-attribute helpers, find_block(s), spacing/gap helpers, and a sliding-window pagination renderer.",
+            "description": "Shared PHP primitives for the PRC Platform: block utilities, HTML processors, delayed Action Scheduler jobs, URL to post ID resolution, and term data store relationships.",
             "support": {
-                "source": "https://github.com/pewresearch/prc-block-utils/tree/v1.1.0",
-                "issues": "https://github.com/pewresearch/prc-block-utils/issues"
+                "source": "https://github.com/pewresearch/prc-primitives/tree/v2.0.0",
+                "issues": "https://github.com/pewresearch/prc-primitives/issues"
             },
-            "install-path": "../prc/block-utils"
+            "install-path": "../prc/primitives"
         },
         {
             "name": "psr/clock",
@@ -1276,17 +1293,17 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.38.1",
-            "version_normalized": "1.38.1.0",
+            "version": "v1.38.2",
+            "version_normalized": "1.38.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "14c5439eec4ccff081ac14eca2dc57feb2a66d92"
+                "reference": "d3d318bad5e7a1bfbd026009c8bfb8d8f99ae6b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/14c5439eec4ccff081ac14eca2dc57feb2a66d92",
-                "reference": "14c5439eec4ccff081ac14eca2dc57feb2a66d92",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/d3d318bad5e7a1bfbd026009c8bfb8d8f99ae6b6",
+                "reference": "d3d318bad5e7a1bfbd026009c8bfb8d8f99ae6b6",
                 "shasum": ""
             },
             "require": {
@@ -1299,7 +1316,7 @@
             "suggest": {
                 "ext-mbstring": "For best performance"
             },
-            "time": "2026-05-26T12:51:13+00:00",
+            "time": "2026-05-27T06:59:30+00:00",
             "type": "library",
             "extra": {
                 "thanks": {
@@ -1340,7 +1357,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.38.1"
+                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.38.2"
             },
             "funding": [
                 {
@@ -1447,23 +1464,23 @@
         },
         {
             "name": "symfony/polyfill-php85",
-            "version": "v1.38.1",
-            "version_normalized": "1.38.1.0",
+            "version": "v1.41.0",
+            "version_normalized": "1.41.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php85.git",
-                "reference": "ba2ba04f3352cfa2dcbbcb90aee13ed967f505b1"
+                "reference": "255fab485aaa1006ed411040c42aecd7b5302d7a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php85/zipball/ba2ba04f3352cfa2dcbbcb90aee13ed967f505b1",
-                "reference": "ba2ba04f3352cfa2dcbbcb90aee13ed967f505b1",
+                "url": "https://api.github.com/repos/symfony/polyfill-php85/zipball/255fab485aaa1006ed411040c42aecd7b5302d7a",
+                "reference": "255fab485aaa1006ed411040c42aecd7b5302d7a",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.2"
             },
-            "time": "2026-05-26T02:25:22+00:00",
+            "time": "2026-07-01T12:47:55+00:00",
             "type": "library",
             "extra": {
                 "thanks": {
@@ -1506,7 +1523,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-php85/tree/v1.38.1"
+                "source": "https://github.com/symfony/polyfill-php85/tree/v1.41.0"
             },
             "funding": [
                 {
@@ -1530,23 +1547,23 @@
         },
         {
             "name": "symfony/polyfill-php86",
-            "version": "v1.38.0",
-            "version_normalized": "1.38.0.0",
+            "version": "v1.41.0",
+            "version_normalized": "1.41.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php86.git",
-                "reference": "fcec68d64f46dc84e1f6ffcf2c6dda40ff3143ad"
+                "reference": "6bc356ed3d8dbfeea8f0de235e34d670704e880e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php86/zipball/fcec68d64f46dc84e1f6ffcf2c6dda40ff3143ad",
-                "reference": "fcec68d64f46dc84e1f6ffcf2c6dda40ff3143ad",
+                "url": "https://api.github.com/repos/symfony/polyfill-php86/zipball/6bc356ed3d8dbfeea8f0de235e34d670704e880e",
+                "reference": "6bc356ed3d8dbfeea8f0de235e34d670704e880e",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.2"
             },
-            "time": "2026-05-25T11:52:35+00:00",
+            "time": "2026-07-02T13:42:24+00:00",
             "type": "library",
             "extra": {
                 "thanks": {
@@ -1589,7 +1606,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-php86/tree/v1.38.0"
+                "source": "https://github.com/symfony/polyfill-php86/tree/v1.41.0"
             },
             "funding": [
                 {
@@ -1613,17 +1630,17 @@
         },
         {
             "name": "symfony/translation",
-            "version": "v8.0.10",
-            "version_normalized": "8.0.10.0",
+            "version": "v8.0.14",
+            "version_normalized": "8.0.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
-                "reference": "f63e9342e12646a57c91ef8a366a4f9d8e557b67"
+                "reference": "319ee314b21ddc0404f12fb16935f85b8a3520b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation/zipball/f63e9342e12646a57c91ef8a366a4f9d8e557b67",
-                "reference": "f63e9342e12646a57c91ef8a366a4f9d8e557b67",
+                "url": "https://api.github.com/repos/symfony/translation/zipball/319ee314b21ddc0404f12fb16935f85b8a3520b6",
+                "reference": "319ee314b21ddc0404f12fb16935f85b8a3520b6",
                 "shasum": ""
             },
             "require": {
@@ -1654,7 +1671,7 @@
                 "symfony/service-contracts": "^2.5|^3",
                 "symfony/yaml": "^7.4|^8.0"
             },
-            "time": "2026-05-06T11:30:54+00:00",
+            "time": "2026-06-06T11:11:34+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1685,7 +1702,7 @@
             "description": "Provides tools to internationalize your application",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/translation/tree/v8.0.10"
+                "source": "https://github.com/symfony/translation/tree/v8.0.14"
             },
             "funding": [
                 {
@@ -1709,23 +1726,23 @@
         },
         {
             "name": "symfony/translation-contracts",
-            "version": "v3.7.0",
-            "version_normalized": "3.7.0.0",
+            "version": "v3.7.1",
+            "version_normalized": "3.7.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation-contracts.git",
-                "reference": "0ab302977a952b42fd51475c4ebac81f8da0a95d"
+                "reference": "ccb206b98faccc511ebae8e5fad50f2dc0b30621"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation-contracts/zipball/0ab302977a952b42fd51475c4ebac81f8da0a95d",
-                "reference": "0ab302977a952b42fd51475c4ebac81f8da0a95d",
+                "url": "https://api.github.com/repos/symfony/translation-contracts/zipball/ccb206b98faccc511ebae8e5fad50f2dc0b30621",
+                "reference": "ccb206b98faccc511ebae8e5fad50f2dc0b30621",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.1"
             },
-            "time": "2026-01-05T13:30:16+00:00",
+            "time": "2026-06-05T06:23:12+00:00",
             "type": "library",
             "extra": {
                 "thanks": {
@@ -1770,7 +1787,7 @@
                 "standards"
             ],
             "support": {
-                "source": "https://github.com/symfony/translation-contracts/tree/v3.7.0"
+                "source": "https://github.com/symfony/translation-contracts/tree/v3.7.1"
             },
             "funding": [
                 {

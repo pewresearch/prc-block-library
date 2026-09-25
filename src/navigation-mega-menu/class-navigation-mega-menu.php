@@ -199,7 +199,7 @@ class Navigation_Mega_Menu {
 
 		// Keep the legacy `__container` class on the dialog for one release so
 		// any site CSS targeting the old div-based selector keeps applying.
-		$dialog_classnames = \PRC\BlockUtils\classNames(
+		$dialog_classnames = \PRC\Primitives\BlockUtils\classNames(
 			array(
 				'wp-block-prc-block-navigation-mega-menu__container',
 				'wp-block-prc-block-navigation-mega-menu__dialog',
@@ -228,7 +228,7 @@ class Navigation_Mega_Menu {
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
 				'id'                       => $menu_uniq_id,
-				'class'                    => \PRC\BlockUtils\classNames(
+				'class'                    => \PRC\Primitives\BlockUtils\classNames(
 					array(
 						'wp-block-navigation-item',
 						'has-label'      => 'dropdown' === $icon,
