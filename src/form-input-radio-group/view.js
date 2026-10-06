@@ -73,11 +73,15 @@ const { state, actions } = store( 'prc-block/form-input-radio-group', {
 	callbacks: {
 		*onValueChange() {
 			const context = getContext();
-			const { targetNamespace, id: blockId, value } = context;
+			const { targetNamespace, id: blockId, fields = [] } = context;
 			if ( !targetNamespace || !blockId ) {
 				console.warn('No targetNamespace or blockId found in context, cannot process value change', context);
 				return;
 			}
+			const value =
+				( state.formFields || [] ).find(
+					( field ) => fields.includes( field.id ) && field.checked
+				)?.value ?? null;
 
 			const targetStore = yield store( targetNamespace );
 			const existingStoreState = targetStore.state;

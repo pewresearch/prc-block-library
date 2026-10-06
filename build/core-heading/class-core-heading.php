@@ -9,6 +9,8 @@ namespace PRC\Platform\Blocks;
 
 use WP_HTML_Tag_Processor;
 
+use function PRC\Primitives\BlockUtils\strip_block_from_post_content;
+
 /**
  * Block Name:        core/heading
  * Version:           2.0.0
@@ -71,13 +73,6 @@ class Core_Heading {
 	public $legacy_heading_check_completed = false;
 
 	/**
-	 * Whether core/post-content is currently being rendered.
-	 *
-	 * @var bool
-	 */
-	private $is_rendering_post_content = false;
-
-	/**
 	 * Constructor for the Core_Heading class.
 	 *
 	 * @param mixed $loader Loader.
@@ -100,11 +95,10 @@ class Core_Heading {
 			$loader->add_action( 'enqueue_block_assets', $this, 'register_editor_style' );
 			$loader->add_filter( 'block_type_metadata', $this, 'add_attributes', 100, 1 );
 			$loader->add_filter( 'block_type_metadata_settings', $this, 'add_settings', 100, 2 );
-			$loader->add_filter( 'render_block_data', $this, 'flag_post_content_render_start', 10, 1 );
 			$loader->add_filter( 'render_block', $this, 'render_sub_title_heading', 5, 3 );
-			$loader->add_filter( 'render_block', $this, 'flag_post_content_render_end', 10, 3 );
 			$loader->add_filter( 'render_block', $this, 'render', 100, 3 );
 			$loader->add_filter( 'render_block_context', $this, 'check_if_legacy_chapter_heading', 100, 3 );
+			strip_block_from_post_content( $this->block_name, array( $this, 'is_frontend_sub_title_heading' ) );
 		}
 	}
 
@@ -160,39 +154,17 @@ class Core_Heading {
 	}
 
 	/**
-	 * Mark the start of core/post-content rendering so duplicate sub-titles can be stripped.
+	 * Whether a heading in post content is a frontend sub-title the template already prints.
 	 *
-	 * @hook render_block_data
-	 * @param array $parsed_block Parsed block.
-	 * @return array
+	 * @param array $block Parsed block.
+	 * @return bool
 	 */
-	public function flag_post_content_render_start( array $parsed_block ): array {
-		if ( 'core/post-content' === ( $parsed_block['blockName'] ?? '' ) ) {
-			$this->is_rendering_post_content = true;
-		}
-
-		return $parsed_block;
+	public function is_frontend_sub_title_heading( array $block ): bool {
+		return ! is_admin() && $this->is_sub_title_bound_heading( $block );
 	}
 
 	/**
-	 * Clear the post-content render flag after core/post-content finishes.
-	 *
-	 * @hook render_block
-	 * @param string $block_content Block content.
-	 * @param array  $block         Block.
-	 * @param mixed  $wp_block      WP block instance.
-	 * @return string
-	 */
-	public function flag_post_content_render_end( $block_content, $block, $wp_block ) {
-		if ( 'core/post-content' === ( $block['blockName'] ?? '' ) ) {
-			$this->is_rendering_post_content = false;
-		}
-
-		return $block_content;
-	}
-
-	/**
-	 * Suppress duplicate or empty sub-title headings.
+	 * Suppress empty sub-title headings.
 	 *
 	 * @hook render_block
 	 * @param string $block_content Block content.
@@ -203,10 +175,6 @@ class Core_Heading {
 	public function render_sub_title_heading( $block_content, $block, $wp_block ) {
 		if ( is_admin() || ! $this->is_sub_title_bound_heading( $block ) ) {
 			return $block_content;
-		}
-
-		if ( $this->is_rendering_post_content ) {
-			return '';
 		}
 
 		$post_id = $wp_block->context['postId'] ?? get_the_ID();
@@ -298,10 +266,10 @@ class Core_Heading {
 	/**
 	 * Register additional settings, like context, for the core-heading block.
 	 *
-	 * @hoook block_type_metadata_settings
-	 * @param mixed $settings
-	 * @param mixed $metadata
-	 * @return mixed
+	 * @hook block_type_metadata_settings
+	 * @param array $settings Block type settings.
+	 * @param array $metadata Block type metadata.
+	 * @return array
 	 */
 	public function add_settings( array $settings, array $metadata ) {
 		if ( $this->block_name === $metadata['name'] ) {
@@ -380,7 +348,7 @@ class Core_Heading {
 		$heading_tag->next_tag();
 		$id = $heading_tag->get_attribute( 'id' );
 
-		// if $id begins with an h- then remove the h- from the id. for example h-testing-a-heading-w-an-anchor-tag should just become testing-a-heading-w-an-anchor-tag and if it has an integer immediately following the h- then replace the integer with a word that too. for example h-1-testing-a-heading-w-an-anchor-tag should just become one-testing-a-heading-w-an-anchor-tag, and h-5-things-you-need-to-know would become five-things-you-need-to-know
+		// if $id begins with an h- then remove the h- from the id. for example h-testing-a-heading-w-an-anchor-tag should just become testing-a-heading-w-an-anchor-tag and if it has an integer immediately following the h- then replace the integer with a word that too. for example h-1-testing-a-heading-w-an-anchor-tag should just become one-testing-a-heading-w-an-anchor-tag, and h-5-things-you-need-to-know would become five-things-you-need-to-know.
 
 		if ( $id ) {
 			if ( preg_match( '/^h-(\d+)-/', $id, $matches ) ) {
@@ -413,7 +381,7 @@ class Core_Heading {
 		// @TODO: Update this to isSection in the future.
 		// If the current post is older than 2021 we should automatically set isChapter to true if its an h3...
 		if ( array_key_exists( 'prcLegacyChapter', $context ) && true == $context['prcLegacyChapter'] ) {
-			// Only set isChapter if it hasn't been explicitly set already
+			// Only set isChapter if it hasn't been explicitly set already.
 			if ( ! array_key_exists( 'isChapter', $attributes ) ) {
 				$attributes['isChapter'] = 'H3' === $heading_tag->get_tag();
 			}

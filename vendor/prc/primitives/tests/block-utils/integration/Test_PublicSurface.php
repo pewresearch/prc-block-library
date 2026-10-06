@@ -7,6 +7,7 @@ namespace PRC\Primitives\BlockUtils\Tests;
 
 use PRC\Primitives\BlockUtils\Lists;
 use PRC\Primitives\BlockUtils\Pagination;
+use PRC\Primitives\BlockUtils\PostContentBlockFilter;
 use WP_UnitTestCase;
 
 class Test_PublicSurface extends WP_UnitTestCase {
@@ -28,11 +29,13 @@ class Test_PublicSurface extends WP_UnitTestCase {
 			'PRC\\Primitives\\BlockUtils\\get_wp_interactive_on_mouseenter_action',
 			'PRC\\Primitives\\BlockUtils\\get_wp_interactive_classname',
 			'PRC\\Primitives\\BlockUtils\\get_wp_interactive_context',
+			'PRC\\Primitives\\BlockUtils\\strip_block_from_post_content',
 		);
 		foreach ( $names as $fn ) {
 			$this->assertTrue( function_exists( $fn ), "Missing function {$fn}" );
 		}
 		$this->assertTrue( class_exists( Pagination::class ) );
 		$this->assertTrue( class_exists( Lists::class ) );
+		$this->assertTrue( class_exists( PostContentBlockFilter::class ) );
 	}
 }

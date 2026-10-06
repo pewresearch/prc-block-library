@@ -890,3 +890,18 @@ function get_country_code_from_name( string $country_name ): ?string {
 
 	return null;
 }
+
+/**
+ * Remove blocks from rendered core/post-content output when a condition passes.
+ *
+ * The callback runs only for blocks that render inside a core/post-content block,
+ * with the ID of the innermost post being rendered. Template blocks, the editor,
+ * and REST data are untouched.
+ *
+ * @param string|string[] $block_names   Block name or names, e.g. 'core/post-date'.
+ * @param callable        $should_strip  fn( array $block, int $post_id, ?\WP_Block $instance ): bool. Return true to remove the block.
+ * @param int             $priority      render_block_{name} priority.
+ */
+function strip_block_from_post_content( string|array $block_names, callable $should_strip, int $priority = 10 ): void {
+	PostContentBlockFilter::instance()->add_rule( (array) $block_names, $should_strip, $priority );
+}

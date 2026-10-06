@@ -49,7 +49,7 @@ It rewrites PHP, strings with doubled backslashes, JSON, and Markdown. It skips 
 
 | Directory | Namespace | What it contains |
 | --- | --- | --- |
-| `src/block-utils/` | `PRC\Primitives\BlockUtils` | `classNames`, `find_block` / `find_blocks`, gap and spacing helpers, `Pagination`, device and URL helpers |
+| `src/block-utils/` | `PRC\Primitives\BlockUtils` | `classNames`, `find_block` / `find_blocks`, gap and spacing helpers, `Pagination`, `strip_block_from_post_content`, device and URL helpers |
 | `src/html-processors/` | `PRC\Primitives\HTML_Processors` | `TableProcessor`, `HeadingProcessor`, `ElementFinder`, and the `parse_*` functions |
 | `src/delayed-action/` | `PRC\Primitives\DelayedAction` | Queue and cancel a unique delayed Action Scheduler job |
 | `src/url-helper/` | `PRC\Primitives\URL_Helper` | `URL_Helper`, which resolves a preview link, wp-admin edit link, or canonical URL to a post ID |
@@ -82,6 +82,23 @@ add_action( 'init', fn() => add_relationship( 'staff', 'bylines' ), 20 );
 `URL_Helper::$post_id` is an `int` or a `WP_Error` with code `404`. It is `null` when the input is not a valid URL.
 
 Call `add_relationship()` after both the post type and the taxonomy are registered. It throws `Invalid_Input_Exception` when either is missing or already paired. Pass `false` as the third argument to keep post permalinks unchanged. Post and term meta keys are `tds_term_id` and `tds_post_id`.
+
+### Strip a block from post content
+
+`strip_block_from_post_content()` empties a block when it renders inside `core/post-content` and your callback returns `true`. Blocks in the template, the editor, and REST data are not touched.
+
+```php
+use function PRC\Primitives\BlockUtils\strip_block_from_post_content;
+
+strip_block_from_post_content(
+	'core/post-date',
+	fn( array $block, int $post_id, ?\WP_Block $instance ): bool => 'prc_email_campaign' === get_post_type( $post_id )
+);
+```
+
+Pass one block name or an array of names. The optional third argument is the `render_block_{name}` priority. The callback gets the parsed block, the ID of the innermost post being rendered, and the `WP_Block` instance. The primitive does not check post types. Put that condition in the callback. Register rules before the page renders, for example on `init`. Several rules can share a block, and any rule that returns `true` removes it.
+
+The rule does not affect a block that a `pre_render_block` filter short-circuits, at any priority. The primitive tracks post content from `render_block_context`, which WordPress only runs for blocks that will render. Call `PostContentBlockFilter::reset()` in test teardown to remove the hooks.
 
 ## Tests
 

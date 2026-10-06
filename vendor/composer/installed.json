@@ -888,17 +888,17 @@
         },
         {
             "name": "prc/primitives",
-            "version": "v2.0.0",
-            "version_normalized": "2.0.0.0",
+            "version": "v2.1.0",
+            "version_normalized": "2.1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pewresearch/prc-primitives.git",
-                "reference": "b6cf2fbef6446f6d7f7d2b61766ba880724ac73e"
+                "reference": "42bc453b2b9240c2e8c5f904fbd154fc863d176d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pewresearch/prc-primitives/zipball/b6cf2fbef6446f6d7f7d2b61766ba880724ac73e",
-                "reference": "b6cf2fbef6446f6d7f7d2b61766ba880724ac73e",
+                "url": "https://api.github.com/repos/pewresearch/prc-primitives/zipball/42bc453b2b9240c2e8c5f904fbd154fc863d176d",
+                "reference": "42bc453b2b9240c2e8c5f904fbd154fc863d176d",
                 "shasum": ""
             },
             "require": {
@@ -910,11 +910,11 @@
                 "wp-phpunit/wp-phpunit": "^6.4",
                 "yoast/phpunit-polyfills": "^1.1"
             },
-            "time": "2026-09-25T16:51:38+00:00",
+            "time": "2026-09-30T02:30:09+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-trunk": "1.x-dev"
+                    "dev-trunk": "2.x-dev"
                 }
             },
             "installation-source": "dist",
@@ -959,8 +959,7 @@
             ],
             "description": "Shared PHP primitives for the PRC Platform: block utilities, HTML processors, delayed Action Scheduler jobs, URL to post ID resolution, and term data store relationships.",
             "support": {
-                "source": "https://github.com/pewresearch/prc-primitives/tree/v2.0.0",
-                "issues": "https://github.com/pewresearch/prc-primitives/issues"
+                "source": "https://github.com/pewresearch/prc-primitives/tree/v2.1.0"
             },
             "install-path": "../prc/primitives"
         },

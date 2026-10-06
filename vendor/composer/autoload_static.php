@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitc7d47e5406776b00bc88e4af17af5964
+class ComposerStaticInitc1534c8804c4d8b9a051fdc65515c216
 {
     public static $files = array (
         '606a39d89246991a373564698c2d8383' => __DIR__ . '/..' . '/symfony/polyfill-php85/bootstrap.php',
@@ -641,6 +641,7 @@ class ComposerStaticInitc7d47e5406776b00bc88e4af17af5964
         'NoDiscard' => __DIR__ . '/..' . '/symfony/polyfill-php85/Resources/stubs/NoDiscard.php',
         'PRC\\Primitives\\BlockUtils\\Lists' => __DIR__ . '/..' . '/prc/primitives/src/block-utils/Lists.php',
         'PRC\\Primitives\\BlockUtils\\Pagination' => __DIR__ . '/..' . '/prc/primitives/src/block-utils/Pagination.php',
+        'PRC\\Primitives\\BlockUtils\\PostContentBlockFilter' => __DIR__ . '/..' . '/prc/primitives/src/block-utils/PostContentBlockFilter.php',
         'PRC\\Primitives\\DelayedAction\\ActionSchedulerGateway' => __DIR__ . '/..' . '/prc/primitives/src/delayed-action/ActionSchedulerGateway.php',
         'PRC\\Primitives\\DelayedAction\\DelayedAction' => __DIR__ . '/..' . '/prc/primitives/src/delayed-action/DelayedAction.php',
         'PRC\\Primitives\\DelayedAction\\JobState' => __DIR__ . '/..' . '/prc/primitives/src/delayed-action/JobState.php',
@@ -788,9 +789,9 @@ class ComposerStaticInitc7d47e5406776b00bc88e4af17af5964
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitc7d47e5406776b00bc88e4af17af5964::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitc7d47e5406776b00bc88e4af17af5964::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitc7d47e5406776b00bc88e4af17af5964::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitc1534c8804c4d8b9a051fdc65515c216::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitc1534c8804c4d8b9a051fdc65515c216::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitc1534c8804c4d8b9a051fdc65515c216::$classMap;
 
         }, null, ClassLoader::class);
     }

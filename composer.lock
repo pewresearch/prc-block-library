@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c7d47e5406776b00bc88e4af17af5964",
+    "content-hash": "c1534c8804c4d8b9a051fdc65515c216",
     "packages": [
         {
             "name": "automattic/jetpack-autoloader",
@@ -855,16 +855,16 @@
         },
         {
             "name": "prc/primitives",
-            "version": "v2.0.0",
+            "version": "v2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pewresearch/prc-primitives.git",
-                "reference": "b6cf2fbef6446f6d7f7d2b61766ba880724ac73e"
+                "reference": "42bc453b2b9240c2e8c5f904fbd154fc863d176d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pewresearch/prc-primitives/zipball/b6cf2fbef6446f6d7f7d2b61766ba880724ac73e",
-                "reference": "b6cf2fbef6446f6d7f7d2b61766ba880724ac73e",
+                "url": "https://api.github.com/repos/pewresearch/prc-primitives/zipball/42bc453b2b9240c2e8c5f904fbd154fc863d176d",
+                "reference": "42bc453b2b9240c2e8c5f904fbd154fc863d176d",
                 "shasum": ""
             },
             "require": {
@@ -879,7 +879,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-trunk": "1.x-dev"
+                    "dev-trunk": "2.x-dev"
                 }
             },
             "autoload": {
@@ -923,10 +923,9 @@
             ],
             "description": "Shared PHP primitives for the PRC Platform: block utilities, HTML processors, delayed Action Scheduler jobs, URL to post ID resolution, and term data store relationships.",
             "support": {
-                "source": "https://github.com/pewresearch/prc-primitives/tree/v2.0.0",
-                "issues": "https://github.com/pewresearch/prc-primitives/issues"
+                "source": "https://github.com/pewresearch/prc-primitives/tree/v2.1.0"
             },
-            "time": "2026-09-25T16:51:38+00:00"
+            "time": "2026-09-30T02:30:09+00:00"
         },
         {
             "name": "psr/clock",

@@ -1859,39 +1859,43 @@ return array(
 		'path'    => $vendorDir . '/automattic/jetpack-autoloader/src/class-php-autoloader.php'
 	),
 	'PRC\\Primitives\\BlockUtils\\Lists' => array(
-		'version' => '2.0.0.0',
+		'version' => '2.1.0.0',
 		'path'    => $vendorDir . '/prc/primitives/src/block-utils/Lists.php'
 	),
 	'PRC\\Primitives\\BlockUtils\\Pagination' => array(
-		'version' => '2.0.0.0',
+		'version' => '2.1.0.0',
 		'path'    => $vendorDir . '/prc/primitives/src/block-utils/Pagination.php'
 	),
+	'PRC\\Primitives\\BlockUtils\\PostContentBlockFilter' => array(
+		'version' => '2.1.0.0',
+		'path'    => $vendorDir . '/prc/primitives/src/block-utils/PostContentBlockFilter.php'
+	),
 	'PRC\\Primitives\\DelayedAction\\ActionSchedulerGateway' => array(
-		'version' => '2.0.0.0',
+		'version' => '2.1.0.0',
 		'path'    => $vendorDir . '/prc/primitives/src/delayed-action/ActionSchedulerGateway.php'
 	),
 	'PRC\\Primitives\\DelayedAction\\DelayedAction' => array(
-		'version' => '2.0.0.0',
+		'version' => '2.1.0.0',
 		'path'    => $vendorDir . '/prc/primitives/src/delayed-action/DelayedAction.php'
 	),
 	'PRC\\Primitives\\DelayedAction\\JobState' => array(
-		'version' => '2.0.0.0',
+		'version' => '2.1.0.0',
 		'path'    => $vendorDir . '/prc/primitives/src/delayed-action/JobState.php'
 	),
 	'PRC\\Primitives\\DelayedAction\\Scheduler' => array(
-		'version' => '2.0.0.0',
+		'version' => '2.1.0.0',
 		'path'    => $vendorDir . '/prc/primitives/src/delayed-action/Scheduler.php'
 	),
 	'PRC\\Primitives\\HTML_Processors\\ElementFinder' => array(
-		'version' => '2.0.0.0',
+		'version' => '2.1.0.0',
 		'path'    => $vendorDir . '/prc/primitives/src/html-processors/ElementFinder.php'
 	),
 	'PRC\\Primitives\\HTML_Processors\\HeadingProcessor' => array(
-		'version' => '2.0.0.0',
+		'version' => '2.1.0.0',
 		'path'    => $vendorDir . '/prc/primitives/src/html-processors/HeadingProcessor.php'
 	),
 	'PRC\\Primitives\\HTML_Processors\\TableProcessor' => array(
-		'version' => '2.0.0.0',
+		'version' => '2.1.0.0',
 		'path'    => $vendorDir . '/prc/primitives/src/html-processors/TableProcessor.php'
 	),
 	'Path_Processor' => array(
