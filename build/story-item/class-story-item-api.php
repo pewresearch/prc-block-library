@@ -167,12 +167,28 @@ class Story_Item_API {
 		return $this->check_for_attr( 'enableAltHeaderWeight' ) || ! $this->get_excerpt();
 	}
 
+	/**
+	 * Email campaigns show their subject line instead of the internal post title.
+	 *
+	 * The prc-email-builder plugin is optional, so the helper is only used when it is loaded.
+	 *
+	 * @return string|false Subject headline, or false to keep the post title.
+	 */
+	private function get_campaign_headline() {
+		if ( ! $this->post_id || ! class_exists( '\PRC\Platform\Email_Builder\Campaign_Title' ) ) {
+			return false;
+		}
+		$headline = \PRC\Platform\Email_Builder\Campaign_Title::for_display( (int) $this->post_id );
+		return null === $headline ? false : $headline;
+	}
+
 	public function get_title() {
 		$allowed = $this->check_for_attr( 'enableHeader' );
 		if ( ! $allowed ) {
 			return false;
 		}
 		$title = $this->check_for_attr( 'title' );
+		$title = $title ? $title : $this->get_campaign_headline();
 		$title = $title ? $title : $this->post_data['post_title'];
 		return wptexturize( $title );
 	}
