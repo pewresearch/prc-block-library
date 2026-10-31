@@ -7,6 +7,8 @@
  *   eager loading when `no-lazy-load` class is present, dominant-color bypass)
  * - Breakpoint-aligned `srcset` and `sizes` rewrite for rendered blocks,
  *   attachment-page hero images, and `wp_content_img_tag` pass-through
+ * - Opt-in share overlay (`enableSharing`) with social intents and download,
+ *   plus per-image social card meta for `?share-image=<id>` links
  *
  * @package PRC\Platform\Blocks
  */
@@ -25,7 +27,6 @@ use WP_Post;
  *
  * @package           prc-block
  */
-
 class Core_Image {
 	/**
 	 * Block JSON
@@ -66,6 +67,21 @@ class Core_Image {
 	const SRCSET_CONTEXT_ATTR = 'data-prc-srcset-context';
 
 	/**
+	 * Query arg that marks a shared link as pointing at one image on the page.
+	 * The view module adds it to share URLs; the meta override reads it.
+	 *
+	 * @var string
+	 */
+	const SHARE_QUERY_ARG = 'share-image';
+
+	/**
+	 * View script module ID.
+	 *
+	 * @var string|false
+	 */
+	public $view_script_module_id;
+
+	/**
 	 * Constructor
 	 *
 	 * @param mixed $loader Loader.
@@ -87,6 +103,8 @@ class Core_Image {
 		$loader->add_filter( 'render_block_data', $this, 'set_image_to_lazy_load_inside_blocks', 10, 3 );
 		$loader->add_filter( 'render_block_core/image', $this, 'share_figure_no_lazy_load_classname_with_img', 10, 2 );
 		$loader->add_filter( 'render_block_core/image', $this, 'filter_block_srcset', 11, 2 );
+		$loader->add_filter( 'render_block_core/image', $this, 'add_share_controls', 12, 2 );
+		$loader->add_filter( 'prc_schema_seo_request_meta_overrides', $this, 'shared_image_meta_overrides', 10, 2 );
 		$loader->add_filter(
 			'wp_img_tag_add_loading_attr',
 			$this,
@@ -119,6 +137,13 @@ class Core_Image {
 			);
 		}
 
+		if ( ! array_key_exists( 'enableSharing', $metadata['attributes'] ) ) {
+			$metadata['attributes']['enableSharing'] = array(
+				'type'    => 'boolean',
+				'default' => false,
+			);
+		}
+
 		return $metadata;
 	}
 
@@ -128,8 +153,9 @@ class Core_Image {
 	 * @hook init
 	 */
 	public function register_assets() {
-		$this->editor_script_handle = register_block_script_handle( $this->block_json, 'editorScript' );
-		$this->style_handle         = register_block_style_handle( $this->block_json, 'style' );
+		$this->editor_script_handle  = register_block_script_handle( $this->block_json, 'editorScript' );
+		$this->view_script_module_id = register_block_script_module_id( $this->block_json, 'viewScriptModule' );
+		$this->style_handle          = register_block_style_handle( $this->block_json, 'style' );
 	}
 
 	/**
@@ -238,9 +264,11 @@ class Core_Image {
 	 *
 	 * @hook dominant_color_img_tag_add_dominant_color
 	 *
-	 * @param bool  $enabled Enabled.
-	 * @param int   $attachment_id Attachment ID.
-	 * @param array $image_meta Image meta.
+	 * @param bool   $enabled Enabled.
+	 * @param int    $attachment_id Attachment ID.
+	 * @param array  $image_meta Image meta.
+	 * @param string $filtered_image Filtered image tag.
+	 * @param string $context Context.
 	 */
 	public function disable_dominate_color_for_no_lazy_loading( $enabled, $attachment_id, $image_meta, $filtered_image, $context ) {
 		if ( strpos( $filtered_image, 'no-lazy-load' ) !== false ) {
@@ -575,5 +603,214 @@ class Core_Image {
 		$processor->remove_attribute( self::SRCSET_CONTEXT_ATTR );
 
 		return $processor->get_updated_html();
+	}
+
+	/**
+	 * Share targets shown when the overlay opens, in display order.
+	 * Keys match the platforms in `core-social-links/shared/share-urls.js`,
+	 * plus `download`.
+	 *
+	 * @return array<string, array{label:string, library:string, icon:string}>
+	 */
+	private function get_share_targets(): array {
+		return array(
+			'facebook' => array(
+				'label'   => __( 'Share on Facebook', 'prc-block-library' ),
+				'library' => 'brands',
+				'icon'    => 'facebook',
+			),
+			'twitter'  => array(
+				'label'   => __( 'Share on X', 'prc-block-library' ),
+				'library' => 'brands',
+				'icon'    => 'x-twitter',
+			),
+			'threads'  => array(
+				'label'   => __( 'Share on Threads', 'prc-block-library' ),
+				'library' => 'brands',
+				'icon'    => 'threads',
+			),
+			'bluesky'  => array(
+				'label'   => __( 'Share on Bluesky', 'prc-block-library' ),
+				'library' => 'brands',
+				'icon'    => 'bluesky',
+			),
+			'download' => array(
+				'label'   => __( 'Download image', 'prc-block-library' ),
+				'library' => 'prc',
+				'icon'    => 'download',
+			),
+		);
+	}
+
+	/**
+	 * Wrap the image in a positioning frame and append the share overlay when
+	 * `enableSharing` is on. The frame anchors the overlay to the image, not
+	 * the figure, so a caption never pushes it off the image.
+	 *
+	 * @hook render_block_core/image 12
+	 *
+	 * @param string               $block_content The rendered block HTML.
+	 * @param array<string, mixed> $block         The parsed block data.
+	 * @return string
+	 */
+	public function add_share_controls( string $block_content, array $block ): string {
+		if ( empty( $block['attrs']['enableSharing'] ) || is_admin() || is_feed() ) {
+			return $block_content;
+		}
+
+		$processor = new WP_HTML_Tag_Processor( $block_content );
+		if ( ! $processor->next_tag( 'img' ) ) {
+			return $block_content;
+		}
+
+		$class = (string) ( $processor->get_attribute( 'class' ) ?? '' );
+		if ( ! preg_match( '/\bwp-image-(\d+)\b/', $class, $matches ) ) {
+			return $block_content;
+		}
+
+		$attachment_id = (int) $matches[1];
+		$image_url     = wp_get_attachment_url( $attachment_id );
+		if ( ! $image_url ) {
+			return $block_content;
+		}
+
+		$targets_id = wp_unique_id( 'wp-block-image-share-' );
+		$targets    = '';
+		foreach ( $this->get_share_targets() as $target => $config ) {
+			$targets .= sprintf(
+				'<li><button type="button" class="wp-block-image__share-target" data-target="%1$s" aria-label="%2$s" data-wp-on--click="actions.%3$s">%4$s</button></li>',
+				esc_attr( $target ),
+				esc_attr( $config['label'] ),
+				'download' === $target ? 'download' : 'share',
+				\PRC\Platform\Icons\get_icon_as_svg( $config['library'], $config['icon'] )
+			);
+		}
+
+		$overlay = sprintf(
+			'<div class="wp-block-image__share" data-wp-interactive="prc-block/core-image-share" %1$s data-wp-class--is-open="context.isOpen" data-wp-on-document--keydown="actions.closeOnEscape" data-wp-on-document--click="actions.closeOnOutsideClick" data-wp-init="callbacks.revealSharedImage">'
+				. '<button type="button" class="wp-block-image__share-toggle" aria-label="%2$s" aria-controls="%3$s" aria-expanded="false" data-wp-bind--aria-expanded="context.isOpen" data-wp-on--click="actions.toggle">'
+				. '<span class="wp-block-image__share-toggle-open">%4$s</span><span class="wp-block-image__share-toggle-close">%5$s</span>'
+				. '</button>'
+				. '<ul class="wp-block-image__share-targets" id="%3$s" inert data-wp-bind--inert="!context.isOpen">%6$s</ul>'
+			. '</div>',
+			wp_interactivity_data_wp_context(
+				array(
+					'isOpen'   => false,
+					'imageId'  => $attachment_id,
+					'imageUrl' => $image_url,
+					'filename' => wp_basename( (string) wp_parse_url( $image_url, PHP_URL_PATH ) ),
+				)
+			),
+			esc_attr__( 'Share this image', 'prc-block-library' ),
+			esc_attr( $targets_id ),
+			\PRC\Platform\Icons\get_icon_as_svg( 'prc', 'share' ),
+			\PRC\Platform\Icons\get_icon_as_svg( 'prc', 'xmark' ),
+			$targets
+		);
+
+		$wrapped = preg_replace_callback(
+			'/<a\b[^>]*>\s*<img\b[^>]*>\s*<\/a>|<img\b[^>]*>/i',
+			static fn( array $image ) => '<div class="wp-block-image__share-frame">' . $image[0] . $overlay . '</div>',
+			$block_content,
+			1
+		);
+
+		if ( ! is_string( $wrapped ) ) {
+			return $block_content;
+		}
+
+		wp_enqueue_script_module( $this->view_script_module_id );
+
+		return $wrapped;
+	}
+
+	/**
+	 * Point the social card at one image when a visitor shares it.
+	 *
+	 * Share links carry `?share-image=<id>`. Networks fetch that URL and read
+	 * `og:image`, so the card shows the shared image instead of the post's
+	 * social art. `og:url` keeps the arg because Facebook re-scrapes `og:url`.
+	 * Only images with sharing on in the post's content or its synced patterns
+	 * qualify, which stops the arg from attaching arbitrary media to the card.
+	 *
+	 * @hook prc_schema_seo_request_meta_overrides
+	 *
+	 * @param array<string, string> $overrides Meta tag overrides.
+	 * @param int                   $post_id   Post ID.
+	 * @return array<string, string>
+	 */
+	public function shared_image_meta_overrides( array $overrides, int $post_id ): array {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only query arg selects public meta.
+		$attachment_id = isset( $_GET[ self::SHARE_QUERY_ARG ] ) ? absint( wp_unslash( $_GET[ self::SHARE_QUERY_ARG ] ) ) : 0;
+		if ( ! $attachment_id || ! wp_attachment_is_image( $attachment_id ) ) {
+			return $overrides;
+		}
+
+		if ( ! $this->post_shares_image( $post_id, $attachment_id ) ) {
+			return $overrides;
+		}
+
+		$image = wp_get_attachment_image_src( $attachment_id, 'full' );
+		if ( ! $image ) {
+			return $overrides;
+		}
+
+		$canonical = wp_get_canonical_url( $post_id );
+		if ( ! $canonical ) {
+			$canonical = get_permalink( $post_id );
+		}
+
+		return array_merge(
+			$overrides,
+			array(
+				'og:url'          => add_query_arg( self::SHARE_QUERY_ARG, $attachment_id, $canonical ),
+				'og:image'        => $image[0],
+				'og:image:width'  => (string) $image[1],
+				'og:image:height' => (string) $image[2],
+				'og:image:type'   => (string) get_post_mime_type( $attachment_id ),
+				'og:image:alt'    => (string) get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ),
+				'twitter:card'    => 'summary_large_image',
+			)
+		);
+	}
+
+	/**
+	 * Whether the post's content has a core/image block for this attachment
+	 * with `enableSharing` on, including inside published synced patterns.
+	 *
+	 * @param int        $post_id       Post ID.
+	 * @param int        $attachment_id Attachment ID.
+	 * @param array<int> $visited       Post IDs already scanned on this path.
+	 * @return bool
+	 */
+	private function post_shares_image( int $post_id, int $attachment_id, array $visited = array() ): bool {
+		$visited[] = $post_id;
+		$processor = new \WP_Block_Processor( (string) get_post_field( 'post_content', $post_id ) );
+		while ( $processor->next_block() ) {
+			if ( $processor->is_block_type( 'core/block' ) ) {
+				$attrs = $processor->allocate_and_return_parsed_attributes() ?? array();
+				$ref   = (int) ( $attrs['ref'] ?? 0 );
+				if (
+					$ref
+					&& ! in_array( $ref, $visited, true )
+					&& 'wp_block' === get_post_type( $ref )
+					&& 'publish' === get_post_status( $ref )
+					&& $this->post_shares_image( $ref, $attachment_id, $visited )
+				) {
+					return true;
+				}
+				continue;
+			}
+
+			if ( ! $processor->is_block_type( 'core/image' ) ) {
+				continue;
+			}
+
+			$attrs = $processor->allocate_and_return_parsed_attributes() ?? array();
+			if ( (int) ( $attrs['id'] ?? 0 ) === $attachment_id && ! empty( $attrs['enableSharing'] ) ) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

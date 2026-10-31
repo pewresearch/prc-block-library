@@ -427,7 +427,7 @@ class Table_Of_Contents {
 		ob_start();
 		?>
 		<template data-wp-each--section="context.<?php echo $sections_source; ?>.sections">
-			<li class="wp-block-prc-block-table-of-contents__list-item" data-wp-class--is-active="state.isActive" data-wp-watch--for-current-section="callbacks.watchForCurrentSection">
+			<li class="wp-block-prc-block-table-of-contents__list-item" data-wp-class--is-active="state.isActive" data-wp-watch---for-current-section="callbacks.watchForCurrentSection">
 				<a data-wp-bind--href="context.section.url" data-wp-text="context.section.label" data-wp-on--click="callbacks.scrollSmoothly"></a>
 			</li>
 		</template>
@@ -622,8 +622,8 @@ class Table_Of_Contents {
 				'data-wp-context'                        => wp_json_encode(
 					$interactive_context,
 				),
-				'data-wp-init--map-sections-to-chapters' => 'callbacks.mapFoundSectionsToChapters',
-				'data-wp-init--watch-for-section-scroll' => 'callbacks.initWatchForSectionScroll',
+				'data-wp-init---map-sections-to-chapters' => 'callbacks.mapFoundSectionsToChapters',
+				'data-wp-init---watch-for-section-scroll' => 'callbacks.initWatchForSectionScroll',
 				'data-wp-on-document--scroll'            => 'callbacks.watchForSectionScroll',
 			)
 		);

@@ -79,6 +79,10 @@
 			"type": "string",
 			"enum": ["default", "bottom-sheet"],
 			"default": "default"
+		},
+		"keyboardShortcut": {
+			"type": "string",
+			"default": ""
 		}
 	},
 	"example": {

@@ -47,7 +47,7 @@ $block_wrapper_attrs = array(
 		'isOpen' => get_query_var('collapsibleId') === $collapsible_id,
 	)),
 	'data-wp-class--is-open' => 'context.isOpen',
-	'data-wp-init--scroll-into-view' => 'callbacks.onInitScrollIntoView',
+	'data-wp-init---scroll-into-view' => 'callbacks.onInitScrollIntoView',
 );
 if ( $block_gap ) {
 	$block_wrapper_attrs['style'] = '--block-gap: ' . $block_gap . ';';

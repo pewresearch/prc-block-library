@@ -216,8 +216,8 @@ class Render_To_Region {
 		}
 
 		$tag_processor = new \WP_HTML_Tag_Processor( $block_content );
-		$tag_processor->set_attribute( 'data-wp-init--render-to-region', 'prc-block/render-to-region::callbacks.onMount' );
-		$tag_processor->set_attribute( 'data-wp-watch--render-to-region', 'prc-block/render-to-region::callbacks.onUpdate' );
+		$tag_processor->set_attribute( 'data-wp-init---render-to-region', 'prc-block/render-to-region::callbacks.onMount' );
+		$tag_processor->set_attribute( 'data-wp-watch---render-to-region', 'prc-block/render-to-region::callbacks.onUpdate' );
 		$tag_processor->set_attribute( 'data-prc-block--render-to-region--name', $region_name );
 		$tag_processor->set_attribute( 'data-prc-block--render-to-region--attach-id', $region_attach_id );
 

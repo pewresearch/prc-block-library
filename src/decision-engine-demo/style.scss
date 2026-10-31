@@ -1,0 +1,350 @@
+.wp-block-prc-block-decision-engine-demo {
+	--de-demo-border: color-mix(in srgb, currentColor 20%, transparent);
+	--de-demo-muted: color-mix(in srgb, currentColor 65%, transparent);
+	--de-demo-track: color-mix(in srgb, currentColor 10%, transparent);
+	--de-demo-accent: #1f5c99;
+	--de-demo-pass: #2e7d32;
+	--de-demo-warn: #b26a00;
+	--de-demo-fail: #c62828;
+
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+	padding: 1.5rem;
+	border: 1px solid var(--de-demo-border);
+	border-radius: 8px;
+
+	[hidden] {
+		display: none !important;
+	}
+
+	p {
+		margin: 0;
+	}
+
+	&__intro {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		max-width: 60ch;
+	}
+
+	&__title {
+		margin: 0;
+	}
+
+	&__tabs {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.25rem;
+		border-bottom: 1px solid var(--de-demo-border);
+	}
+
+	&__tab {
+		padding: 0.75rem 1rem;
+		border: 0;
+		border-bottom: 3px solid transparent;
+		background: none;
+		color: inherit;
+		font: inherit;
+		font-weight: 600;
+		cursor: pointer;
+
+		&[aria-selected="true"] {
+			border-bottom-color: var(--de-demo-accent);
+			color: var(--de-demo-accent);
+		}
+	}
+
+	&__panel {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+
+	&__lede {
+		font-size: 1.125em;
+		max-width: 60ch;
+	}
+
+	&__samples,
+	&__actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+
+	&__chip {
+		padding: 0.5rem 0.75rem;
+		border: 1px solid var(--de-demo-border);
+		border-radius: 999px;
+		background: none;
+		color: inherit;
+		font: inherit;
+		font-size: 0.875em;
+		text-align: left;
+		cursor: pointer;
+
+		&:hover {
+			border-color: var(--de-demo-accent);
+		}
+	}
+
+	&__label {
+		font-weight: 600;
+	}
+
+	&__textarea {
+		width: 100%;
+		padding: 0.75rem;
+		border: 1px solid var(--de-demo-border);
+		border-radius: 4px;
+		font: inherit;
+		resize: vertical;
+	}
+
+	&__button {
+		padding: 0.625rem 1rem;
+		border: 1px solid var(--de-demo-accent);
+		border-radius: 4px;
+		background: none;
+		color: var(--de-demo-accent);
+		font: inherit;
+		font-weight: 600;
+		cursor: pointer;
+
+		&.is-active,
+		&--primary {
+			background: var(--de-demo-accent);
+			color: #fff;
+		}
+
+		&--quiet {
+			border-color: var(--de-demo-border);
+			color: inherit;
+			font-weight: 400;
+		}
+
+		&:disabled {
+			opacity: 0.5;
+			cursor: progress;
+		}
+	}
+
+	&__toggle {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		cursor: pointer;
+	}
+
+	&__loading {
+		color: var(--de-demo-muted);
+		font-style: italic;
+	}
+
+	&__notice {
+		padding: 0.75rem 1rem;
+		border-left: 4px solid var(--de-demo-warn);
+		background: color-mix(in srgb, var(--de-demo-warn) 10%, transparent);
+	}
+
+	&__caption {
+		color: var(--de-demo-muted);
+		font-size: 0.875em;
+	}
+
+	&__result,
+	&__column {
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+		padding: 1.25rem;
+		border: 1px solid var(--de-demo-border);
+		border-radius: 8px;
+	}
+
+	&__result-question {
+		font-weight: 600;
+	}
+
+	&__result-value {
+		font-size: 2em;
+		font-weight: 700;
+		line-height: 1.1;
+	}
+
+	&__replay-tag {
+		align-self: flex-start;
+		padding: 0.125rem 0.5rem;
+		border-radius: 999px;
+		background: var(--de-demo-track);
+		font-size: 0.75em;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+	}
+
+	&__meter {
+		display: block;
+		width: 100%;
+		height: 0.625rem;
+		border-radius: 999px;
+		background: var(--de-demo-track);
+		overflow: hidden;
+	}
+
+	&__meter-fill {
+		display: block;
+		height: 100%;
+		width: 0;
+		border-radius: inherit;
+		background: var(--de-demo-accent);
+		transition: width 0.4s ease-out;
+
+		@media (prefers-reduced-motion: reduce) {
+			transition: none;
+		}
+	}
+
+	&__compare {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+		gap: 1rem;
+	}
+
+	&__column--engine {
+		border-color: var(--de-demo-accent);
+	}
+
+	&__column-title,
+	&__subhead {
+		margin: 0;
+	}
+
+	&__subhead {
+		margin-top: 0.5rem;
+	}
+
+	&__copy {
+		font-size: 1.125em;
+		line-height: 1.5;
+
+		[data-status] {
+			padding: 0 0.2em;
+			border-radius: 3px;
+			font-weight: 600;
+		}
+
+		[data-status="verified"] {
+			background: color-mix(
+				in srgb,
+				var(--de-demo-pass) 18%,
+				transparent
+			);
+		}
+
+		[data-status="contradicted"] {
+			background: color-mix(
+				in srgb,
+				var(--de-demo-fail) 18%,
+				transparent
+			);
+		}
+
+		[data-status="unverified"] {
+			background: color-mix(
+				in srgb,
+				var(--de-demo-warn) 22%,
+				transparent
+			);
+		}
+	}
+
+	&__verdict {
+		align-self: flex-start;
+		padding: 0.25rem 0.75rem;
+		border-radius: 4px;
+		color: #fff;
+		font-size: 1.25em;
+		font-weight: 700;
+		background: var(--de-demo-muted);
+
+		&[data-status="passed"] {
+			background: var(--de-demo-pass);
+		}
+
+		&[data-status="flagged"] {
+			background: var(--de-demo-warn);
+		}
+
+		&[data-status="blocked"] {
+			background: var(--de-demo-fail);
+		}
+	}
+
+	&__checks,
+	&__numbers {
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	&__check {
+		display: grid;
+		grid-template-columns: 1fr 6rem 3.5rem;
+		align-items: center;
+		gap: 0.75rem;
+
+		.wp-block-prc-block-decision-engine-demo__meter-fill {
+			background: var(--de-demo-pass);
+		}
+
+		&.is-tripped {
+			font-weight: 600;
+
+			.wp-block-prc-block-decision-engine-demo__meter-fill {
+				background: var(--de-demo-fail);
+			}
+		}
+	}
+
+	&__check-value {
+		text-align: right;
+		font-variant-numeric: tabular-nums;
+	}
+
+	&__number {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+
+		&::before {
+			content: "";
+			width: 0.75rem;
+			height: 0.75rem;
+			border-radius: 50%;
+			background: var(--de-demo-muted);
+		}
+
+		&[data-status="verified"]::before {
+			background: var(--de-demo-pass);
+		}
+
+		&[data-status="contradicted"]::before {
+			background: var(--de-demo-fail);
+		}
+
+		&[data-status="unverified"]::before {
+			background: var(--de-demo-warn);
+		}
+	}
+
+	&__number-token {
+		font-weight: 600;
+		min-width: 4rem;
+	}
+}

@@ -8,6 +8,8 @@
 namespace PRC\Platform\Blocks;
 
 use WP_HTML_Tag_Processor;
+use function PRC\Primitives\Feature_Flags\is_feature_enabled;
+use function PRC\Primitives\Feature_Flags\register_feature_flag;
 
 /**
  * Block Name:        Carousel Controller
@@ -19,6 +21,13 @@ use WP_HTML_Tag_Processor;
  * @package           prc-block
  */
 class Carousel_Controller {
+	/**
+	 * Feature flag that moves the slideshow navigation above the slides.
+	 *
+	 * @var string
+	 */
+	const FEATURE_FLAG = 'block-library/carousel-slideshow-nav-top';
+
 	/**
 	 * Constructor.
 	 *
@@ -35,8 +44,24 @@ class Carousel_Controller {
 	 */
 	public function init( $loader = null ) {
 		if ( null !== $loader ) {
+			$loader->add_action( 'init', $this, 'register_feature_flag', 5 );
 			$loader->add_action( 'init', $this, 'block_init' );
 		}
+	}
+
+	/**
+	 * Registers the slideshow navigation-on-top feature flag.
+	 *
+	 * @hook init
+	 */
+	public function register_feature_flag() {
+		register_feature_flag(
+			self::FEATURE_FLAG,
+			array(
+				'label'       => 'Carousel slideshow: navigation on top',
+				'description' => 'Moves the slideshow dots, arrows, and play button above the slides.',
+			)
+		);
 	}
 
 	/**
@@ -165,7 +190,7 @@ class Carousel_Controller {
 	 */
 	private function play_ring_template(): string {
 		return '<template data-wp-each--cycle="context.autoplayCycle" data-wp-each-key="context.cycle.generation">'
-			. '<svg class="prc-block-carousel-controller__play-ring" viewBox="0 0 32 32" aria-hidden="true" focusable="false">'
+			. '<svg class="prc-block-carousel-controller__play-ring" viewBox="0 0 32 32" aria-hidden="true" focusable="false" data-wp-style--animation-duration="state.cycleDuration">'
 			. '<circle cx="16" cy="16" r="15" pathLength="100" fill="none" stroke="currentColor" stroke-width="2" transform="rotate(-90 16 16)" data-wp-style--animation-duration="state.cycleDuration"></circle>'
 			. '</svg>'
 			. '</template>';
@@ -233,6 +258,9 @@ class Carousel_Controller {
 			// Set up and add iAPI directives to the Carousel Controller block.
 			$tag_processor->set_attribute( 'data-wp-interactive', 'prc-block/carousel-controller' );
 			$tag_processor->set_bookmark( 'start' );
+			if ( $is_slideshow && is_feature_enabled( self::FEATURE_FLAG ) ) {
+				$tag_processor->add_class( 'has-nav-on-top' );
+			}
 			$tag_processor->set_attribute( 'data-wp-init', 'callbacks.onInit' );
 			$tag_processor->set_attribute( 'data-wp-class--is-enabled', 'context.enabled' );
 			$tag_processor->set_attribute( 'data-wp-class--is-selected', 'context.isSelected' );
@@ -240,7 +268,7 @@ class Carousel_Controller {
 			$tag_processor->set_attribute( 'data-wp-on--mouseleave', 'callbacks.onMouseLeave' );
 			$tag_processor->set_attribute( 'data-wp-on-document--scroll', 'callbacks.onCoverScroll' );
 			$tag_processor->set_attribute(
-				'data-wp-watch--cover-final-side-disable',
+				'data-wp-watch---cover-final-side-disable',
 				'callbacks.onCoverFinalSideDisable'
 			);
 
@@ -349,19 +377,17 @@ class Carousel_Controller {
 
 			// Inject the play/pause control for slideshow view.
 			if ( $is_slideshow ) {
-				$play_class   = $enable_autoplay ? ' is-playing' : '';
-				$play_label   = $enable_autoplay ? 'Pause slideshow' : 'Play slideshow';
-				$play_pressed = $enable_autoplay ? 'true' : 'false';
-				$play         = wp_sprintf(
-					'<button class="prc-block-carousel-controller__play%1$s" type="button" aria-label="%2$s" aria-pressed="%3$s" data-wp-on--click="actions.togglePlay" data-wp-bind--aria-label="context.playLabel" data-wp-bind--aria-pressed="context.isPlaying" data-wp-class--is-playing="context.isPlaying"><span class="prc-block-carousel-controller__play-icon prc-block-carousel-controller__play-icon--pause">%4$s</span><span class="prc-block-carousel-controller__play-icon prc-block-carousel-controller__play-icon--play">%5$s</span>%6$s</button>',
+				$play_class = $enable_autoplay ? ' is-playing' : '';
+				$play_label = $enable_autoplay ? 'Pause slideshow' : 'Play slideshow';
+				$play       = wp_sprintf(
+					'<button class="prc-block-carousel-controller__play%1$s" type="button" aria-label="%2$s" data-wp-on--click="actions.togglePlay" data-wp-bind--aria-label="context.playLabel" data-wp-class--is-playing="context.isPlaying"><span class="prc-block-carousel-controller__play-icon prc-block-carousel-controller__play-icon--pause">%3$s</span><span class="prc-block-carousel-controller__play-icon prc-block-carousel-controller__play-icon--play">%4$s</span><span class="prc-block-carousel-controller__play-text" data-wp-text="context.playLabel">%2$s</span>%5$s</button>',
 					$play_class,
 					$play_label,
-					$play_pressed,
 					\PRC\Platform\Icons\render( 'prc', 'pause' ),
 					\PRC\Platform\Icons\render( 'prc', 'play' ),
 					$this->play_ring_template()
 				);
-				$content      = str_replace(
+				$content    = str_replace(
 					'<div class="prc-block-carousel-controller__play"></div>',
 					$play,
 					$content

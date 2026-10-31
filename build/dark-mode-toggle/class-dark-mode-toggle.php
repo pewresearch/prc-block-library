@@ -69,7 +69,7 @@ class Dark_Mode_Toggle {
 						'namespace' => 'prc-block/dark-mode-toggle',
 					)
 				),
-				'data-wp-init--init'         => 'callbacks.onInit',
+				'data-wp-init---init'        => 'callbacks.onInit',
 				'data-wp-context'            => $context,
 				'type'                       => 'button',
 				'data-wp-on--click'          => 'actions.toggle',

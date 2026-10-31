@@ -1067,7 +1067,8 @@ return array(
 		'category' => 'widgets',
 		'textdomain' => 'core-image',
 		'editorScript' => 'file:./index.js',
-		'style' => 'file:./style-index.css'
+		'style' => 'file:./style-index.css',
+		'viewScriptModule' => 'file:./view.js'
 	),
 	'core-list' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -1312,6 +1313,42 @@ return array(
 		'style' => 'file:./style-index.css',
 		'viewScriptModule' => 'file:./view.js'
 	),
+	'decision-engine-demo' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'prc-block/decision-engine-demo',
+		'version' => '0.1.0',
+		'title' => 'Decision Engine Demo',
+		'category' => 'widgets',
+		'description' => 'Walkthrough of the AI decision engine for staff demos: ask it preset questions, and compare AI-written social copy with and without its safety and number checks. Renders nothing for visitors who cannot edit posts.',
+		'keywords' => array(
+			'decision engine',
+			'ai',
+			'demo',
+			'guardrail',
+			'typesafe'
+		),
+		'supports' => array(
+			'html' => false,
+			'align' => array(
+				'wide',
+				'full'
+			),
+			'interactivity' => true,
+			'spacing' => array(
+				'margin' => array(
+					'top',
+					'bottom'
+				),
+				'padding' => true
+			)
+		),
+		'textdomain' => 'prc-block-library',
+		'editorScript' => 'file:./index.js',
+		'style' => 'file:./style-index.css',
+		'viewScriptModule' => 'file:./view.js',
+		'render' => 'file:./render.php'
+	),
 	'dialog' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -1498,6 +1535,10 @@ return array(
 					'bottom-sheet'
 				),
 				'default' => 'default'
+			),
+			'keyboardShortcut' => array(
+				'type' => 'string',
+				'default' => ''
 			)
 		),
 		'example' => array(

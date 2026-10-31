@@ -68,9 +68,6 @@ class Core_Button {
 			$loader->add_action( 'enqueue_block_editor_assets', $this, 'register_editor_script' );
 			$loader->add_action( 'enqueue_block_assets', $this, 'register_editor_style' );
 			$loader->add_filter( 'block_type_metadata_settings', $this, 'add_settings', 100, 2 );
-			$loader->add_filter( 'prc-block-library/apple-news/components/layouts', $this, 'apple_news_layout' );
-			$loader->add_filter( 'prc-block-library/apple-news/components/styles', $this, 'apple_news_style' );
-			$loader->add_filter( 'prc-block-library/apple-news/components/text-styles', $this, 'apple_news_text_style' );
 			$loader->add_filter( 'render_block', $this, 'render', 10, 2 );
 		}
 	}
@@ -150,66 +147,6 @@ class Core_Button {
 			);
 		}
 		return $settings;
-	}
-
-	/**
-	 * Apple News layout
-	 * Define the default button styles and settings for Apple News.
-	 *
-	 * @hook prc-block-library/apple-news/components/layouts
-	 *
-	 * @param mixed $component_layouts Component layouts.
-	 * @return mixed
-	 */
-	public function apple_news_layout( $component_layouts ) {
-		$component_layouts['link-button-layout'] = array(
-			'margin'  => array(
-				'bottom' => 20,
-			),
-			'padding' => array(
-				'top'    => 10,
-				'bottom' => 10,
-				'left'   => 15,
-				'right'  => 15,
-			),
-		);
-		return $component_layouts;
-	}
-
-	/**
-	 * Apple News style
-	 *
-	 * @hook prc-block-library/apple-news/components/styles
-	 *
-	 * @param mixed $component_styles Component styles.
-	 * @return mixed
-	 */
-	public function apple_news_style( $component_styles ) {
-		$component_styles['default-link-button'] = array(
-			'backgroundColor' => '#000',
-			'mask'            => array(
-				'type'   => 'corners',
-				'radius' => 0,
-			),
-		);
-		return $component_styles;
-	}
-
-	/**
-	 * Apple News text style
-	 *
-	 * @hook prc-block-library/apple-news/components/text-styles
-	 *
-	 * @param mixed $component_text_styles Component text styles.
-	 * @return mixed
-	 */
-	public function apple_news_text_style( $component_text_styles ) {
-		$component_text_styles['default-link-button-text-style'] = array(
-			'textColor' => '#FFF',
-			'fontName'  => 'Helvetica-Bold',
-			'fontSize'  => 18,
-		);
-		return $component_text_styles;
 	}
 
 	/**

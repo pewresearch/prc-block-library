@@ -18,12 +18,9 @@ import { Fragment } from '@wordpress/element';
  */
 import './style.scss';
 import Controls from './controls';
-import { registerAppleNewsInspector } from '../apple-news-inspector';
 
 const BLOCKNAME = 'core/image';
 const BLOCKIDENTIFIER = 'prc-block/core-image';
-
-registerAppleNewsInspector();
 
 /**
  * Remove the "Rounded" style from the core/image block.

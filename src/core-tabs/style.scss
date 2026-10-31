@@ -350,17 +350,30 @@ Core styles for core-tabs block (tab panel content regions).
 	margin: 0;
 	padding: 0;
 
-	// Override tab button styles for dropdown context.
+	// Dropdown items sit outside `.wp-block-tab-list`, so core's tab button
+	// reset does not reach them; without this they fall back to UA button
+	// colors (`buttontext` / `buttonface`), which ignore the page palette.
 	button {
 		display: flex;
 		flex-direction: row !important;
 		justify-content: flex-start;
 		width: 100%;
+		margin: 0;
+		padding: var(--wp--preset--spacing--20, 0.5em)
+			var(--wp--preset--spacing--30, 1em);
 		opacity: 1;
+		border: none;
 		border-radius: 0;
+		background: none;
+		appearance: none;
+		color: inherit;
+		font: inherit;
+		text-align: start;
+		cursor: pointer;
 
 		&:hover {
 			background-color: var(--custom-tab-hover-color, #f0f0f0) !important;
+			color: var(--custom-tab-hover-text-color, #000) !important;
 		}
 	}
 
@@ -462,7 +475,10 @@ Core styles for core-tabs block (tab panel content regions).
 
 	button.is-active,
 	button[aria-selected="true"] {
-		color: var(--custom-tab-active-text-color, #000) !important;
+		color: var(
+			--custom-tab-active-text-color,
+			var(--wp--preset--color--ui-black, #000)
+		) !important;
 		background-color: transparent !important;
 		border-bottom-color: var(--custom-tab-active-color, #000) !important;
 		border-bottom-width: 2px !important;
@@ -532,24 +548,13 @@ Core styles for core-tabs block (tab panel content regions).
 }
 
 /**
- * Dark color scheme: tab labels inherit article-level `light-dark()` colors, while charts,
- * banners, and tab chrome often use stable white surfaces — producing illegible light-on-light
- * or dark-on-dark combinations. Anchor default tab lists to predictable light-surface contrast.
- * The Tabbed preset is excluded: it uses adaptive `ui-white` / `ui-black` / `ui-text-color`
- * tokens so folder-tab borders and panel surfaces follow dark mode (OS or site toggle).
+ * Dark color scheme: tab labels, the mobile dropdown trigger, and dropdown items inherit
+ * the article's `light-dark()` text color and sit on adaptive `ui-white` surfaces, so they
+ * follow dark mode from either the OS or the site toggle. Do not pin them to stable
+ * colors here: `prefers-color-scheme` does not see the site toggle, and a pinned
+ * white surface reads as black text in dark mode.
  */
 @media (prefers-color-scheme: dark) {
-	.wp-block-tabs:not(.is-style-tabbed)
-		.wp-block-tab-list:not(.is-style-active-underline) {
-		color-scheme: only light;
-		background-color: var(--wp--preset--color--ui-stable-white);
-		color: var(--wp--preset--color--ui-stable-black);
-
-		button:not([aria-selected="true"]):not(.is-active) {
-			color: var(--wp--preset--color--ui-stable-black);
-		}
-	}
-
 	.wp-block-tab-list.is-style-active-underline {
 		color: var(--wp--preset--color--ui-text-color);
 		border-bottom-color: var(--wp--preset--color--ui-gray-light) !important;
@@ -557,16 +562,5 @@ Core styles for core-tabs block (tab panel content regions).
 		button:not([aria-selected="true"]):not(.is-active) {
 			color: var(--wp--preset--color--ui-text-color);
 		}
-	}
-
-	.wp-block-tabs-list__dropdown-trigger {
-		color-scheme: only light;
-		background-color: var(--wp--preset--color--ui-stable-white);
-		color: var(--wp--preset--color--ui-stable-black);
-	}
-
-	.wp-block-tabs-list__dropdown-panel {
-		color-scheme: only light;
-		background-color: var(--wp--preset--color--ui-stable-white);
 	}
 }

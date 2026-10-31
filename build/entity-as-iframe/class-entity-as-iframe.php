@@ -101,7 +101,7 @@ class Entity_As_Iframe {
 						'src' => '',
 					)
 				),
-				'data-wp-watch--on-activate'      => 'callbacks.onActivate',
+				'data-wp-watch---on-activate'     => 'callbacks.onActivate',
 				'data-wp-class--is-active'        => 'callbacks.isActive',
 			)
 		);

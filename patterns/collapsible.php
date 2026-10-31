@@ -5,6 +5,7 @@
  * Categories: prc-block-library
  * Description: Details block for About this research sections.
  * Block Types: core/details
+ * Viewport Width: 320
  *
  * @package PRC\Platform\Blocks
  */

@@ -155,7 +155,6 @@ class Plugin {
 		require_once plugin_dir_path( __DIR__ ) . '/includes/class-markdown-for-agents-integration.php';
 		require_once plugin_dir_path( __DIR__ ) . '/includes/class-email-newsletter-integration.php';
 		require_once plugin_dir_path( __DIR__ ) . '/includes/class-story-item-topic-label.php';
-		require_once plugin_dir_path( __DIR__ ) . '/includes/class-apple-news-block-controls.php';
 
 		// Load blocks.
 		$this->load_blocks();
@@ -273,7 +272,6 @@ class Plugin {
 		new Markdown_For_Agents_Integration( $this->get_loader() );
 		new Email_Newsletter_Integration( $this->get_loader() );
 		new Story_Item_Topic_Label( $this->get_loader() );
-		new Apple_News_Block_Controls( $this->get_loader() );
 	}
 
 	/**
@@ -326,6 +324,7 @@ class Plugin {
 		new Color_Palette( $this->get_loader() );
 		new Copyright( $this->get_loader() );
 		new Dark_Mode_Toggle( $this->get_loader() );
+		new Decision_Engine_Demo( $this->get_loader() );
 		new Entity_As_Iframe( $this->get_loader() );
 		new Flip_Card_Controller( $this->get_loader() );
 		new Flip_Card_Side( $this->get_loader() );

@@ -51,14 +51,20 @@ class Dialog_Trigger {
 			'<button %1$s>%2$s</button>',
 			get_block_wrapper_attributes(
 				array(
-					'class'                       => 'wp-block-prc-block-dialog-trigger',
-					'id'                          => wp_unique_id( 'dialog-trigger-' ),
-					'aria-haspopup'               => 'dialog',
-					'aria-controls'               => $context_id,
-					'data-wp-bind--aria-expanded' => 'state.isOpen',
-					'data-wp-interactive'         => 'prc-block/dialog',
-					'data-wp-on--click'           => 'actions.onClickOpen',
-					'type'                        => 'button',
+					'class'                            => 'wp-block-prc-block-dialog-trigger',
+					'id'                               => wp_unique_id( 'dialog-trigger-' ),
+					'aria-haspopup'                    => 'dialog',
+					'aria-controls'                    => $context_id,
+					'data-wp-bind--aria-expanded'      => 'state.isOpen',
+					'data-wp-interactive'              => 'prc-block/dialog',
+					'data-wp-on--click'                => 'actions.onClickOpen',
+					'data-wp-on--pointerenter'         => 'actions.onTriggerPointerEnter',
+					'data-wp-on--pointerleave'         => 'actions.onTriggerPointerLeave',
+					'data-wp-on--focus'                => 'actions.onTriggerFocus',
+					'data-wp-on--blur'                 => 'actions.onTriggerBlur',
+					'data-wp-bind--data-shortcut-hint' => 'state.shortcutHint',
+					'data-wp-bind--aria-keyshortcuts'  => 'state.shortcutAriaKeys',
+					'type'                             => 'button',
 				)
 			), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			$content,

@@ -233,7 +233,7 @@ class Core_Accordion {
 		// This is used to toggle the entity iframe when the accordion is opened/closed.
 		$tag_processor = new WP_HTML_Tag_Processor( $block_content );
 		while ( $tag_processor->next_tag( array( 'class_name' => 'wp-block-accordion-item' ) ) ) {  
-			$tag_processor->set_attribute( 'data-wp-run--watch-open', 'core/accordion-extended::callbacks.watchOpenState' );
+			$tag_processor->set_attribute( 'data-wp-run---watch-open', 'core/accordion-extended::callbacks.watchOpenState' );
 		}
 		$block_content = $tag_processor->get_updated_html();
 

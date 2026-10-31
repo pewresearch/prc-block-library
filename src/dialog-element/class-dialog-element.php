@@ -21,6 +21,19 @@ use WP_Block;
  */
 class Dialog_Element {
 	/**
+	 * Allowed keyboard shortcut format: modifiers in fixed order, then one letter or digit.
+	 * `mod` is Cmd on Apple platforms and Ctrl elsewhere. Mirrors `shortcut.js`.
+	 */
+	const SHORTCUT_PATTERN = '/^(mod\+)?(ctrl\+)?(alt\+)?(shift\+)?[a-z0-9]$/D';
+
+	/**
+	 * Shortcuts owned by the browser or operating system. Mirrors `shortcut.js`.
+	 *
+	 * @var string[]
+	 */
+	const RESERVED_SHORTCUTS = array( 'mod+w', 'mod+t', 'mod+n', 'mod+r', 'mod+q', 'mod+l' );
+
+	/**
 	 * Dialog element bindings editor script manifest.
 	 *
 	 * @var array<string, mixed>
@@ -97,6 +110,28 @@ class Dialog_Element {
 	public function add_dialog_id_query_var( $qvars ) {
 		$qvars[] = 'dialogId';
 		return $qvars;
+	}
+
+	/**
+	 * Validate a stored keyboard shortcut.
+	 *
+	 * Block attributes live in post content, so any editor can store any string. Only a
+	 * well-formed, non-reserved combo with a Mod or Ctrl modifier reaches the page.
+	 *
+	 * @param mixed $shortcut Raw `keyboardShortcut` attribute value.
+	 * @return string The shortcut, or an empty string when it is not allowed.
+	 */
+	public static function sanitize_keyboard_shortcut( $shortcut ): string {
+		if ( ! is_string( $shortcut ) || 1 !== preg_match( self::SHORTCUT_PATTERN, $shortcut ) ) {
+			return '';
+		}
+		if ( 1 !== preg_match( '/^(?:mod|ctrl)\+/', $shortcut ) ) {
+			return '';
+		}
+		if ( in_array( $shortcut, self::RESERVED_SHORTCUTS, true ) ) {
+			return '';
+		}
+		return $shortcut;
 	}
 
 	/**
@@ -197,19 +232,20 @@ class Dialog_Element {
 		if ( ! $context_id ) {
 			return '';
 		}
-		$is_open                 = get_query_var( 'dialogId', false ) === $context_id;
-		$dialog_size             = isset( $attributes['dialogSize'] ) ? $attributes['dialogSize'] : 'small';
-		$animation               = isset( $attributes['animation'] ) ? $attributes['animation'] : 'fade';
-		$animation_duration      = $attributes['animationDuration'] ?? 500;
-		$auto_activate_on_render = array_key_exists( 'autoActivateOnRender', $attributes ) ? $attributes['autoActivateOnRender'] : false;
-		$default_is_open         = $auto_activate_on_render;
-		$auto_activation_timer   = array_key_exists( 'autoActivationTimer', $attributes ) ? $attributes['autoActivationTimer'] : -1;
-		$auto_activation_timer   = $default_is_open ? 0 : $auto_activation_timer;
-		$enable_deep_link              = array_key_exists( 'enableDeepLink', $attributes ) ? $attributes['enableDeepLink'] : false;
-		$scroll_depth_percentage       = array_key_exists( 'scrollDepthPercentage', $attributes ) ? (int) $attributes['scrollDepthPercentage'] : -1;
-		$dismissal_persistence_scope   = array_key_exists( 'dismissalPersistenceScope', $attributes ) ? $attributes['dismissalPersistenceScope'] : 'pageload';
-		$dialog_variant                = array_key_exists( 'dialogVariant', $attributes ) ? $attributes['dialogVariant'] : 'default';
-		$scroll_depth_enabled          = 0 <= $scroll_depth_percentage && 100 >= $scroll_depth_percentage;
+		$is_open                     = get_query_var( 'dialogId', false ) === $context_id;
+		$dialog_size                 = isset( $attributes['dialogSize'] ) ? $attributes['dialogSize'] : 'small';
+		$animation                   = isset( $attributes['animation'] ) ? $attributes['animation'] : 'fade';
+		$animation_duration          = $attributes['animationDuration'] ?? 500;
+		$auto_activate_on_render     = array_key_exists( 'autoActivateOnRender', $attributes ) ? $attributes['autoActivateOnRender'] : false;
+		$default_is_open             = $auto_activate_on_render;
+		$auto_activation_timer       = array_key_exists( 'autoActivationTimer', $attributes ) ? $attributes['autoActivationTimer'] : -1;
+		$auto_activation_timer       = $default_is_open ? 0 : $auto_activation_timer;
+		$enable_deep_link            = array_key_exists( 'enableDeepLink', $attributes ) ? $attributes['enableDeepLink'] : false;
+		$scroll_depth_percentage     = array_key_exists( 'scrollDepthPercentage', $attributes ) ? (int) $attributes['scrollDepthPercentage'] : -1;
+		$dismissal_persistence_scope = array_key_exists( 'dismissalPersistenceScope', $attributes ) ? $attributes['dismissalPersistenceScope'] : 'pageload';
+		$dialog_variant              = array_key_exists( 'dialogVariant', $attributes ) ? $attributes['dialogVariant'] : 'default';
+		$scroll_depth_enabled        = 0 <= $scroll_depth_percentage && 100 >= $scroll_depth_percentage;
+		$keyboard_shortcut           = self::sanitize_keyboard_shortcut( $attributes['keyboardShortcut'] ?? '' );
 
 		// By using state any 3rd party can interact as easy as `store('prc-block/dialog').state[blockId].isOpen = true;` which would open the dialog given the blockId.
 		wp_interactivity_state(
@@ -226,6 +262,9 @@ class Dialog_Element {
 						'scrollDepthPercentage'     => $scroll_depth_percentage,
 						'dismissalPersistenceScope' => $dismissal_persistence_scope,
 						'hasTriggeredScrollOpen'    => false,
+						'shortcut'                  => $keyboard_shortcut,
+						'shortcutLabel'             => '',
+						'shortcutAriaKeys'          => '',
 					),
 				),
 			)
@@ -263,24 +302,29 @@ class Dialog_Element {
 		}
 
 		$interactivity_attrs = array(
-			'id'                             => $context_id,
-			'class'                          => implode( ' ', $dialog_classes ),
-			'role'                           => 'dialog',
-			'aria-modal'                     => 'bottom-sheet' === $dialog_variant ? 'false' : 'true',
-			'aria-labelledby'                => $aria_labelledby,
-			'data-wp-interactive'            => 'prc-block/dialog',
-			'data-wp-init'                   => 'callbacks.onInit',
-			'data-wp-class--is-closing'      => 'state.isClosing',
-			'data-wp-on--click'              => 'callbacks.onBackdropClick',
-			'data-wp-on-document--keydown'   => 'callbacks.onESCKey',
-			'data-wp-watch--on-dialog-open'  => 'callbacks.onOpen',
-			'data-wp-watch--on-dialog-close' => 'callbacks.onClose',
-			'style'                          => $block_styles,
+			'id'                              => $context_id,
+			'class'                           => implode( ' ', $dialog_classes ),
+			'role'                            => 'dialog',
+			'aria-modal'                      => 'bottom-sheet' === $dialog_variant ? 'false' : 'true',
+			'aria-labelledby'                 => $aria_labelledby,
+			'data-wp-interactive'             => 'prc-block/dialog',
+			'data-wp-init'                    => 'callbacks.onInit',
+			'data-wp-class--is-closing'       => 'state.isClosing',
+			'data-wp-on--click'               => 'callbacks.onBackdropClick',
+			'data-wp-on-document--keydown'    => 'callbacks.onESCKey',
+			'data-wp-watch---on-dialog-open'  => 'callbacks.onOpen',
+			'data-wp-watch---on-dialog-close' => 'callbacks.onClose',
+			'style'                           => $block_styles,
 			// Don't bind `open`, per the Dialog spec (https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/dialog) that will not open a dialog in "modal" mode.
 		);
 
 		if ( $scroll_depth_enabled ) {
 			$interactivity_attrs['data-wp-on-document--scroll'] = 'callbacks.onScroll';
+		}
+
+		if ( '' !== $keyboard_shortcut ) {
+			$interactivity_attrs['data-wp-init---shortcut']                 = 'callbacks.onShortcutInit';
+			$interactivity_attrs['data-wp-on-document--keydown---shortcut'] = 'callbacks.onShortcutKey';
 		}
 
 		$block_wrapper_attrs = get_block_wrapper_attributes( $interactivity_attrs );

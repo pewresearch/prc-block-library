@@ -177,12 +177,12 @@ class Taxonomy_Search {
 
 		$block_wrapper_attrs = get_block_wrapper_attributes(
 			array(
-				'data-wp-interactive'                   => wp_json_encode(
+				'data-wp-interactive'                    => wp_json_encode(
 					array(
 						'namespace' => 'prc-block/taxonomy-search',
 					)
 				),
-				'data-wp-context'                       => wp_json_encode(
+				'data-wp-context'                        => wp_json_encode(
 					array(
 						'taxonomy'           => $attributes['taxonomy'] ?? 'category',
 						'restrictToTermId'   => $restrict_to_term_id,
@@ -192,8 +192,8 @@ class Taxonomy_Search {
 						'results'            => array(),
 					)
 				),
-				'data-wp-class--is-active'              => 'callbacks.showResults',
-				'data-wp-watch--on-search-value-change' => 'callbacks.onSearchValueChange',
+				'data-wp-class--is-active'               => 'callbacks.showResults',
+				'data-wp-watch---on-search-value-change' => 'callbacks.onSearchValueChange',
 			)
 		);
 

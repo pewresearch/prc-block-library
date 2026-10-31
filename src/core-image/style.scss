@@ -7,18 +7,18 @@
  * Replace them with your own styles or remove the file completely.
  */
 
-$mobileBreakpoint : 320px;
-$iPhoneBreakpoint : 390px;
-$smallTabletBreakpoint : 666px;
-$tabletBreakpoint : 768px;
-$computerBreakpoint : 992px;
-$largeMonitorBreakpoint : 1200px;
-$widescreenMonitorBreakpoint : 1920px;
-$mediumMobileScreen : $iPhoneBreakpoint;
-$largestMobileScreen : ($tabletBreakpoint - 1px);
-$largestTabletScreen : ($computerBreakpoint - 1px);
-$largestSmallMonitor : ($largeMonitorBreakpoint - 1px);
-$largestLargeMonitor : ($widescreenMonitorBreakpoint - 1px);
+$mobileBreakpoint: 320px;
+$iPhoneBreakpoint: 390px;
+$smallTabletBreakpoint: 666px;
+$tabletBreakpoint: 768px;
+$computerBreakpoint: 992px;
+$largeMonitorBreakpoint: 1200px;
+$widescreenMonitorBreakpoint: 1920px;
+$mediumMobileScreen: $iPhoneBreakpoint;
+$largestMobileScreen: ($tabletBreakpoint - 1px);
+$largestTabletScreen: ($computerBreakpoint - 1px);
+$largestSmallMonitor: ($largeMonitorBreakpoint - 1px);
+$largestLargeMonitor: ($widescreenMonitorBreakpoint - 1px);
 
 $A1: 564px;
 $A1Small: 345px;
@@ -43,18 +43,42 @@ $alignLeftMargin: 5px 15px 15px 0px;
 $alignRightMargin: 5px 0px 15px 15px;
 
 // We provide high level classnames for sizing images across the site.
-.size-A1 { max-width: $A1 !important; }
-.size-A2 { max-width: $A2 !important; }
-.size-A3 { max-width: $A3 !important; }
-.size-A4 { max-width: $A4 !important; }
-.size-XL { max-width: $XL !important; }
-.size-200-wide { max-width: 200px !important; }
-.size-260-wide { max-width: 260px !important; }
-.size-310-wide { max-width: 310px !important; }
-.size-420-wide { max-width: 420px !important; }
-.size-640-wide { max-width: 640px !important; }
-.size-740-wide { max-width: 740px !important; }
-.size-1400-wide { max-width: 1400px !important; }
+.size-A1 {
+	max-width: $A1 !important;
+}
+.size-A2 {
+	max-width: $A2 !important;
+}
+.size-A3 {
+	max-width: $A3 !important;
+}
+.size-A4 {
+	max-width: $A4 !important;
+}
+.size-XL {
+	max-width: $XL !important;
+}
+.size-200-wide {
+	max-width: 200px !important;
+}
+.size-260-wide {
+	max-width: 260px !important;
+}
+.size-310-wide {
+	max-width: 310px !important;
+}
+.size-420-wide {
+	max-width: 420px !important;
+}
+.size-640-wide {
+	max-width: 640px !important;
+}
+.size-740-wide {
+	max-width: 740px !important;
+}
+.size-1400-wide {
+	max-width: 1400px !important;
+}
 
 .wp-block-image {
 	// &:not(.alignwide):not(.alignfull) {
@@ -80,7 +104,6 @@ $alignRightMargin: 5px 0px 15px 15px;
 			box-sizing: border-box;
 		}
 	}
-
 
 	&.aligncenter {
 		clear: none;
@@ -130,10 +153,10 @@ $alignRightMargin: 5px 0px 15px 15px;
 		&.alignright,
 		& > .alignright {
 			@media only screen and (max-width: $largestTabletScreen) {
-				float: none!important;
-				clear: both!important;
-				margin-left: auto!important;
-				margin-right: auto!important;
+				float: none !important;
+				clear: both !important;
+				margin-left: auto !important;
+				margin-right: auto !important;
 			}
 		}
 	}
@@ -175,8 +198,170 @@ $alignRightMargin: 5px 0px 15px 15px;
 	// Set some hard defaults on images that are not possible currently in the style engine.
 	figcaption {
 		max-width: var(--wp--custom--max-width);
-		margin-top: .5em;
-		text-align: left!important;
+		margin-top: 0.5em;
+		text-align: left !important;
+	}
+}
+
+.wp-block-image__share-frame {
+	position: relative;
+	display: inline-block;
+	max-width: 100%;
+	vertical-align: bottom;
+
+	// Core's lightbox inserts its trigger right after the img, inside this
+	// frame, and sets its top/right inline. Keep it out of flow so the frame
+	// and the share button hug the image.
+	> .lightbox-trigger {
+		position: absolute;
+	}
+
+	.wp-block-image.alignwide &,
+	.wp-block-image.alignfull & {
+		display: block;
+	}
+}
+
+.wp-block-image__share {
+	--share-surface: rgba(0, 0, 0, 0.72);
+	--share-duration: 180ms;
+
+	position: absolute;
+	right: 0.75rem;
+	bottom: 0.75rem;
+	z-index: 2;
+	display: flex;
+	flex-direction: row-reverse;
+	align-items: center;
+	gap: 0.375rem;
+	line-height: 1;
+	opacity: 0;
+	transition: opacity var(--share-duration) ease;
+
+	.wp-block-image__share-frame:hover &,
+	&:focus-within,
+	&.is-open {
+		opacity: 1;
+	}
+
+	@media (hover: none) {
+		opacity: 1;
+	}
+
+	@media print {
+		display: none;
+	}
+
+	svg {
+		width: 1em;
+		height: 1em;
+		fill: currentColor;
+	}
+
+	button {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		margin: 0;
+		padding: 0;
+		border: 0;
+		border-radius: 9999px;
+		color: #fff;
+		cursor: pointer;
+		font-size: 1rem;
+
+		&:focus-visible {
+			outline: 2px solid #fff;
+			outline-offset: 2px;
+		}
+	}
+}
+
+.wp-block-image__share-toggle {
+	width: 2.25rem;
+	height: 2.25rem;
+	background: var(--share-surface);
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+
+	> span {
+		display: inline-flex;
+		transition: transform var(--share-duration) ease;
+	}
+
+	.wp-block-image__share-toggle-close {
+		display: none;
+	}
+
+	.is-open & {
+		.wp-block-image__share-toggle-open {
+			display: none;
+		}
+
+		.wp-block-image__share-toggle-close {
+			display: inline-flex;
+			transform: rotate(90deg);
+		}
+	}
+}
+
+.wp-block-image__share-targets {
+	display: flex;
+	gap: 0.125rem;
+	margin: 0;
+	padding: 0.125rem;
+	list-style: none;
+	background: var(--share-surface);
+	border-radius: 9999px;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+	opacity: 0;
+	pointer-events: none;
+	transform: translateX(0.75rem) scaleX(0.6);
+	transform-origin: right center;
+	transition:
+		opacity var(--share-duration) ease,
+		transform var(--share-duration) ease;
+
+	li {
+		margin: 0;
+		padding: 0;
+		opacity: 0;
+		transition: opacity var(--share-duration) ease;
+	}
+
+	button {
+		width: 2rem;
+		height: 2rem;
+		background: transparent;
+
+		&:hover,
+		&:focus-visible {
+			background: rgba(255, 255, 255, 0.2);
+		}
+	}
+
+	.is-open & {
+		opacity: 1;
+		pointer-events: auto;
+		transform: none;
+
+		li {
+			opacity: 1;
+		}
+
+		@for $i from 1 through 5 {
+			li:nth-last-child(#{$i}) {
+				transition-delay: #{$i * 30}ms;
+			}
+		}
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.wp-block-image__share,
+	.wp-block-image__share-targets,
+	.wp-block-image__share-targets li,
+	.wp-block-image__share-toggle > span {
+		transition: none;
 	}
 }
 
@@ -185,4 +370,3 @@ $alignRightMargin: 5px 0px 15px 15px;
 // figure.wp-block-image {
 // 	margin: 0;
 // }
-

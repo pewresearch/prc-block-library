@@ -102,7 +102,7 @@ class Form_Input_Radio_Group {
 			$tag->set_attribute( 'id', $block_id );
 		}
 		// Watcher to change context.value to store(targetNamespace).state.formFields.find( (field) => field.id === context.id )?.value = context.value.
-		$tag->set_attribute( 'data-wp-watch--on-value-change', 'callbacks.onValueChange' );
+		$tag->set_attribute( 'data-wp-watch---on-value-change', 'callbacks.onValueChange' );
 
 		$tag->set_bookmark( 'start' );
 

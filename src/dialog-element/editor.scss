@@ -36,3 +36,15 @@ dialog.wp-block-prc-block-dialog-element.is-variant-bottom-sheet:modal {
 		border-radius: inherit !important;
 	}
 }
+
+.prc-dialog-shortcut-control {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+
+	&__value {
+		min-width: 4em;
+		font-weight: 600;
+	}
+}

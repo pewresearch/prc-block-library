@@ -25,7 +25,6 @@ import {
 	gridStacksOnViewport,
 	syncDividerPlacement,
 } from './utils/divider-placement';
-import { registerAppleNewsInspector } from '../apple-news-inspector';
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -43,7 +42,6 @@ const BLOCKIDENTIFIER = 'prc-block/core-group';
 registerVariations();
 registerTransforms();
 registerGridChildControls();
-registerAppleNewsInspector();
 
 /**
  * Whether a group is using the native grid layout.

@@ -385,24 +385,125 @@
 			}
 		}
 
-		// Mobile: same bottom nav row, but prev/next at the block edges and
-		// no play button. Pointer-events pass through the stretched controls
-		// so centered dots stay clickable.
-		@media (max-width: #{ $break-small }) {
-			.prc-block-carousel-controller__controls {
-				justify-self: stretch;
-				width: 100%;
-				justify-content: space-between;
-				pointer-events: none;
+		.prc-block-carousel-controller__play-text {
+			display: none;
+		}
 
-				.prc-block-carousel-controller__arrow__prev,
+		// Mobile: dots on one row, then play-pause / prev / next (DOM order) on a single
+		// row with the play button filling the space before the arrows. The
+		// controls wrapper drops out of the layout so its buttons place
+		// directly on the carousel grid.
+		@media (max-width: #{ $break-small }) {
+			grid-template-areas:
+				"track track track"
+				"dots dots dots"
+				"play arrow-prev arrow-next"
+				"insert-block insert-block insert-block";
+			grid-template-columns: 1fr auto auto;
+			grid-template-rows: auto auto auto auto;
+			align-items: center;
+			column-gap: 0.75rem;
+
+			.prc-block-carousel-controller__dots {
+				grid-area: dots;
+			}
+
+			.prc-block-carousel-controller__controls {
+				display: contents;
+
+				.prc-block-carousel-controller__arrow__prev {
+					grid-area: arrow-prev;
+					justify-self: start;
+				}
+
 				.prc-block-carousel-controller__arrow__next {
-					pointer-events: auto;
+					grid-area: arrow-next;
+					justify-self: end;
+				}
+
+				.prc-block-carousel-controller__play {
+					grid-area: play;
 				}
 			}
 
 			.prc-block-carousel-controller__play {
-				display: none;
+				justify-self: stretch;
+				width: 100%;
+				height: auto;
+				min-height: 2.75rem;
+				padding: 0.5rem 1rem;
+				gap: 0.5rem;
+				border-radius: 4px;
+				font-family: var(--wp--preset--font-family--sans-serif);
+				font-size: 0.875rem;
+				font-weight: 500;
+				line-height: 1.2;
+				color: var(--prc-carousel-controller-arrow-color, currentColor);
+
+				&,
+				&:has(.prc-block-carousel-controller__play-ring) {
+					border-color: var(
+						--prc-carousel-controller-arrow-color,
+						currentColor
+					);
+				}
+
+				// The per-cycle ring becomes a countdown fill that grows from
+				// the left edge to the right over the autoplay interval. The
+				// duration comes from the same `state.cycleDuration` binding.
+				.prc-block-carousel-controller__play-ring {
+					inset: 0;
+					width: 100%;
+					height: 100%;
+					overflow: hidden;
+					border-radius: inherit;
+					background: color-mix(
+						in srgb,
+						var(--prc-carousel-controller-arrow-color, currentColor)
+							20%,
+						transparent
+					);
+					animation-name: prc-carousel-controller-fill;
+					animation-timing-function: linear;
+					animation-fill-mode: forwards;
+
+					circle {
+						display: none;
+					}
+
+					&.is-static {
+						animation: none;
+						clip-path: inset(0 70% 0 0);
+					}
+
+					@media (prefers-reduced-motion: reduce) {
+						&:not(.is-static) {
+							display: none;
+						}
+					}
+				}
+
+				.prc-block-carousel-controller__play-text {
+					position: relative;
+					z-index: 1;
+					display: inline;
+				}
+			}
+		}
+
+		// Feature flag `block-library/carousel-slideshow-nav-top`.
+		&.has-nav-on-top {
+			grid-template-areas:
+				"nav"
+				"track"
+				"insert-block";
+
+			@media (max-width: #{ $break-small }) {
+				grid-template-areas:
+					"dots dots dots"
+					"play arrow-prev arrow-next"
+					"track track track"
+					"insert-block insert-block insert-block";
 			}
 		}
 	}
@@ -645,5 +746,15 @@
 
 	to {
 		stroke-dashoffset: 100;
+	}
+}
+
+@keyframes prc-carousel-controller-fill {
+	from {
+		clip-path: inset(0 100% 0 0);
+	}
+
+	to {
+		clip-path: inset(0 0 0 0);
 	}
 }

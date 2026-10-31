@@ -150,12 +150,12 @@ class Core_Dialog {
 		wp_enqueue_script_module( $this->view_script_module_handle );
 		$tag = new WP_HTML_Tag_Processor( $block_content );
 		$tag->next_tag( 'dialog' );
-		$tag->set_attribute( 'data-wp-init--videoSupport', 'callbacks.onVideoInit' );
-		$tag->set_attribute( 'data-wp-watch--on-open-start-video', 'callbacks.onOpenStartVideo' );
-		$tag->set_attribute( 'data-wp-watch--on-close-stop-video', 'callbacks.onCloseStopVideo' );
-		$tag->set_attribute( 'data-wp-watch--on-open-watch-animation-end', 'callbacks.onAnimationEnd' );
+		$tag->set_attribute( 'data-wp-init---videoSupport', 'callbacks.onVideoInit' );
+		$tag->set_attribute( 'data-wp-watch---on-open-start-video', 'callbacks.onOpenStartVideo' );
+		$tag->set_attribute( 'data-wp-watch---on-close-stop-video', 'callbacks.onCloseStopVideo' );
+		$tag->set_attribute( 'data-wp-watch---on-open-watch-animation-end', 'callbacks.onAnimationEnd' );
 		if ( is_string( $block_content ) && preg_match( '/wp-block-prc-block-entity-as-iframe/', $block_content ) ) {
-			$tag->set_attribute( 'data-wp-watch--sync-entity-iframes', 'callbacks.syncEntityIframeWithDialog' );
+			$tag->set_attribute( 'data-wp-watch---sync-entity-iframes', 'callbacks.syncEntityIframeWithDialog' );
 		}
 		return $tag->get_updated_html();
 	}

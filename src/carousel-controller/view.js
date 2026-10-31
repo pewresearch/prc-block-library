@@ -22,6 +22,17 @@ const DEFAULT_AUTOPLAY_INTERVAL_MS = 5000;
 const MIN_AUTOPLAY_INTERVAL_MS = 1000;
 const MAX_AUTOPLAY_INTERVAL_MS = 10000;
 
+/**
+ * Elements the reader is likely studying. On desktop, hovering one pauses
+ * slideshow autoplay. Add a selector here to cover another element type.
+ */
+const AUTOPLAY_HOVER_PAUSE_SELECTORS = [
+	'.wp-block-prc-chart-builder-controller',
+	'video',
+	'audio',
+].join(', ');
+const FINE_HOVER_POINTER_QUERY = '(hover: hover) and (pointer: fine)';
+
 /** @type {Map<string, ReturnType<typeof setTimeout>>} */
 const autoplayTimers = new Map();
 
@@ -137,6 +148,67 @@ const armAutoplayCycle = (context, onFire) => {
 		)
 	);
 	context.autoplayCycle = [{ generation, durationMs }];
+};
+
+/**
+ * Desktop means a mouse on a fine-hover device above the mobile breakpoint.
+ * Touch and narrow viewports keep plain autoplay.
+ *
+ * @param {PointerEvent} event Pointer event.
+ * @return {boolean} Whether the event came from a desktop pointer.
+ */
+const isDesktopPointer = (event) =>
+	event.pointerType === 'mouse' &&
+	window.innerWidth > COVERFLOW_MOBILE_BREAKPOINT &&
+	window.matchMedia(FINE_HOVER_POINTER_QUERY).matches;
+
+/**
+ * Pauses the autoplay timer while the mouse is over a matching element and
+ * re-arms it on leave. Resuming goes through `scheduleAutoplayTick`, which
+ * only runs while `isPlaying` is true, so a manual pause stays paused.
+ *
+ * @param {HTMLElement} rootEl Carousel root element.
+ * @return {() => void} Removes the listeners.
+ */
+const bindAutoplayHoverPause = (rootEl) => {
+	const controller = new AbortController();
+	const { signal } = controller;
+
+	rootEl.addEventListener(
+		'pointerover',
+		withScope(
+			withSyncEvent((event) => {
+				if (
+					isDesktopPointer(event) &&
+					event.target.closest(AUTOPLAY_HOVER_PAUSE_SELECTORS)
+				) {
+					actions.suspendAutoplayTimer();
+				}
+			})
+		),
+		{ signal }
+	);
+
+	rootEl.addEventListener(
+		'pointerout',
+		withScope(
+			withSyncEvent((event) => {
+				if (
+					!isDesktopPointer(event) ||
+					!event.target.closest(AUTOPLAY_HOVER_PAUSE_SELECTORS) ||
+					event.relatedTarget?.closest?.(
+						AUTOPLAY_HOVER_PAUSE_SELECTORS
+					)
+				) {
+					return;
+				}
+				actions.scheduleAutoplayTick();
+			})
+		),
+		{ signal }
+	);
+
+	return () => controller.abort();
 };
 
 const { state, actions } = store('prc-block/carousel-controller', {
@@ -499,6 +571,10 @@ const { state, actions } = store('prc-block/carousel-controller', {
 				} else if (context.isPlaying !== false) {
 					actions.startAutoplay();
 				}
+			}
+
+			if (isSlideshow && rootEl) {
+				return bindAutoplayHoverPause(rootEl);
 			}
 		},
 		isDotActive: () => {

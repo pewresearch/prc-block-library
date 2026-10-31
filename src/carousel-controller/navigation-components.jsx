@@ -135,9 +135,11 @@ export const PlayButton = ({ isPlaying = false, onToggle }) => (
 		type="button"
 		onClick={onToggle}
 		aria-label={isPlaying ? 'Pause slideshow' : 'Play slideshow'}
-		aria-pressed={isPlaying}
 	>
 		<Icon icon={isPlaying ? 'pause' : 'play'} />
+		<span className="prc-block-carousel-controller__play-text">
+			{isPlaying ? 'Pause slideshow' : 'Play slideshow'}
+		</span>
 		{isPlaying && <PlayRing />}
 	</button>
 );

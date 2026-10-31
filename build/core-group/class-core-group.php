@@ -240,7 +240,7 @@ class Core_Group {
 				)
 			);
 			$w->set_attribute(
-				'data-wp-init--observe-stacking',
+				'data-wp-init---observe-stacking',
 				'prc-block/core-group::callbacks.observeStacking'
 			);
 			$w->set_attribute(

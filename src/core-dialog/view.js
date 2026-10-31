@@ -482,7 +482,7 @@ const { state, actions } = store('prc-block/dialog', {
 		},
 		/**
 		 * Keep nested entity-as-iframe `isActive` in sync with `state.dialog.isOpen` (same `prc-block/dialog` store).
-		 * Used with `data-wp-watch--sync-entity-iframes` so this re-runs when open state changes reactively.
+		 * Used with `data-wp-watch---sync-entity-iframes` so this re-runs when open state changes reactively.
 		 */
 		syncEntityIframeWithDialog: () => {
 			const isOpen = state.dialog?.isOpen;

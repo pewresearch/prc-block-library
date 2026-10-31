@@ -129,7 +129,7 @@ class Core_List {
 	 * @return mixed
 	 */
 	public function render( $block_content, $block ) {
-		if ( 'core/list-item' !== $block['blockName'] || is_admin() ) {
+		if ( $this->block_name !== $block['blockName'] || is_admin() ) {
 			return $block_content;
 		}
 
@@ -145,9 +145,17 @@ class Core_List {
 		if ( array_key_exists( 'ordered', $block['attrs'] ) && true === $block['attrs']['ordered'] ) {
 			$html_tag = 'ol';
 		}
-		$tag_processor->next_tag( $html_tag );
+		if ( ! $tag_processor->next_tag( $html_tag ) ) {
+			return $block_content;
+		}
 		$tag_processor->add_class( 'wp-block-list' );
-		$tag_processor->set_attribute( 'style', "--block-gap: {$block_gap};" );
+		if ( null !== $block_gap && '' !== $block_gap ) {
+			$existing_style = trim( (string) $tag_processor->get_attribute( 'style' ) );
+			if ( '' !== $existing_style && ';' !== substr( $existing_style, -1 ) ) {
+				$existing_style .= ';';
+			}
+			$tag_processor->set_attribute( 'style', trim( "{$existing_style} --block-gap: {$block_gap};" ) );
+		}
 
 		$block_content = $tag_processor->get_updated_html();
 

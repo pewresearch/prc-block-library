@@ -244,7 +244,7 @@ class Supports {
 				if ( ! $is_interactive ) {
 					$w->set_attribute( 'data-wp-interactive', 'prc-block/supports' );
 				}
-				$w->set_attribute( 'data-wp-init--sticky-support', 'prc-block/supports::callbacks.onInit' );
+				$w->set_attribute( 'data-wp-init---sticky-support', 'prc-block/supports::callbacks.onInit' );
 				$w->set_attribute( 'data-sticky-id', wp_unique_id( 'sticky-' ) );
 				if ( $has_is_sticky_background_color ) {
 					$w->add_class( 'has-sticky-background' );

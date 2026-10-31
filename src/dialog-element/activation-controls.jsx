@@ -8,12 +8,18 @@ import {
 	ToggleControl,
 } from '@wordpress/components';
 
+/**
+ * Internal Dependencies
+ */
+import { ShortcutControl } from './shortcut-control';
+
 export function ActivationControls({ attributes, setAttributes }) {
 	const {
 		scrollDepthPercentage = -1,
 		dismissalPersistenceScope = 'pageload',
 		dialogVariant = 'default',
 		animation = 'fade',
+		keyboardShortcut = '',
 	} = attributes || {};
 	const scrollDepthEnabled = 0 <= scrollDepthPercentage;
 
@@ -55,6 +61,7 @@ export function ActivationControls({ attributes, setAttributes }) {
 				/>
 			)}
 			<SelectControl
+				__next40pxDefaultSize
 				label={__('Dismissal Persistence', 'prc-block-library')}
 				help={__(
 					'How long to suppress auto-opening after the reader dismisses this dialog. Click triggers always open the dialog.',
@@ -82,6 +89,7 @@ export function ActivationControls({ attributes, setAttributes }) {
 				}
 			/>
 			<SelectControl
+				__next40pxDefaultSize
 				label={__('Dialog Variant', 'prc-block-library')}
 				help={__(
 					'Bottom sheet is a full-width panel anchored to the viewport bottom. Pair with the Slide Up animation.',
@@ -110,6 +118,12 @@ export function ActivationControls({ attributes, setAttributes }) {
 					}
 					setAttributes(nextAttributes);
 				}}
+			/>
+			<ShortcutControl
+				value={keyboardShortcut}
+				onChange={(nextShortcut) =>
+					setAttributes({ keyboardShortcut: nextShortcut })
+				}
 			/>
 		</>
 	);

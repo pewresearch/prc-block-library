@@ -5,6 +5,7 @@
  * Categories: prc-block-library
  * Description: Details block for Pew Knight Initiative co-branded research pages.
  * Block Types: core/details
+ * Viewport Width: 320
  *
  * @package PRC\Platform\Blocks
  */

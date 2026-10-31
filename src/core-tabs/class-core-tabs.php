@@ -121,7 +121,7 @@ class Core_Tabs {
 
 		$processor = new WP_HTML_Tag_Processor( $block_content );
 		while ( $processor->next_tag( array( 'class_name' => 'wp-block-tab-panel' ) ) ) {
-			$processor->set_attribute( 'data-wp-watch--sync-entity-iframes', 'core/tabs::callbacks.syncEntityIframeWithTabPanel' );
+			$processor->set_attribute( 'data-wp-watch---sync-entity-iframes', 'core/tabs::callbacks.syncEntityIframeWithTabPanel' );
 		}
 		$block_content = $processor->get_updated_html();
 
@@ -687,7 +687,7 @@ class Core_Tabs {
 
 		$tag_processor = new WP_HTML_Tag_Processor( $block_content );
 		$tag_processor->next_tag( array( 'class_name' => 'wp-block-tab-list' ) );
-		$tag_processor->set_attribute( 'data-wp-init--add-event-listeners', 'core/tabs::callbacks.addEventListeners' );
+		$tag_processor->set_attribute( 'data-wp-init---add-event-listeners', 'core/tabs::callbacks.addEventListeners' );
 
 		$orientation = $context['core/tabs-orientation'] ?? 'horizontal';
 		if ( 'vertical' === $orientation ) {

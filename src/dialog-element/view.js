@@ -13,6 +13,38 @@ import {
  * Internal dependencies
  */
 import { isDialogDismissed, persistDialogDismissal } from './dismissal-storage';
+import {
+	formatAriaKeyShortcuts,
+	formatShortcutLabel,
+	matchesShortcut,
+	parseShortcut,
+} from './shortcut';
+import {
+	handleTriggerBlur,
+	handleTriggerFocus,
+	handleTriggerPointerEnter,
+	handleTriggerPointerLeave,
+	hideShortcutTooltip,
+} from './shortcut-tooltip';
+
+/**
+ * Fired on `document` just before a keyboard shortcut opens a dialog, so a
+ * plugin can prepare the dialog. Event `detail` is `{ id }`.
+ */
+const SHORTCUT_OPEN_EVENT = 'prc-dialog-shortcut-open';
+
+const parsedShortcuts = new Map();
+
+/**
+ * @param {string} shortcut Stored shortcut.
+ * @return {Object|null} Parsed shortcut, cached per stored value.
+ */
+function getParsedShortcut(shortcut) {
+	if (!parsedShortcuts.has(shortcut)) {
+		parsedShortcuts.set(shortcut, parseShortcut(shortcut));
+	}
+	return parsedShortcuts.get(shortcut);
+}
 
 /** Whether the reader has scrolled the document at least once this page load. */
 let hasUserScrolled = false;
@@ -221,6 +253,12 @@ const { actions, state } = store('prc-block/dialog', {
 			const { id } = context;
 			return document.getElementById(id);
 		},
+		get shortcutHint() {
+			return state.dialog?.shortcutLabel || undefined;
+		},
+		get shortcutAriaKeys() {
+			return state.dialog?.shortcutAriaKeys || undefined;
+		},
 	},
 	actions: {
 		/**
@@ -260,6 +298,22 @@ const { actions, state } = store('prc-block/dialog', {
 			const { id, dialog } = state;
 			recordDismissalForDialog(dialog);
 			actions.close(id);
+		}),
+		/**
+		 * Shows the shortcut tooltip for a trigger. Directive handlers on any
+		 * trigger can call this with `prc-block/dialog::actions.onTriggerPointerEnter`.
+		 */
+		onTriggerPointerEnter: withSyncEvent((event) => {
+			handleTriggerPointerEnter(getElement().ref, event.pointerType);
+		}),
+		onTriggerPointerLeave: withSyncEvent((event) => {
+			handleTriggerPointerLeave(getElement().ref, event.pointerType);
+		}),
+		onTriggerFocus: withSyncEvent(() => {
+			handleTriggerFocus(getElement().ref);
+		}),
+		onTriggerBlur: withSyncEvent(() => {
+			handleTriggerBlur(getElement().ref);
 		}),
 		/**
 		 * Records dismissal for the given dialog id so auto-activation is suppressed.
@@ -328,6 +382,54 @@ const { actions, state } = store('prc-block/dialog', {
 			}
 		}),
 		/**
+		 * Toggles the dialog when the reader presses its configured keyboard shortcut.
+		 *
+		 * @param event The keyboard event.
+		 */
+		onShortcutKey: withSyncEvent((event) => {
+			const { id, dialog } = state;
+			const parsed = getParsedShortcut(dialog?.shortcut);
+			if (
+				!id ||
+				event.defaultPrevented ||
+				!matchesShortcut(parsed, event)
+			) {
+				return;
+			}
+			const otherDialogOpen = Array.from(
+				document.querySelectorAll('dialog[open]')
+			).some((openDialog) => openDialog.id !== id);
+			if (otherDialogOpen) {
+				return;
+			}
+			event.preventDefault();
+			if (dialog.isClosing) {
+				return;
+			}
+			if (dialog.isOpen) {
+				recordDismissalForDialog(dialog);
+				actions.close(id);
+				return;
+			}
+			document.dispatchEvent(
+				new CustomEvent(SHORTCUT_OPEN_EVENT, { detail: { id } })
+			);
+			actions.open(id);
+		}),
+		/**
+		 * Stores the platform-aware shortcut label and ARIA value next to the
+		 * dialog state so every trigger can read them.
+		 */
+		onShortcutInit: () => {
+			const { id, dialog } = state;
+			state.dialogs[id].shortcutLabel = formatShortcutLabel(
+				dialog.shortcut
+			);
+			state.dialogs[id].shortcutAriaKeys = formatAriaKeyShortcuts(
+				dialog.shortcut
+			);
+		},
+		/**
 		 * Handles the dialog open event, this is triggered by the user clicking the open button or via an auto activation timer.
 		 */
 		onOpen: () => {
@@ -338,6 +440,7 @@ const { actions, state } = store('prc-block/dialog', {
 			if (!dialog.isOpen) {
 				return;
 			}
+			hideShortcutTooltip();
 			if (dialog.enableDeepLink) {
 				addDialogIdToUrl(id);
 			}

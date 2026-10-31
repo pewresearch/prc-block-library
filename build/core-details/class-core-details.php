@@ -364,7 +364,7 @@ class Core_Details {
 
 			if ( $has_entity_iframe ) {
 				$processor->set_attribute( 'data-wp-on--toggle', 'actions.syncDetailsOpenFromToggle' );
-				$processor->set_attribute( 'data-wp-watch--sync-entity-iframes', 'callbacks.syncEntityIframeWithDetails' );
+				$processor->set_attribute( 'data-wp-watch---sync-entity-iframes', 'callbacks.syncEntityIframeWithDetails' );
 			}
 
 			$needs_summary_attrs = $has_entity_iframe || $is_knight_style;

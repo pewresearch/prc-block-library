@@ -4,6 +4,7 @@
  */
 import { __, sprintf } from '@wordpress/i18n';
 import { registerBlockVariation } from '@wordpress/blocks';
+import { columns } from '@wordpress/icons';
 
 const BLOCKNAME = 'core/group';
 
@@ -31,10 +32,39 @@ const GROUP_WIDTH_PRESETS = [
  * @return {void}
  */
 export default function registerVariations() {
+	const stack = (responsiveOrder) => [
+		'core/group',
+		{
+			layout: { type: 'flex', orientation: 'vertical' },
+			style: {
+				tablet: { layout: { prcOrder: responsiveOrder } },
+				mobile: { layout: { prcOrder: responsiveOrder } },
+			},
+		},
+		[['core/paragraph']],
+	];
+
+	registerBlockVariation(BLOCKNAME, {
+		name: 'columns',
+		title: __('Columns', 'prc-block-library'),
+		description: __(
+			'A three column grid of stacked groups.',
+			'prc-block-library'
+		),
+		icon: columns,
+		category: 'design',
+		attributes: {
+			layout: { type: 'grid', columnCount: 3 },
+		},
+		scope: ['inserter', 'transform'],
+		innerBlocks: [stack(1), stack(2), stack(3)],
+		isActive: ['layout.type', 'layout.columnCount'],
+	});
+
 	GROUP_WIDTH_PRESETS.forEach(({ name, label, contentSize }) => {
 		registerBlockVariation(BLOCKNAME, {
 			name,
-			title: __(label, 'prc-block-library'),
+			title: label,
 			description: sprintf(
 				/* translators: %s: group content width (e.g. 200px) */
 				__('A Group block with a width of %s', 'prc-block-library'),

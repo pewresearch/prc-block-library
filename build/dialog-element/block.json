@@ -90,6 +90,10 @@
         "bottom-sheet"
       ],
       "default": "default"
+    },
+    "keyboardShortcut": {
+      "type": "string",
+      "default": ""
     }
   },
   "example": {

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/decision-engine-demo",
+  "version": "0.1.0",
+  "title": "Decision Engine Demo",
+  "category": "widgets",
+  "description": "Walkthrough of the AI decision engine for staff demos: ask it preset questions, and compare AI-written social copy with and without its safety and number checks. Renders nothing for visitors who cannot edit posts.",
+  "keywords": [
+    "decision engine",
+    "ai",
+    "demo",
+    "guardrail",
+    "typesafe"
+  ],
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "interactivity": true,
+    "spacing": {
+      "margin": [
+        "top",
+        "bottom"
+      ],
+      "padding": true
+    }
+  },
+  "textdomain": "prc-block-library",
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css",
+  "viewScriptModule": "file:./view.js",
+  "render": "file:./render.php"
+}

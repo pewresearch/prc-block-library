@@ -190,20 +190,20 @@ class Logo {
 						'item-justified-right'  => 'right' === $justification,
 					)
 				),
-				'data-wp-interactive'          => wp_json_encode(
+				'data-wp-interactive'           => wp_json_encode(
 					array(
 						'namespace' => 'prc-block/logo',
 					)
 				),
-				'data-wp-context'              => wp_json_encode(
+				'data-wp-context'               => wp_json_encode(
 					array(
 						'srcLight'   => $light_url,
 						'srcDark'    => $dark_url,
 						'currentSrc' => $url,
 					)
 				),
-				'data-wp-init'                 => 'callbacks.setupSafariColorScheme',
-				'data-wp-watch--safari-scheme' => 'callbacks.applySafariColorScheme',
+				'data-wp-init'                  => 'callbacks.setupSafariColorScheme',
+				'data-wp-watch---safari-scheme' => 'callbacks.applySafariColorScheme',
 			)
 		);
 

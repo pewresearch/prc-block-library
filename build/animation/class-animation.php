@@ -69,7 +69,7 @@ class Animation {
 			'prc-block/animation'
 		);
 		$tag->set_attribute(
-			'data-wp-watch--do-animation',
+			'data-wp-watch---do-animation',
 			'callbacks.onAnimate'
 		);
 		$tag->set_attribute(

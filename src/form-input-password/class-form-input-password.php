@@ -192,11 +192,11 @@ class Form_Input_Password {
 				)
 			)
 		);
-		$tag->set_attribute( 'data-wp-watch--on--value-change', 'callbacks.onValueChange' );
+		$tag->set_attribute( 'data-wp-watch---on--value-change', 'callbacks.onValueChange' );
 		$tag->set_attribute( 'data-wp-class--is-error', 'context.error' );
 		if ( $includes_confirmation ) {
-			$tag->set_attribute( 'data-wp-init--on-confirmation-init', 'callbacks.onConfirmationInit' );
-			$tag->set_attribute( 'data-wp-watch--on--password-analyzer', 'callbacks.onPasswordAnalyzer' );
+			$tag->set_attribute( 'data-wp-init---on-confirmation-init', 'callbacks.onConfirmationInit' );
+			$tag->set_attribute( 'data-wp-watch---on--password-analyzer', 'callbacks.onPasswordAnalyzer' );
 		}
 
 		$content = $tag->get_updated_html();

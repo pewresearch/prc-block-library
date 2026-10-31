@@ -134,8 +134,8 @@ class Form_Input_Select_Range {
 						)
 					)
 				);
-				$tag->set_attribute( 'data-wp-watch--publish-range', 'callbacks.publishRange' );
-				$tag->set_attribute( 'data-wp-watch--validate-range', 'callbacks.limitSelections' );
+				$tag->set_attribute( 'data-wp-watch---publish-range', 'callbacks.publishRange' );
+				$tag->set_attribute( 'data-wp-watch---validate-range', 'callbacks.limitSelections' );
 			}
 
 		}
