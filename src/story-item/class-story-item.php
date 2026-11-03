@@ -90,6 +90,7 @@ class Story_Item {
 	 */
 	public function __construct( $loader ) {
 		require_once __DIR__ . '/class-story-item-api.php';
+		require_once __DIR__ . '/class-story-item-email.php';
 
 		$this->init( $loader );
 	}
@@ -107,6 +108,8 @@ class Story_Item {
 			$loader->add_filter( 'the_content', $this, 'prime_from_content', 8, 1 );
 			$loader->add_filter( 'render_block_context', $this, 'handle_story_item_query_context_awareness', 100, 3 );
 			$loader->add_action( 'prc_platform_on_update', $this, 'clear_cache_on_update', 10, 1 );
+			$loader->add_filter( 'prc_email_builder_sibling_separator', Story_Item_Email::class, 'sibling_separator', 10, 3 );
+			$loader->add_filter( 'prc_email_builder_extra_head_css', Story_Item_Email::class, 'head_css' );
 		}
 	}
 
@@ -183,9 +186,9 @@ class Story_Item {
 	 * @return array<string, mixed>
 	 */
 	public static function normalize_attributes( array $attributes ): array {
-		$defaults = self::attribute_defaults();
-		$merged   = wp_parse_args( $attributes, $defaults );
-		$normalized = array_intersect_key( $merged, $defaults );
+		$defaults            = self::attribute_defaults();
+		$merged              = wp_parse_args( $attributes, $defaults );
+		$normalized          = array_intersect_key( $merged, $defaults );
 		$normalized['style'] = $attributes['style'] ?? ( $merged['style'] ?? null );
 		ksort( $normalized );
 		return $normalized;
@@ -225,11 +228,11 @@ class Story_Item {
 	/**
 	 * Build the story-item markup cache key.
 	 *
-	 * @param array      $attributes Block attributes.
-	 * @param mixed      $content    Render content.
-	 * @param array      $context    Block context.
-	 * @param int|false  $post_id    Resolved post ID.
-	 * @param int|null   $version    Cache version. Null reads the request-local map.
+	 * @param array     $attributes Block attributes.
+	 * @param mixed     $content    Render content.
+	 * @param array     $context    Block context.
+	 * @param int|false $post_id    Resolved post ID.
+	 * @param int|null  $version    Cache version. Null reads the request-local map.
 	 * @return string
 	 */
 	public static function build_cache_key( array $attributes, $content, array $context, $post_id, $version = null ): string {
@@ -267,8 +270,8 @@ class Story_Item {
 		if ( array_key_exists( $post_id, self::$versions ) ) {
 			return self::$versions[ $post_id ];
 		}
-		$version                     = wp_cache_get( 'v_' . $post_id, self::$cache_group );
-		$version                     = false === $version ? 0 : (int) $version;
+		$cached                     = wp_cache_get( 'v_' . $post_id, self::$cache_group );
+		$version                    = false === $cached ? 0 : (int) $cached;
 		self::$versions[ $post_id ] = $version;
 		return $version;
 	}
@@ -291,7 +294,7 @@ class Story_Item {
 			return;
 		}
 
-		$keys  = array();
+		$keys = array();
 		foreach ( $ids as $post_id ) {
 			$keys[] = 'v_' . $post_id;
 		}

@@ -1,15 +1,17 @@
 <?php
-declare(strict_types=1);
 /**
- * Integration with prc-email-builder's deterministic email pipeline.
+ * Story Item email renderer.
  *
- * Registers email-HTML callbacks for prc-block-library block types used
- * inside newsletter posts. Currently handles prc-block/story-item, which
- * resolves content through Story_Item_API (same as the frontend) and maps
- * the resolved model onto email-safe tables.
+ * Resolves content through Story_Item_API (same as the frontend) and maps the
+ * resolved model onto email-safe tables for prc-email-builder. The block
+ * declares this renderer in block.json under `prcEmailHtml`. The static
+ * filter callbacks supply the story-item hairline and mobile stacking CSS
+ * through the email builder's generic extension points.
  *
  * @package PRC\Platform\Blocks
  */
+
+declare(strict_types=1);
 
 namespace PRC\Platform\Blocks;
 
@@ -18,15 +20,20 @@ use PRC\Platform\Email_Builder\Email_Block_Integration;
 use PRC\Platform\Email_Builder\Email_Style_Resolver;
 
 /**
- * Connects prc-block-library with the newsletter builder email pipeline.
+ * Email projection of the prc-block/story-item block.
  *
  * @package PRC\Platform\Blocks
  */
-class Email_Newsletter_Integration {
+class Story_Item_Email {
 
 	/**
-	 * Frontend image size tokens → desktop max-width (px).
-	 * Source: plugins/prc-block-library/src/story-item/style.scss.
+	 * Block name this renderer owns.
+	 */
+	public const BLOCK_NAME = 'prc-block/story-item';
+
+	/**
+	 * Frontend image size tokens to desktop max-width (px).
+	 * Mirrors `$A1`, `$A2`, `$A3`, `$A4` and `$XL` in style.scss.
 	 */
 	private const IMAGE_WIDTHS = array(
 		'A1' => 564,
@@ -41,6 +48,29 @@ class Email_Newsletter_Integration {
 	 * Matches frontend `grid-column-gap`.
 	 */
 	private const IMAGE_GUTTER = 23;
+
+	/**
+	 * Header size to font size, weight and line height.
+	 * Mirrors `$headerLargeFontSize`, `$headerMediumFontSize` and
+	 * `$headerSmallFontSize` in style.scss.
+	 */
+	private const HEADER_TYPOGRAPHY = array(
+		1 => array(
+			'size'   => 28,
+			'weight' => 'bold',
+			'line'   => 34,
+		),
+		2 => array(
+			'size'   => 20,
+			'weight' => 700,
+			'line'   => 26,
+		),
+		3 => array(
+			'size'   => 18,
+			'weight' => 400,
+			'line'   => 25,
+		),
+	);
 
 	/**
 	 * Allowed inline tags preserved in excerpt / extra HTML.
@@ -77,32 +107,73 @@ class Email_Newsletter_Integration {
 	);
 
 	/**
-	 * Constructor.
+	 * Convert a prc-block/story-item block to an email-safe card.
 	 *
-	 * @param Loader $loader The loader instance.
+	 * Entry point declared in block.json as `prcEmailHtml.callback`.
+	 *
+	 * @param array    $block Parsed block array.
+	 * @param \WP_Post $post  The newsletter post being converted.
+	 * @return string Email HTML fragment.
 	 */
-	public function __construct( $loader ) {
-		$loader->add_action(
-			'prc_email_builder_register_email_callbacks',
-			$this,
-			'register_email_callbacks'
-		);
+	public static function render( array $block, \WP_Post $post ): string {
+		return ( new self() )->story_item_to_email_html( $block, $post );
 	}
 
 	/**
-	 * Register email-HTML callbacks for block library blocks.
+	 * Hairline between two adjacent story items.
 	 *
-	 * @hook prc_email_builder_register_email_callbacks
+	 * @hook prc_email_builder_sibling_separator
+	 *
+	 * @param string $separator Separator HTML so far.
+	 * @param string $previous  Previous emitted sibling block name.
+	 * @param string $current   Current sibling block name.
+	 * @return string
 	 */
-	public function register_email_callbacks(): void {
-		if ( ! class_exists( '\PRC\Platform\Email_Builder\Email_Block_Registry' ) ) {
-			return;
+	public static function sibling_separator( $separator, $previous, $current ) {
+		if ( self::BLOCK_NAME !== $previous || self::BLOCK_NAME !== $current ) {
+			return $separator;
 		}
+		if ( ! class_exists( Email_Block_Integration::class ) ) {
+			return $separator;
+		}
+		return Email_Block_Integration::hairline_row( 'story-item-divider' );
+	}
 
-		\PRC\Platform\Email_Builder\Email_Block_Registry::register(
-			'prc-block/story-item',
-			array( $this, 'story_item_to_email_html' )
-		);
+	/**
+	 * Stack left/right story cards on narrow viewports (Mailchimp parity).
+	 *
+	 * Email `<td>` classes target this CSS. It is unrelated to style.scss,
+	 * which styles the web grid.
+	 *
+	 * @hook prc_email_builder_extra_head_css
+	 *
+	 * @param string $css CSS rules so far.
+	 * @return string
+	 */
+	public static function head_css( $css ) {
+		$rules = <<<'CSS'
+	/* Story-item left/right cards — stack on narrow viewports (Mailchimp parity) */
+	@media only screen and (max-width: 480px) {
+	td.story-item-image,
+	td.story-item-text {
+		display: block !important;
+		width: 100% !important;
+		max-width: 100% !important;
+		padding-left: 0 !important;
+		padding-right: 0 !important;
+		box-sizing: border-box;
+	}
+	td.story-item-image {
+		padding-bottom: 12px !important;
+	}
+	td.story-item-image img {
+		width: 100% !important;
+		max-width: 100% !important;
+		height: auto !important;
+	}
+	}
+CSS;
+		return '' === $css ? $rules : $css . "\n" . $rules;
 	}
 
 	/**
@@ -148,8 +219,8 @@ class Email_Newsletter_Integration {
 			$url = '';
 		}
 
-		$title = is_string( $title ) ? $title : '';
-		$extra = is_string( $extra ) ? $extra : '';
+		$title        = is_string( $title ) ? $title : '';
+		$extra        = is_string( $extra ) ? $extra : '';
 		$inner_blocks = is_array( $block['innerBlocks'] ?? null ) ? $block['innerBlocks'] : array();
 
 		$extra_html = '';
@@ -164,7 +235,11 @@ class Email_Newsletter_Integration {
 			}
 		}
 
-		/** @var array{title_html:string,title_text:string,extra_html:string} $story_content */
+		/**
+		 * Email-ready title and extra markup.
+		 *
+		 * @var array{title_html:string,title_text:string,extra_html:string} $story_content
+		 */
 		$story_content = array(
 			'title_html' => trim( (string) wp_kses( $title, self::ALLOWED_TITLE_HTML ) ),
 			// Replace soft breaks with spaces before stripping so alt text does not jam lines.
@@ -341,11 +416,11 @@ class Email_Newsletter_Integration {
 		}
 
 		if ( '' !== $title_html ) {
-			$header = $this->header_typography( (int) ( $attrs['headerSize'] ?? 2 ), ! empty( $attrs['enableAltHeaderWeight'] ) || ! $has_excerpt );
+			$header       = $this->header_typography( (int) ( $attrs['headerSize'] ?? 2 ), ! empty( $attrs['enableAltHeaderWeight'] ) || ! $has_excerpt );
 			$title_linked = '' !== $url
 				? sprintf( '<a href="%s" style="color:#000000;text-decoration:none;">%s</a>', esc_url( $url ), $title_html )
 				: $title_html;
-			$parts .= sprintf(
+			$parts       .= sprintf(
 				'<p style="font-family:%s;font-size:%dpx;line-height:%dpx;font-weight:%s;color:#000000;margin:0;">%s</p>',
 				esc_attr( $serif ),
 				$header['size'],
@@ -388,30 +463,7 @@ class Email_Newsletter_Integration {
 	 * @return array{size:int,weight:string|int,line:int}
 	 */
 	private function header_typography( int $header_size, bool $light ): array {
-		switch ( $header_size ) {
-			case 1:
-				$spec = array(
-					'size'   => 28,
-					'weight' => 'bold',
-					'line'   => 34,
-				);
-				break;
-			case 3:
-				$spec = array(
-					'size'   => 18,
-					'weight' => 400,
-					'line'   => 25,
-				);
-				break;
-			case 2:
-			default:
-				$spec = array(
-					'size'   => 20,
-					'weight' => 700,
-					'line'   => 26,
-				);
-				break;
-		}
+		$spec = self::HEADER_TYPOGRAPHY[ $header_size ] ?? self::HEADER_TYPOGRAPHY[2];
 
 		if ( $light ) {
 			$spec['weight'] = 'normal';
@@ -583,7 +635,7 @@ class Email_Newsletter_Integration {
 			$img_w,
 			$this->force_image_width( $image_markup, $img_w )
 		);
-		$text_cell = sprintf(
+		$text_cell  = sprintf(
 			'<td class="story-item-text" valign="top" style="padding:0;">%s</td>',
 			$text_content
 		);

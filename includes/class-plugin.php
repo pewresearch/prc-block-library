@@ -153,7 +153,6 @@ class Plugin {
 		// Print engine extracted to plugins/prc-print-engine.
 		require_once plugin_dir_path( __DIR__ ) . '/includes/supports/class-supports.php';
 		require_once plugin_dir_path( __DIR__ ) . '/includes/class-markdown-for-agents-integration.php';
-		require_once plugin_dir_path( __DIR__ ) . '/includes/class-email-newsletter-integration.php';
 		require_once plugin_dir_path( __DIR__ ) . '/includes/class-story-item-topic-label.php';
 
 		// Load blocks.
@@ -270,7 +269,6 @@ class Plugin {
 		// Print engine extracted to plugins/prc-print-engine.
 		new Supports( $this->get_loader() );
 		new Markdown_For_Agents_Integration( $this->get_loader() );
-		new Email_Newsletter_Integration( $this->get_loader() );
 		new Story_Item_Topic_Label( $this->get_loader() );
 	}
 

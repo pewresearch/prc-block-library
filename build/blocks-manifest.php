@@ -4780,6 +4780,10 @@ return array(
 				'clientNavigation' => true
 			)
 		),
+		'prcEmailHtml' => array(
+			'mode' => 'html-fallback',
+			'callback' => 'PRC\\Platform\\Blocks\\Story_Item_Email::render'
+		),
 		'textdomain' => 'story-item',
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
