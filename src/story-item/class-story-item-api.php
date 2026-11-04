@@ -295,14 +295,17 @@ class Story_Item_API {
 		return $taxonomy ? $taxonomy : 'formats';
 	}
 
+	/**
+	 * Format label for post types that imply their format when no term is set.
+	 *
+	 * @return string|false
+	 */
 	private function get_fallback_format_term() {
 		$post_type = get_post_type( $this->post_id );
-		if ( 'short-read' === $post_type ) {
-			return 'short-read';
+		if ( in_array( $post_type, array( 'short-read', 'feature', 'decoded' ), true ) ) {
+			return $post_type;
 		}
-		if ( 'feature' === $post_type ) {
-			return 'feature';
-		}
+		return false;
 	}
 
 	/**

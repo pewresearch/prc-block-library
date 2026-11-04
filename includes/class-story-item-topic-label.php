@@ -42,6 +42,38 @@ class Story_Item_Topic_Label {
 	}
 
 	/**
+	 * Whether the current request is a Decoded archive.
+	 *
+	 * @return bool
+	 */
+	public static function is_decoded_archive() {
+		if ( function_exists( 'is_post_type_archive' ) && is_post_type_archive( 'decoded' ) ) {
+			return true;
+		}
+		if ( function_exists( 'is_tax' ) && is_tax( 'decoded-category' ) ) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Rewrite story-item attributes so Decoded archives show the format.
+	 *
+	 * Saved site-editor copies of the Decoded archive template label items by
+	 * research team (PRC-1199). Posts without a team then fall back to "Report".
+	 *
+	 * @param array $attributes Story-item attributes.
+	 * @return array
+	 */
+	public static function normalize_decoded_attributes( array $attributes ) {
+		$taxonomy = $attributes['metaTaxonomy'] ?? 'formats';
+		if ( in_array( $taxonomy, array( 'research-teams', 'decoded-category', 'category' ), true ) ) {
+			$attributes['metaTaxonomy'] = 'formats';
+		}
+		return $attributes;
+	}
+
+	/**
 	 * Rewrite story-item attributes so topic archives show the format.
 	 *
 	 * @param array $attributes Story-item attributes.
@@ -79,10 +111,14 @@ class Story_Item_Topic_Label {
 		if ( ( $parsed_block['blockName'] ?? '' ) !== 'prc-block/story-item' ) {
 			return $parsed_block;
 		}
+		$attributes = is_array( $parsed_block['attrs'] ?? null ) ? $parsed_block['attrs'] : array();
+		if ( self::is_decoded_archive() ) {
+			$parsed_block['attrs'] = self::normalize_decoded_attributes( $attributes );
+			return $parsed_block;
+		}
 		if ( ! self::is_topic_archive() ) {
 			return $parsed_block;
 		}
-		$attributes            = is_array( $parsed_block['attrs'] ?? null ) ? $parsed_block['attrs'] : array();
 		$parsed_block['attrs'] = self::normalize_attributes( $attributes );
 		return $parsed_block;
 	}
