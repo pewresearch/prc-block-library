@@ -27,6 +27,8 @@ const tip = {
 	visible: false,
 	showTimer: null,
 	leaveTimer: null,
+	ignoreFocus: false,
+	awaitingPointerMove: false,
 };
 
 function getTooltipElement() {
@@ -142,7 +144,7 @@ function adopt(trigger) {
  * @param {string}      pointerType Pointer event `pointerType`.
  */
 export function handleTriggerPointerEnter(trigger, pointerType) {
-	if (pointerType !== 'mouse') {
+	if (pointerType !== 'mouse' || tip.awaitingPointerMove) {
 		return;
 	}
 	adopt(trigger);
@@ -173,7 +175,7 @@ export function handleTriggerPointerLeave(trigger, pointerType) {
  * @param {HTMLElement} trigger Trigger element.
  */
 export function handleTriggerFocus(trigger) {
-	if (!trigger.matches(':focus-visible')) {
+	if (tip.ignoreFocus || !trigger.matches(':focus-visible')) {
 		return;
 	}
 	adopt(trigger);
@@ -200,4 +202,34 @@ export function hideShortcutTooltip() {
 	tip.focused = false;
 	tip.dismissed = false;
 	hide();
+}
+
+function onPointerMoveAfterClose() {
+	tip.awaitingPointerMove = false;
+}
+
+/**
+ * Closes a dialog without the side effects showing the tooltip.
+ *
+ * Closing restores focus to the trigger, and that focus matches
+ * `:focus-visible` after the reader typed in the dialog (always in Safari).
+ * Browsers fire that focus event synchronously inside `close()`.
+ *
+ * A modal leaving the top layer also fires `pointerenter` on a trigger that
+ * sits under a still pointer, with no `pointermove`. Hover waits for the
+ * pointer to move.
+ *
+ * @param {Function} close Calls `HTMLDialogElement.close()`.
+ */
+export function closeWithoutTooltip(close) {
+	tip.ignoreFocus = true;
+	try {
+		close();
+	} finally {
+		tip.ignoreFocus = false;
+	}
+	tip.awaitingPointerMove = true;
+	document.addEventListener('pointermove', onPointerMoveAfterClose, {
+		once: true,
+	});
 }

@@ -20,6 +20,7 @@ import {
 	parseShortcut,
 } from './shortcut';
 import {
+	closeWithoutTooltip,
 	handleTriggerBlur,
 	handleTriggerFocus,
 	handleTriggerPointerEnter,
@@ -466,7 +467,7 @@ const { actions, state } = store('prc-block/dialog', {
 			state.dialogs[id].isClosing = true;
 			setTimeout(
 				withScope(() => {
-					dialogElement?.close();
+					closeWithoutTooltip(() => dialogElement?.close());
 					removeDialogIdFromUrl(id);
 					state.dialogs[id].isClosing = false;
 					state.dialogs[id].isOpen = false;
