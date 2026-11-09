@@ -35,7 +35,7 @@ class Taxonomy_List {
 	public function init( $loader = null ) {
 		if ( null !== $loader ) {
 			$loader->add_action( 'init', $this, 'block_init' );
-			// @TODO: Eventually we'll want to come in and clean this out in say April 2026.
+			// Fallback for saved content without a <nav> wrapper. Remove only after a block-catalog inventory shows none remain.
 			$loader->add_filter( 'render_block_prc-block/taxonomy-list', $this, 'fallback_render_wrapper', 10, 2 );
 		}
 	}
@@ -45,6 +45,8 @@ class Taxonomy_List {
 	 *
 	 * @hook render_block_prc-block/taxonomy-list
 	 *
+	 * @param string $content Rendered block content.
+	 * @param array  $block   Parsed block.
 	 * @return string Rendered HTML.
 	 */
 	public function fallback_render_wrapper( $content, $block ) {

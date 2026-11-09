@@ -4032,68 +4032,6 @@ return array(
 		'textdomain' => 'promo-rotator',
 		'editorScript' => 'file:./index.js'
 	),
-	'render-to-region' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'prc-block/render-to-region',
-		'version' => '1.0.0',
-		'title' => 'Render To Region',
-		'category' => 'theme',
-		'description' => 'This block allows other blocks to "render to" the defined region upon certain conditions.',
-		'attributes' => array(
-			'regionName' => array(
-				'type' => 'string'
-			),
-			'activationConditions' => array(
-				'type' => 'object',
-				'properties' => array(
-					'isDesktop' => array(
-						'type' => 'boolean',
-						'default' => true
-					),
-					'isMobile' => array(
-						'type' => 'boolean',
-						'default' => false
-					),
-					'isTablet' => array(
-						'type' => 'boolean',
-						'default' => false
-					),
-					'isPortrait' => array(
-						'type' => 'boolean',
-						'default' => false
-					),
-					'isLandscape' => array(
-						'type' => 'boolean',
-						'default' => false
-					)
-				),
-				'default' => array(
-					'isDesktop' => false,
-					'isMobile' => false,
-					'isTablet' => false,
-					'isPortrait' => false,
-					'isLandscape' => false
-				)
-			)
-		),
-		'example' => array(
-			'attributes' => array(
-				'regionName' => 'sidebar'
-			)
-		),
-		'supports' => array(
-			'html' => false,
-			'anchor' => true,
-			'reusable' => false,
-			'interactivity' => true
-		),
-		'textdomain' => 'render-to-region',
-		'editorScript' => 'file:./index.js',
-		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./style-index.css',
-		'viewScriptModule' => 'file:./view.js'
-	),
 	'responsive-container-controller' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,

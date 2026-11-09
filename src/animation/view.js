@@ -1,33 +1,23 @@
+/**
+ * External Dependencies
+ */
+import confetti from '@prc/confetti';
+
+/**
+ * WordPress Dependencies
+ */
 import {
 	store,
 	getContext,
-	getServerContext,
-	getServerState,
 	getElement,
 	withScope,
-	withSyncEvent,
 } from '@wordpress/interactivity';
 
 /**
- * Internal Dependencies
- */
-
-/**
- * Load the confetti script.
- */
-const loadConfettiScript = () => {
-	return new Promise((resolve, reject) => {
-		const script = document.createElement('script');
-		script.src =
-			'https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js';
-		script.onload = resolve;
-		script.onerror = reject;
-		document.head.appendChild(script);
-	});
-};
-
-/**
  * Generate a random number between a min and max.
+ * @param {number} min Lower bound.
+ * @param {number} max Upper bound.
+ * @return {number} Random value between min and max.
  */
 function randomInRange(min, max) {
 	return Math.random() * (max - min) + min;
@@ -37,7 +27,6 @@ const { state, actions } = store('prc-block/animation', {
 	state: {
 		get isAnimating() {
 			const context = getContext();
-			console.log('isAnimating', { ...context });
 			if (!context) {
 				return false;
 			}
@@ -53,30 +42,28 @@ const { state, actions } = store('prc-block/animation', {
 	},
 	actions: {
 		*explodeConfettiFireworks(speed) {
-			console.log('explodeConfettiFireworks', { ...state });
 			if (!state.isAnimating) {
 				return;
 			}
 			const context = getContext();
-			console.log('Confetti Fireworks!', { ...context, speed });
-			var duration = speed;
-			var animationEnd = Date.now() + duration;
-			var defaults = {
+			const duration = speed;
+			const animationEnd = Date.now() + duration;
+			const defaults = {
 				startVelocity: 30,
 				spread: 360,
 				ticks: 60,
 				zIndex: 0,
 			};
 
-			var interval = setInterval(
+			const interval = setInterval(
 				withScope(() => {
-					var timeLeft = animationEnd - Date.now();
+					const timeLeft = animationEnd - Date.now();
 
 					if (timeLeft <= 0) {
 						return clearInterval(interval);
 					}
 
-					var particleCount = 50 * (timeLeft / duration);
+					const particleCount = 50 * (timeLeft / duration);
 					// since particles fall down, start a bit higher than random
 					confetti({
 						...defaults,
@@ -99,12 +86,11 @@ const { state, actions } = store('prc-block/animation', {
 				250
 			);
 		},
-		*explodeConfettiFromCenterOfScreen(speed) {
+		*explodeConfettiFromCenterOfScreen() {
 			if (!state.isAnimating) {
 				return;
 			}
 			const context = getContext();
-			console.log('Center Confetti Explosion!', { ...context, speed });
 
 			// Single burst from center
 			confetti({
@@ -160,14 +146,13 @@ const { state, actions } = store('prc-block/animation', {
 				return;
 			}
 			const context = getContext();
-			console.log('Emoji Fireworks!', { ...context, emoji, speed });
 			const emojiShape = confetti.shapeFromText({
 				text: emoji,
 				scalar: 1.2,
 			});
-			var duration = speed;
-			var animationEnd = Date.now() + duration;
-			var defaults = {
+			const duration = speed;
+			const animationEnd = Date.now() + duration;
+			const defaults = {
 				startVelocity: 30,
 				spread: 360,
 				ticks: 60,
@@ -175,15 +160,15 @@ const { state, actions } = store('prc-block/animation', {
 				shapes: [emojiShape],
 			};
 
-			var interval = setInterval(
+			const interval = setInterval(
 				withScope(() => {
-					var timeLeft = animationEnd - Date.now();
+					const timeLeft = animationEnd - Date.now();
 
 					if (timeLeft <= 0) {
 						return clearInterval(interval);
 					}
 
-					var particleCount = 50 * (timeLeft / duration);
+					const particleCount = 50 * (timeLeft / duration);
 					// since particles fall down, start a bit higher than random
 					confetti({
 						...defaults,
@@ -206,12 +191,11 @@ const { state, actions } = store('prc-block/animation', {
 				250
 			);
 		},
-		*explodeEmojiFromCenterOfScreen(emoji, speed) {
+		*explodeEmojiFromCenterOfScreen(emoji) {
 			if (!state.isAnimating) {
 				return;
 			}
 			const context = getContext();
-			console.log('Emoji Explosion!', { ...context, emoji, speed });
 			const emojiShape = confetti.shapeFromText({
 				text: emoji,
 				scalar: 1.2,
@@ -262,10 +246,9 @@ const { state, actions } = store('prc-block/animation', {
 				return;
 			}
 			const context = getContext();
-			console.log('Confetti Rain!', { ...context, speed });
-			var duration = speed;
-			var animationEnd = Date.now() + duration;
-			var defaults = {
+			const duration = speed;
+			const animationEnd = Date.now() + duration;
+			const defaults = {
 				startVelocity: 10,
 				spread: 45,
 				ticks: 60,
@@ -283,9 +266,9 @@ const { state, actions } = store('prc-block/animation', {
 				scalar: 0.6,
 			};
 
-			var interval = setInterval(
+			const interval = setInterval(
 				withScope(() => {
-					var timeLeft = animationEnd - Date.now();
+					const timeLeft = animationEnd - Date.now();
 
 					if (timeLeft <= 0) {
 						clearInterval(interval);
@@ -293,7 +276,7 @@ const { state, actions } = store('prc-block/animation', {
 						return;
 					}
 
-					var particleCount = 15 * (timeLeft / duration);
+					const particleCount = 15 * (timeLeft / duration);
 					// Rain falls from top across the screen
 					for (let i = 0; i < 5; i++) {
 						setTimeout(() => {
@@ -316,14 +299,13 @@ const { state, actions } = store('prc-block/animation', {
 				return;
 			}
 			const context = getContext();
-			console.log('Emoji Rain!', { ...context, emoji, speed });
 			const emojiShape = confetti.shapeFromText({
 				text: emoji,
 				scalar: 1.0,
 			});
-			var duration = speed;
-			var animationEnd = Date.now() + duration;
-			var defaults = {
+			const duration = speed;
+			const animationEnd = Date.now() + duration;
+			const defaults = {
 				startVelocity: 10,
 				spread: 45,
 				ticks: 60,
@@ -333,9 +315,9 @@ const { state, actions } = store('prc-block/animation', {
 				scalar: 0.8,
 			};
 
-			var interval = setInterval(
+			const interval = setInterval(
 				withScope(() => {
-					var timeLeft = animationEnd - Date.now();
+					const timeLeft = animationEnd - Date.now();
 
 					if (timeLeft <= 0) {
 						clearInterval(interval);
@@ -343,7 +325,7 @@ const { state, actions } = store('prc-block/animation', {
 						return;
 					}
 
-					var particleCount = 15 * (timeLeft / duration);
+					const particleCount = 15 * (timeLeft / duration);
 					// Rain falls from top across the screen
 					for (let i = 0; i < 5; i++) {
 						setTimeout(() => {
@@ -373,26 +355,20 @@ const { state, actions } = store('prc-block/animation', {
 			const { ref } = getElement();
 			const { parentElement } = ref;
 			if (parentElement.getAttribute('hidden')) {
-				console.info(
-					'Parent Element for Animation is Hidden, failing over and not running animation'
-				);
 				return;
 			}
-			console.log('onAnimate', { state: state[id], ref });
-			// When the animation is enabled, we'll load the confetti script and explode the confetti.
 			if (ref) {
-				yield loadConfettiScript();
 				if (animation === 'confetti' && effect === 'fireworks') {
 					yield actions.explodeConfettiFireworks(speed);
 				}
 				if (animation === 'confetti' && effect === 'center') {
-					yield actions.explodeConfettiFromCenterOfScreen(speed);
+					yield actions.explodeConfettiFromCenterOfScreen();
 				}
 				if (animation === 'confetti' && effect === 'rain') {
 					yield actions.rainConfetti(speed);
 				}
 				if (animation === 'emoji' && effect === 'center') {
-					yield actions.explodeEmojiFromCenterOfScreen(emoji, speed);
+					yield actions.explodeEmojiFromCenterOfScreen(emoji);
 				}
 				if (animation === 'emoji' && effect === 'fireworks') {
 					yield actions.explodeEmojiFireworks(emoji, speed);

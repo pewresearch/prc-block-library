@@ -39,6 +39,7 @@
 		"@emotion/react": "^11.13.3",
 		"@emotion/styled": "^11.13.0",
 		"@prc/components": "*",
+		"@prc/confetti": "*",
 		"@prc/controls": "*",
 		"@prc/functions": "*",
 		"@prc/hooks": "*",

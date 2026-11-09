@@ -94,7 +94,7 @@ class Core_Tabs {
 			$loader->add_action( 'enqueue_block_assets', $this, 'register_editor_style' );
 			$loader->add_filter( 'render_block_context', $this, 'filter_render_block_context', 10, 2 );
 			// Render legacy PRC tabs as core/tabs structure.
-			// @TODO: Disable before 1.4.3 release, will re-enable in 1.4.4 on Friday 01/25/26.
+			// Intentionally off: prc-block/tabs still renders through deprecated/src/tabs. Re-enabling this changes live legacy markup, so it needs a block-catalog inventory first.
 			// $loader->add_filter( 'render_block_prc-block/tabs', $this, 'render_prc_tabs', 10, 2 );
 			// Render modified core/tab-list block.
 			$loader->add_filter( 'render_block_core/tab-list', $this, 'render_core_tab_list', 10, 3 );
@@ -656,8 +656,9 @@ class Core_Tabs {
 	 *
 	 * @hook render_block_core/tab-list
 	 *
-	 * @param string $block_content Block content.
-	 * @param array  $block Block.
+	 * @param string   $block_content Block content.
+	 * @param array    $block         Block.
+	 * @param WP_Block $instance      Block instance.
 	 * @return string
 	 */
 	public function render_core_tab_list( $block_content, $block, $instance ) {

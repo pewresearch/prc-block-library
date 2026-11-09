@@ -86,7 +86,7 @@ To scaffold a new block, run `npm run create-block` from the repository root. Se
 | `bin/build-block.js`                                         | CLI helper for building a single named block                                                                                             |
 | `bin/start-block.js`                                         | CLI helper for watching a single named block                                                                                             |
 | `webpack.config.js`                                          | Inherits from root `webpack.config.js`                                                                                                   |
-| `tests/prc-block-library/e2e/`                                | Playwright e2e specs (monorepo root)                                                                                                     |
+| `tests/prc-block-library/e2e/`                               | Playwright e2e specs (monorepo root)                                                                                                     |
 
 ## Blocks
 
@@ -96,8 +96,8 @@ This section doubles as the documentation index. Each block links to its detaile
 
 Adds attributes, context, rendering changes, or new editor controls to existing WordPress core blocks.
 
-| Block                                                                    | Notes                                                                  |
-| ------------------------------------------------------------------------ | ---------------------------------------------------------------------- |
+| Block                                                                                                           | Notes                                                                  |
+| --------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
 | [`core/button`](../../docs/plugins/prc-block-library/blocks/core-button.md)                                     | PRC platform customizations                                            |
 | [`core/categories`](../../docs/plugins/prc-block-library/blocks/core-categories.md)                             | PRC platform customizations                                            |
 | [`core/carousel`](../../docs/plugins/prc-block-library/blocks/core-carousel.md)                                 | WIP, no functional implementation yet                                  |
@@ -127,8 +127,8 @@ Adds attributes, context, rendering changes, or new editor controls to existing 
 
 ### Content & Editorial (`prc-block/*`)
 
-| Block                                                          | Description                                                                                  |
-| -------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| Block                                                                                                 | Description                                                                                  |
+| ----------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
 | [`prc-block/story-item`](../../docs/plugins/prc-block-library/blocks/story-item.md)                   | Primary content card for linking to articles; supports block bindings and query loop context |
 | [`prc-block/popular-story`](../../docs/plugins/prc-block-library/blocks/popular-story.md)             | Variant of story item for trending/popular content                                           |
 | [`prc-block/sub-title`](../../docs/plugins/prc-block-library/blocks/sub-title.md)                     | Deck/subtitle display below a post title                                                     |
@@ -147,8 +147,8 @@ Adds attributes, context, rendering changes, or new editor controls to existing 
 
 ### Navigation & Layout
 
-| Block                                                                                  | Description                                                 |
-| -------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| Block                                                                                                                         | Description                                                 |
+| ----------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
 | [`prc-block/navigation-mega-menu`](../../docs/plugins/prc-block-library/blocks/navigation-mega-menu.md)                       | Mega-menu extension for `core/navigation`                   |
 | [`prc-block/accordion-controller`](../../docs/plugins/prc-block-library/blocks/accordion-controller.md)                       | Manages expand/collapse state across child accordions       |
 | [`prc-block/accordion`](../../docs/plugins/prc-block-library/blocks/accordion.md)                                             | Individual accordion panel                                  |
@@ -162,70 +162,69 @@ Adds attributes, context, rendering changes, or new editor controls to existing 
 
 ### Interactive UI
 
-| Block                                                            | Description                                                |
-| ---------------------------------------------------------------- | ---------------------------------------------------------- |
-| [`prc-block/dialog`](../../docs/plugins/prc-block-library/blocks/dialog.md)                             | Modal dialog container                                     |
-| [`prc-block/dialog-trigger`](../../docs/plugins/prc-block-library/blocks/dialog-trigger.md)             | Button or element that opens a dialog                      |
-| [`prc-block/dialog-element`](../../docs/plugins/prc-block-library/blocks/dialog-element.md)             | Content region inside a dialog                             |
-| [`prc-block/flip-card-controller`](../../docs/plugins/prc-block-library/blocks/flip-card-controller.md) | Flip card animation container                              |
-| [`prc-block/flip-card-side`](../../docs/plugins/prc-block-library/blocks/flip-card-side.md)             | Front or back face of a flip card                          |
-| [`prc-block/show-more`](../../docs/plugins/prc-block-library/blocks/show-more.md)                       | Truncates content with an expandable "show more" control   |
-| [`prc-block/animation`](../../docs/plugins/prc-block-library/blocks/animation.md)                       | Applies scroll/entrance animations to inner content        |
-| [`prc-block/progress-bar`](../../docs/plugins/prc-block-library/blocks/progress-bar.md)                 | Animated progress indicator                                |
-| [`prc-block/render-to-region`](../../docs/plugins/prc-block-library/blocks/render-to-region.md)         | (In progress) Portals block content to a named page region |
-| [`prc-block/entity-as-iframe`](../../docs/plugins/prc-block-library/blocks/entity-as-iframe.md)         | Embeds a WordPress post or page as a resizing iframe       |
+| Block                                                                                                   | Description                                              |
+| ------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| [`prc-block/dialog`](../../docs/plugins/prc-block-library/blocks/dialog.md)                             | Modal dialog container                                   |
+| [`prc-block/dialog-trigger`](../../docs/plugins/prc-block-library/blocks/dialog-trigger.md)             | Button or element that opens a dialog                    |
+| [`prc-block/dialog-element`](../../docs/plugins/prc-block-library/blocks/dialog-element.md)             | Content region inside a dialog                           |
+| [`prc-block/flip-card-controller`](../../docs/plugins/prc-block-library/blocks/flip-card-controller.md) | Flip card animation container                            |
+| [`prc-block/flip-card-side`](../../docs/plugins/prc-block-library/blocks/flip-card-side.md)             | Front or back face of a flip card                        |
+| [`prc-block/show-more`](../../docs/plugins/prc-block-library/blocks/show-more.md)                       | Truncates content with an expandable "show more" control |
+| [`prc-block/animation`](../../docs/plugins/prc-block-library/blocks/animation.md)                       | Applies scroll/entrance animations to inner content      |
+| [`prc-block/progress-bar`](../../docs/plugins/prc-block-library/blocks/progress-bar.md)                 | Animated progress indicator                              |
+| [`prc-block/entity-as-iframe`](../../docs/plugins/prc-block-library/blocks/entity-as-iframe.md)         | Embeds a WordPress post or page as a resizing iframe     |
 
 ### Forms
 
 Form container and structure blocks (`prc-block/form`, `form-page`, `form-submit`, `form-message`, `form-captcha`, `form-message-bindings`) are registered by [`@prc/block-forms`](../prc-block-forms/README.md). Form **input** blocks remain in this plugin:
 
-| Block                                                                  | Description                                               |
-| ---------------------------------------------------------------------- | --------------------------------------------------------- |
-| [`prc-block/form-input-text`](../../docs/plugins/prc-block-library/blocks/form-input-text.md)                 | Text input                                                |
-| [`prc-block/form-input-textarea`](../../docs/plugins/prc-block-library/blocks/form-input-textarea.md)         | Textarea input                                            |
-| [`prc-block/form-input-checkbox`](../../docs/plugins/prc-block-library/blocks/form-input-checkbox.md)         | Checkbox input                                            |
-| [`prc-block/form-input-radio-group`](../../docs/plugins/prc-block-library/blocks/form-input-radio-group.md)   | Radio button group                                        |
-| [`prc-block/form-input-select`](../../docs/plugins/prc-block-library/blocks/form-input-select.md)             | Select/dropdown                                           |
-| [`prc-block/form-input-select-range`](../../docs/plugins/prc-block-library/blocks/form-input-select-range.md) | Dual-handle range select                                  |
-| [`prc-block/form-input-range`](../../docs/plugins/prc-block-library/blocks/form-input-range.md)               | Single-handle range slider                                |
-| [`prc-block/form-input-password`](../../docs/plugins/prc-block-library/blocks/form-input-password.md)         | Password input                                            |
-| [`prc-block/mailchimp-form`](../../docs/plugins/prc-block-library/blocks/mailchimp-form.md) (deprecated)     | Use Form block **Newsletter Signup (Mailchimp)** variation |
-| [`prc-block/mailchimp-select`](../../docs/plugins/prc-block-library/blocks/mailchimp-select.md) (deprecated) | Use Form block **Newsletter Selection (Mailchimp)** variation |
+| Block                                                                                                         | Description                                                   |
+| ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| [`prc-block/form-input-text`](../../docs/plugins/prc-block-library/blocks/form-input-text.md)                 | Text input                                                    |
+| [`prc-block/form-input-textarea`](../../docs/plugins/prc-block-library/blocks/form-input-textarea.md)         | Textarea input                                                |
+| [`prc-block/form-input-checkbox`](../../docs/plugins/prc-block-library/blocks/form-input-checkbox.md)         | Checkbox input                                                |
+| [`prc-block/form-input-radio-group`](../../docs/plugins/prc-block-library/blocks/form-input-radio-group.md)   | Radio button group                                            |
+| [`prc-block/form-input-select`](../../docs/plugins/prc-block-library/blocks/form-input-select.md)             | Select/dropdown                                               |
+| [`prc-block/form-input-select-range`](../../docs/plugins/prc-block-library/blocks/form-input-select-range.md) | Dual-handle range select                                      |
+| [`prc-block/form-input-range`](../../docs/plugins/prc-block-library/blocks/form-input-range.md)               | Single-handle range slider                                    |
+| [`prc-block/form-input-password`](../../docs/plugins/prc-block-library/blocks/form-input-password.md)         | Password input                                                |
+| [`prc-block/mailchimp-form`](../../docs/plugins/prc-block-library/blocks/mailchimp-form.md) (deprecated)      | Use Form block **Newsletter Signup (Mailchimp)** variation    |
+| [`prc-block/mailchimp-select`](../../docs/plugins/prc-block-library/blocks/mailchimp-select.md) (deprecated)  | Use Form block **Newsletter Selection (Mailchimp)** variation |
 
 ### Social
 
-| Block                                                                | Description                    |
-| -------------------------------------------------------------------- | ------------------------------ |
+| Block                                                                                                       | Description                    |
+| ----------------------------------------------------------------------------------------------------------- | ------------------------------ |
 | [`prc-block/social-share-sheet`](../../docs/plugins/prc-block-library/blocks/social-share-sheet.md)         | Social sharing action sheet    |
 | [`prc-block/social-share-text-link`](../../docs/plugins/prc-block-library/blocks/social-share-text-link.md) | Inline "share this" text link  |
 | [`prc-block/social-share-url-field`](../../docs/plugins/prc-block-library/blocks/social-share-url-field.md) | Copyable URL field for sharing |
 
 ### Taxonomy & Data
 
-| Block                                                                                | Description                                      |
-| ------------------------------------------------------------------------------------ | ------------------------------------------------ |
-| [`prc-block/table`](../../docs/plugins/prc-block-tables/blocks/table.md)                               | Data table with TypeScript editor and sorting (owned by `@prc/block-tables`)    |
-| [`prc-block/taxonomy-list`](../../docs/plugins/prc-block-library/blocks/taxonomy-list.md)                                   | Lists terms from a taxonomy                      |
-| [`prc-block/taxonomy-list-link`](../../docs/plugins/prc-block-library/blocks/taxonomy-list-link.md)                         | Individual term link within a taxonomy list      |
-| [`prc-block/taxonomy-search`](../../docs/plugins/prc-block-library/blocks/taxonomy-search.md)                               | Searchable term browser                          |
-| [`prc-block/taxonomy-index-az-controller`](../../docs/plugins/prc-block-library/blocks/taxonomy-index-az-controller.md)     | A–Z index controller for taxonomy browsing       |
-| [`prc-block/taxonomy-index-az-list`](../../docs/plugins/prc-block-library/blocks/taxonomy-index-az-list.md)                 | Letter-grouped term list                         |
-| [`prc-block/taxonomy-index-list-controller`](../../docs/plugins/prc-block-library/blocks/taxonomy-index-list-controller.md) | Paginated/filtered taxonomy list controller      |
-| [`prc-block/tokens-list`](../../docs/plugins/prc-block-library/blocks/tokens-list.md)                                       | Displays a list of design tokens                 |
-| [`prc-block/roper-db-search`](../../docs/plugins/prc-block-library/blocks/roper-db-search.md)                               | Roper Center database search interface           |
+| Block                                                                                                                       | Description                                                                  |
+| --------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| [`prc-block/table`](../../docs/plugins/prc-block-tables/blocks/table.md)                                                    | Data table with TypeScript editor and sorting (owned by `@prc/block-tables`) |
+| [`prc-block/taxonomy-list`](../../docs/plugins/prc-block-library/blocks/taxonomy-list.md)                                   | Lists terms from a taxonomy                                                  |
+| [`prc-block/taxonomy-list-link`](../../docs/plugins/prc-block-library/blocks/taxonomy-list-link.md)                         | Individual term link within a taxonomy list                                  |
+| [`prc-block/taxonomy-search`](../../docs/plugins/prc-block-library/blocks/taxonomy-search.md)                               | Searchable term browser                                                      |
+| [`prc-block/taxonomy-index-az-controller`](../../docs/plugins/prc-block-library/blocks/taxonomy-index-az-controller.md)     | A–Z index controller for taxonomy browsing                                   |
+| [`prc-block/taxonomy-index-az-list`](../../docs/plugins/prc-block-library/blocks/taxonomy-index-az-list.md)                 | Letter-grouped term list                                                     |
+| [`prc-block/taxonomy-index-list-controller`](../../docs/plugins/prc-block-library/blocks/taxonomy-index-list-controller.md) | Paginated/filtered taxonomy list controller                                  |
+| [`prc-block/tokens-list`](../../docs/plugins/prc-block-library/blocks/tokens-list.md)                                       | Displays a list of design tokens                                             |
+| [`prc-block/roper-db-search`](../../docs/plugins/prc-block-library/blocks/roper-db-search.md)                               | Roper Center database search interface                                       |
 
 ### Attachments & Media
 
-| Block                                                                | Description                       |
-| -------------------------------------------------------------------- | --------------------------------- |
+| Block                                                                                                       | Description                       |
+| ----------------------------------------------------------------------------------------------------------- | --------------------------------- |
 | [`prc-block/attachments-list`](../../docs/plugins/prc-block-library/blocks/attachments-list.md)             | Lists file attachments for a post |
 | [`prc-block/attachments-pagination`](../../docs/plugins/prc-block-library/blocks/attachments-pagination.md) | Pagination for attachment lists   |
 | [`prc-block/audio-player`](../../docs/plugins/prc-block-library/blocks/audio-player.md)                     | HLS.js/MediaElement audio player  |
 
 ### Utilities & Developer Tools
 
-| Block                                              | Description                                |
-| -------------------------------------------------- | ------------------------------------------ |
+| Block                                                                                     | Description                                |
+| ----------------------------------------------------------------------------------------- | ------------------------------------------ |
 | [`prc-block/card`](../../docs/plugins/prc-block-library/blocks/card.md)                   | Generic content card container             |
 | [`prc-block/icon`](../../docs/plugins/prc-block-library/blocks/icon.md)                   | FontAwesome icon picker and renderer       |
 | [`prc-block/color-palette`](../../docs/plugins/prc-block-library/blocks/color-palette.md) | Displays the active theme color palette    |

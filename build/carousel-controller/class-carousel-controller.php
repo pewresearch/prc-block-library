@@ -8,8 +8,6 @@
 namespace PRC\Platform\Blocks;
 
 use WP_HTML_Tag_Processor;
-use function PRC\Primitives\Feature_Flags\is_feature_enabled;
-use function PRC\Primitives\Feature_Flags\register_feature_flag;
 
 /**
  * Block Name:        Carousel Controller
@@ -21,13 +19,6 @@ use function PRC\Primitives\Feature_Flags\register_feature_flag;
  * @package           prc-block
  */
 class Carousel_Controller {
-	/**
-	 * Feature flag that moves the slideshow navigation above the slides.
-	 *
-	 * @var string
-	 */
-	const FEATURE_FLAG = 'block-library/carousel-slideshow-nav-top';
-
 	/**
 	 * Constructor.
 	 *
@@ -44,24 +35,8 @@ class Carousel_Controller {
 	 */
 	public function init( $loader = null ) {
 		if ( null !== $loader ) {
-			$loader->add_action( 'init', $this, 'register_feature_flag', 5 );
 			$loader->add_action( 'init', $this, 'block_init' );
 		}
-	}
-
-	/**
-	 * Registers the slideshow navigation-on-top feature flag.
-	 *
-	 * @hook init
-	 */
-	public function register_feature_flag() {
-		register_feature_flag(
-			self::FEATURE_FLAG,
-			array(
-				'label'       => 'Carousel slideshow: navigation on top',
-				'description' => 'Moves the slideshow dots, arrows, and play button above the slides.',
-			)
-		);
 	}
 
 	/**
@@ -258,9 +233,6 @@ class Carousel_Controller {
 			// Set up and add iAPI directives to the Carousel Controller block.
 			$tag_processor->set_attribute( 'data-wp-interactive', 'prc-block/carousel-controller' );
 			$tag_processor->set_bookmark( 'start' );
-			if ( $is_slideshow && is_feature_enabled( self::FEATURE_FLAG ) ) {
-				$tag_processor->add_class( 'has-nav-on-top' );
-			}
 			$tag_processor->set_attribute( 'data-wp-init', 'callbacks.onInit' );
 			$tag_processor->set_attribute( 'data-wp-class--is-enabled', 'context.enabled' );
 			$tag_processor->set_attribute( 'data-wp-class--is-selected', 'context.isSelected' );

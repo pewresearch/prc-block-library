@@ -490,22 +490,6 @@
 				}
 			}
 		}
-
-		// Feature flag `block-library/carousel-slideshow-nav-top`.
-		&.has-nav-on-top {
-			grid-template-areas:
-				"nav"
-				"track"
-				"insert-block";
-
-			@media (max-width: #{ $break-small }) {
-				grid-template-areas:
-					"dots dots dots"
-					"play arrow-prev arrow-next"
-					"track track track"
-					"insert-block insert-block insert-block";
-			}
-		}
 	}
 
 	&:not(.is-enabled) {

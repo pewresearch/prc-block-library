@@ -1,1 +1,1 @@
-<?php return array('dependencies' => array('@wordpress/interactivity'), 'version' => '00f6bf7d7551133bdfee', 'type' => 'module');
+<?php return array('dependencies' => array('@prc/confetti', '@wordpress/interactivity'), 'version' => '8e3c9c791fb3036b63e6', 'type' => 'module');
