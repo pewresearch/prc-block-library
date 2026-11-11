@@ -115,12 +115,7 @@ class Form_Input_Checkbox {
 						$tag->set_attribute( 'data-wp-text', $target_store . 'state.inputLabel' );
 					}
 				}
-				if ( $tag->next_token() ) {
-					if ( '#text' === $tag->get_token_type() ) {
-						$label_text = $tag->get_modifiable_text();
-						$label_text = trim( $label_text );
-					}
-				}
+				$label_text = prc_block_library_get_tag_text( $tag );
 			}
 		}
 		if ( empty( $label_text ) ) {

@@ -28,7 +28,8 @@ p.is-style-has-big-number,
 		line-height: 1.6rem;
 	}
 
-	& > strong {
+	& > strong,
+	& > a > strong {
 		font-family: var(--wp--preset--font-family--sans-serif);
 		font-size: 1.2142857143em;
 	}

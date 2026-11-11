@@ -130,6 +130,29 @@ function prc_log_error( $group = 'GENERAL ALERT', $code = '', $message = '', $er
 }
 
 /**
+ * Read the plain text inside the tag the processor is on, including text in
+ * nested inline tags such as <strong>.
+ *
+ * Leaves the processor on the matching closing tag.
+ *
+ * @param WP_HTML_Tag_Processor $tag Processor positioned on an opening tag.
+ * @return string Text content with whitespace collapsed.
+ */
+function prc_block_library_get_tag_text( WP_HTML_Tag_Processor $tag ) {
+	$tag_name = $tag->get_tag();
+	$text     = '';
+	while ( $tag->next_token() ) {
+		$token_type = $tag->get_token_type();
+		if ( '#text' === $token_type ) {
+			$text .= $tag->get_modifiable_text();
+		} elseif ( '#tag' === $token_type && $tag->is_tag_closer() && $tag->get_tag() === $tag_name ) {
+			break;
+		}
+	}
+	return trim( preg_replace( '/\s+/u', ' ', $text ) );
+}
+
+/**
  * Look up a block's metadata from the built blocks-manifest.php index.
  *
  * Returns an empty array when the manifest is missing (e.g. local VIP without

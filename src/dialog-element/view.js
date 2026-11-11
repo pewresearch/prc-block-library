@@ -486,6 +486,13 @@ const { actions, state } = store('prc-block/dialog', {
 			if (isBottomSheetDialog(ref)) {
 				return;
 			}
+			// Backdrop clicks target the <dialog> itself. Clicks bubbling from
+			// inner controls are never backdrop clicks. Keyboard activation
+			// (Space on a checkbox, Enter on a link) also dispatches a click with
+			// clientX/clientY of 0, which would otherwise read as "outside".
+			if (event.target !== ref) {
+				return;
+			}
 			const boundingRects = ref.getBoundingClientRect();
 			if (
 				event.clientX >= boundingRects.left &&

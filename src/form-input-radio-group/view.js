@@ -1,9 +1,15 @@
 /**
  * WordPress Dependencies
  */
-import { store, withScope, withSyncEvent, getElement, getContext } from '@wordpress/interactivity';
+import {
+	store,
+	withScope,
+	withSyncEvent,
+	getElement,
+	getContext,
+} from '@wordpress/interactivity';
 
-const { state, actions } = store( 'prc-block/form-input-radio-group', {
+const { state, actions } = store('prc-block/form-input-radio-group', {
 	state: {
 		get isInputChecked() {
 			const { attributes } = getElement();
@@ -25,35 +31,44 @@ const { state, actions } = store( 'prc-block/form-input-radio-group', {
 		},
 	},
 	actions: {
-		onInputCheckboxClick: withSyncEvent( ( event ) => {
+		onInputCheckboxClick: withSyncEvent((event) => {
 			const context = getContext();
 			const { targetNamespace, id: blockId, fields } = context;
-			if ( !targetNamespace || !blockId ) {
-				console.warn('No targetNamespace or blockId found in context, cannot process click event', context);
+			if (!targetNamespace || !blockId) {
+				console.warn(
+					'No targetNamespace or blockId found in context, cannot process click event',
+					context
+				);
 				return;
 			}
 
 			const { ref, attributes } = getElement();
 			const input = ref.querySelector('input');
-			if ( !input ) {
-				console.warn('No input found in ref, cannot process click event', ref);
+			if (!input) {
+				console.warn(
+					'No input found in ref, cannot process click event',
+					ref
+				);
 				return;
 			}
 			const id = input.getAttribute('id');
 			const name = input.getAttribute('name');
 			const value = input.value;
-			if ( !id || !name || !value ) {
-				console.warn('No ID, name, or value found in attributes, cannot process click event for radio group.', attributes);
+			if (!id || !name || !value) {
+				console.warn(
+					'No ID, name, or value found in attributes, cannot process click event for radio group.',
+					attributes
+				);
 				return;
 			}
 
 			// Find all radio fields with the same name
 			const formFields = state.formFields || [];
-			const updatedFields = formFields.map( field => {
-				if ( !fields.includes( field.id ) ) {
+			const updatedFields = formFields.map((field) => {
+				if (!fields.includes(field.id)) {
 					return field; // Not part of this radio group, leave unchanged
 				}
-				if ( field.id === id ) {
+				if (field.id === id) {
 					context.value = value; // Update context value for hoisting
 					return {
 						...field,
@@ -64,45 +79,60 @@ const { state, actions } = store( 'prc-block/form-input-radio-group', {
 					...field,
 					checked: false,
 				};
-			} );
+			});
 
 			// Update state with new checked values
 			state.formFields = updatedFields;
-		} ),
+		}),
 	},
 	callbacks: {
 		*onValueChange() {
 			const context = getContext();
 			const { targetNamespace, id: blockId, fields = [] } = context;
-			if ( !targetNamespace || !blockId ) {
-				console.warn('No targetNamespace or blockId found in context, cannot process value change', context);
+			if (!targetNamespace || !blockId) {
+				console.warn(
+					'No targetNamespace or blockId found in context, cannot process value change',
+					context
+				);
 				return;
 			}
-			const value =
-				( state.formFields || [] ).find(
-					( field ) => fields.includes( field.id ) && field.checked
-				)?.value ?? null;
+			const checkedField = (state.formFields || []).find(
+				(field) => fields.includes(field.id) && field.checked
+			);
+			const value = checkedField?.value ?? null;
+			// Option values are short slugs and are not unique per option, so
+			// consumers such as survey exports need the visible label.
+			const selectedLabel = checkedField?.label ?? null;
 
-			const targetStore = yield store( targetNamespace );
+			const targetStore = yield store(targetNamespace);
 			const existingStoreState = targetStore.state;
-			if ( !existingStoreState || !Array.isArray( existingStoreState.formFields ) ) {
-				console.warn('Target store state is invalid or formFields is not an array', existingStoreState);
+			if (
+				!existingStoreState ||
+				!Array.isArray(existingStoreState.formFields)
+			) {
+				console.warn(
+					'Target store state is invalid or formFields is not an array',
+					existingStoreState
+				);
 				return;
 			}
 
 			// Update the item in formFields that has an id matching blockId, setting its value to the hoisted value
-			const updatedParentFields = existingStoreState.formFields.map( ( field ) => {
-				if ( field && field.id === blockId ) {
-					return {
-						...field,
-						value,
-					};
+			const updatedParentFields = existingStoreState.formFields.map(
+				(field) => {
+					if (field && field.id === blockId) {
+						return {
+							...field,
+							value,
+							selectedLabel,
+						};
+					}
+					return field;
 				}
-				return field;
-			} );
+			);
 			const snapshot = existingStoreState;
 
 			existingStoreState.formFields = updatedParentFields;
 		},
 	},
-} );
+});

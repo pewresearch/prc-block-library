@@ -108,13 +108,7 @@ class Form_Input_Radio_Group {
 
 		if ( $tag->next_tag( 'label' ) ) {
 			$tag->set_attribute( 'for', $block_id );
-			// Get the label text.
-			if ( $tag->next_token() ) {
-				if ( '#text' === $tag->get_token_type() ) {
-					$label_text = $tag->get_modifiable_text();
-					$label_text = trim( $label_text );
-				}
-			}
+			$label_text = prc_block_library_get_tag_text( $tag );
 		}
 
 		$fields = array();
@@ -141,16 +135,17 @@ class Form_Input_Radio_Group {
 			$state                  = wp_interactivity_state( $target_namespace );
 			$existing_form_fields   = $state['formFields'] ?? array();
 			$existing_form_fields[] = array(
-				'id'       => $block_id,
-				'name'     => $input_name,
-				'label'    => $label_text,
-				'type'     => 'radioGroup',
-				'value'    => null,
-				'required' => $input_required ?? false,
-				'hidden'   => null,
-				'readonly' => null,
-				'disabled' => null,
-				'error'    => null,
+				'id'            => $block_id,
+				'name'          => $input_name,
+				'label'         => $label_text,
+				'type'          => 'radioGroup',
+				'value'         => null,
+				'selectedLabel' => null,
+				'required'      => $input_required ?? false,
+				'hidden'        => null,
+				'readonly'      => null,
+				'disabled'      => null,
+				'error'         => null,
 			);
 			$state                  = wp_interactivity_state(
 				$target_namespace,
