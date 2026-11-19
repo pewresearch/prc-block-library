@@ -16,7 +16,11 @@ import { useSelect, useDispatch } from '@wordpress/data';
 /**
  * Internal Dependencies
  */
-import { InteriorDividerControls, GridDividerControls } from './controls';
+import {
+	InteriorDividerControls,
+	GridDividerControls,
+	LinkTrackingControls,
+} from './controls';
 import registerVariations from './variations';
 import registerTransforms from './transforms';
 import registerGridChildControls from './grid-child-controls';
@@ -94,6 +98,15 @@ addFilter(
 				type: 'number',
 				default: 0,
 			},
+			linkTrackingService: {
+				type: 'string',
+				enum: ['', 'parsely', 'google-analytics'],
+				default: '',
+			},
+			linkTrackingKey: {
+				type: 'string',
+				default: '',
+			},
 		};
 
 		return settings;
@@ -161,6 +174,7 @@ addFilter(
 						<InteriorDividerControls {...props} />
 						<GridDividerControls {...props} />
 						<GridDividerSync {...props} />
+						<LinkTrackingControls {...props} />
 						<BlockEdit {...props} />
 					</>
 				);

@@ -32,6 +32,21 @@ export function getPageUrl() {
 }
 
 /**
+ * Build the Print Engine `/print` URL for a page URL.
+ * @param {string} href - The page URL
+ * @return {string} - The `/print` URL
+ */
+export function getPrintEngineUrl(href) {
+	const url = new URL(href);
+	url.searchParams.delete('pdf');
+	const path = url.pathname.replace(/\/+$/, '');
+	if (!path.endsWith('/print')) {
+		url.pathname = `${path}/print`;
+	}
+	return url.toString();
+}
+
+/**
  * Open a popup window for social sharing
  * @param {string} url      - The URL to open
  * @param {string} platform - The social platform

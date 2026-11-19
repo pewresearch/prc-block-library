@@ -61,6 +61,13 @@ class Core_Group {
 	);
 
 	/**
+	 * Link click tracking services a group can send to.
+	 *
+	 * @var array
+	 */
+	public static $link_tracking_services = array( 'parsely', 'google-analytics' );
+
+	/**
 	 * Constructor
 	 *
 	 * @param mixed $loader Loader.
@@ -84,6 +91,7 @@ class Core_Group {
 			$loader->add_action( 'enqueue_block_assets', $this, 'register_editor_style' );
 			$loader->add_filter( 'block_type_metadata_settings', $this, 'add_settings', 100, 2 );
 			$loader->add_filter( 'render_block', $this, 'render', 100, 2 );
+			$loader->add_filter( 'render_block', $this, 'render_link_tracking', 110, 2 );
 			$loader->add_filter( 'render_block', $this, 'render_grid_child', 20, 2 );
 		}
 	}
@@ -185,6 +193,20 @@ class Core_Group {
 					'default' => 0,
 				);
 			}
+			// Link click tracking: one service per group, '' means off.
+			if ( ! array_key_exists( 'linkTrackingService', $settings['attributes'] ) ) {
+				$settings['attributes']['linkTrackingService'] = array(
+					'type'    => 'string',
+					'enum'    => array_merge( array( '' ), self::$link_tracking_services ),
+					'default' => '',
+				);
+			}
+			if ( ! array_key_exists( 'linkTrackingKey', $settings['attributes'] ) ) {
+				$settings['attributes']['linkTrackingKey'] = array(
+					'type'    => 'string',
+					'default' => '',
+				);
+			}
 		}
 		return $settings;
 	}
@@ -278,6 +300,73 @@ class Core_Group {
 		}
 
 		return $w->get_updated_html();
+	}
+
+	/**
+	 * Add link click tracking directives to a core/group wrapper.
+	 *
+	 * Runs after render() so the grid divider `isStacked` context is already on
+	 * the wrapper; the tracking keys are merged into that context.
+	 *
+	 * @hook render_block 110, 2
+	 * @param string $block_content Rendered block HTML.
+	 * @param array  $block         Parsed block.
+	 * @return string Updated HTML.
+	 */
+	public function render_link_tracking( $block_content, $block ) {
+		if ( 'core/group' !== $block['blockName'] || is_admin() || empty( $block_content ) ) {
+			return $block_content;
+		}
+		$service = $block['attrs']['linkTrackingService'] ?? '';
+		if ( ! in_array( $service, self::$link_tracking_services, true ) ) {
+			return $block_content;
+		}
+
+		$w = new WP_HTML_Tag_Processor( $block_content );
+		if ( ! $w->next_tag() ) {
+			return $block_content;
+		}
+
+		if ( ! empty( $this->view_script_module_handle ) ) {
+			wp_enqueue_script_module( $this->view_script_module_handle );
+		}
+		if ( ! $w->get_attribute( 'data-wp-interactive' ) ) {
+			$w->set_attribute( 'data-wp-interactive', 'prc-block/core-group' );
+		}
+
+		$context = json_decode( (string) $w->get_attribute( 'data-wp-context' ), true );
+		if ( ! is_array( $context ) ) {
+			$context = array();
+		}
+		$context['linkTrackingService'] = $service;
+		$context['linkTrackingKey']     = self::normalize_link_tracking_key( $block['attrs']['linkTrackingKey'] ?? '' );
+		$w->set_attribute( 'data-wp-context', wp_json_encode( $context ) );
+
+		$w->set_attribute(
+			'data-wp-on-async--click---link-tracking',
+			'prc-block/core-group::actions.trackLinkClick'
+		);
+
+		return $w->get_updated_html();
+	}
+
+	/**
+	 * Normalize a link tracking key to a GA4-safe event name: lowercase letters,
+	 * numbers and underscores, starting with a letter, at most 40 characters.
+	 * Mirrors normalizeEventName() in utils/link-tracking-event.js.
+	 *
+	 * @param mixed $key Raw key.
+	 * @return string Normalized key, or an empty string.
+	 */
+	public static function normalize_link_tracking_key( $key ) {
+		if ( ! is_string( $key ) ) {
+			return '';
+		}
+		$key = strtolower( $key );
+		$key = preg_replace( '/[\s-]+/', '_', $key );
+		$key = preg_replace( '/[^a-z0-9_]/', '', $key );
+		$key = preg_replace( '/^[^a-z]+/', '', $key );
+		return substr( $key, 0, 40 );
 	}
 
 	/**

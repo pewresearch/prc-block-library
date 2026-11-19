@@ -42,6 +42,22 @@ This is the recommended replacement for the deprecated `prc-block/grid-controlle
 
 **Breakpoints** on the frontend mirror `WP_Theme_JSON::RESPONSIVE_BREAKPOINTS` (mobile `width <= 480px`, tablet `480px < width <= 782px`). The `tablet`/`mobile` style keys are normalized in one place to tolerate core's in-progress move to `@tablet`/`@mobile`.
 
+### 3b. **Link click tracking**
+
+The **Link click tracking** panel in the block sidebar sends every link click inside the group to one analytics service. It is off by default.
+
+- **Send link clicks to**: None, Parse.ly or Google Analytics (`linkTrackingService`: `''`, `'parsely'`, `'google-analytics'`). A group sends to one service only.
+- **Event name** (`linkTrackingKey`): lowercase letters, numbers and underscores, starting with a letter, at most 40 characters. Spaces and hyphens become underscores. When it is empty, the event name is `link_click`.
+
+| Service          | Call                                                                                                         | Name     | Data                                                            |
+| ---------------- | ------------------------------------------------------------------------------------------------------------ | -------- | --------------------------------------------------------------- |
+| Parse.ly         | `PARSELY.beacon.trackPageView({ url, urlref, action, data, js: 1 })`                                         | `_<key>` | `data._href` (absolute), `data._text`                           |
+| Google Analytics | `gtag('event', '<key>', params)`, or `dataLayer.push({ event: '<key>', ...params })` when only GTM is loaded | `<key>`  | `link_url` (absolute), `link_text`, each at most 100 characters |
+
+Parse.ly custom events do not show in the Parse.ly dashboard or live APIs. They show only in the Raw Data Pipeline (a paid add-on), under `extra_data`.
+
+On the frontend, `render_link_tracking()` (a `render_block` filter at priority 110, after the divider `render()`) adds `data-wp-interactive="prc-block/core-group"`, merges `linkTrackingService` and `linkTrackingKey` into the existing `data-wp-context`, and adds one delegated `data-wp-on-async--click---link-tracking` listener on the group wrapper. The `actions.trackLinkClick` action in `view.js` finds the clicked `a[href]`, skips `#`-only links, and calls a sender from [`utils/link-tracking-event.js`](utils/link-tracking-event.js). Links in nested blocks are tracked too. When tracked groups nest, only the innermost group sends. Nothing is sent when the tracker is not loaded on the page.
+
 ### 4. **Custom Block Variations**
 
 Several pre-configured variations are available:

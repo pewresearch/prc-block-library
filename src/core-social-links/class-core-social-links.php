@@ -394,19 +394,19 @@ class Core_Social_Links {
 					}
 				}
 
+				$link_context = array(
+					'url'         => $url,
+					'title'       => $title,
+					'description' => $description,
+					'platform'    => $platform,
+				);
+				if ( 'print' === $platform ) {
+					$link_context['printEngine'] = $this->print_engine_serves_current_page();
+				}
+
 				// Set up interactivity attributes.
 				$tags->set_attribute( 'data-wp-interactive', 'core/social-links' );
-				$tags->set_attribute(
-					'data-wp-context',
-					wp_json_encode(
-						array(
-							'url'         => $url,
-							'title'       => $title,
-							'description' => $description,
-							'platform'    => $platform,
-						)
-					)
-				);
+				$tags->set_attribute( 'data-wp-context', wp_json_encode( $link_context ) );
 
 				// Hook on click handler.
 				$tags->set_attribute( 'data-wp-on--click', 'actions.onClick' );
@@ -415,5 +415,26 @@ class Core_Social_Links {
 			return $tags->get_updated_html();
 		}
 		return $block_content;
+	}
+
+	/**
+	 * Whether Print Engine can serve `/print` for the page being viewed.
+	 *
+	 * The Print link navigates to `<current URL>/print`, which 404s for post
+	 * types without `prc-print-engine` support (e.g. short reads).
+	 *
+	 * @return bool
+	 */
+	private function print_engine_serves_current_page(): bool {
+		if ( ! class_exists( \PRC\Platform\Print_Engine\Print_Engine::class ) || ! is_singular() ) {
+			return false;
+		}
+
+		$post = get_queried_object();
+		if ( ! $post instanceof \WP_Post ) {
+			return false;
+		}
+
+		return \PRC\Platform\Print_Engine\Print_Engine::can_serve_print_for_post( $post );
 	}
 }

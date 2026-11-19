@@ -9,6 +9,7 @@ import { store, getContext, getElement } from '@wordpress/interactivity';
 import {
 	generateShareUrl,
 	getPageUrl,
+	getPrintEngineUrl,
 	openShareWindow,
 } from './shared/share-urls.js';
 
@@ -92,13 +93,12 @@ const { actions } = store('core/social-links', {
 			openShareWindow(shareUrl, platform);
 		},
 		onPrintClick: () => {
-			const url = new URL(window.location.href);
-			url.searchParams.delete('pdf');
-			const path = url.pathname.replace(/\/+$/, '');
-			if (!path.endsWith('/print')) {
-				url.pathname = `${path}/print`;
+			const { printEngine } = getContext();
+			if (!printEngine) {
+				window.print();
+				return;
 			}
-			window.location.href = url.toString();
+			window.location.href = getPrintEngineUrl(window.location.href);
 		},
 		onMailClick: () => {
 			const context = getContext();
